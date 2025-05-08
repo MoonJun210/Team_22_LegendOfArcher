@@ -27,7 +27,6 @@ public class BaseController : MonoBehaviour
 
     protected virtual void Update()
     {
-        Debug.Log("ㅂㅊㅇ");
         HandleAction();
         Rotate(lookDirection);
     }

@@ -32,14 +32,14 @@ public class WeaponHandler : MonoBehaviour
 
     private static readonly int IsAttack = Animator.StringToHash("IsAttack");
 
-    public WeaponController Controller { get; private set; }
+    public PlayerController Controller { get; private set; }
 
     private Animator animator;
     private SpriteRenderer weaponRenderer;
 
     protected virtual void Awake()
     {
-        Controller = GetComponentInParent<WeaponController>();
+        Controller = GetComponentInParent<PlayerController>();
         animator = GetComponentInChildren<Animator>();
         weaponRenderer = GetComponentInChildren<SpriteRenderer>();
 
