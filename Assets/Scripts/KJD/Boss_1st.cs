@@ -37,6 +37,15 @@ public class Boss_1 : BaseController
 
         _rigidbody.velocity = direction;
     }
+    protected override void Rotate(Vector2 direction)
+    {
+        float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        bool isLeft = Mathf.Abs(rotZ) > 90f;
+
+        if (direction.x != 0)
+            characterRenderer.flipX = isLeft;
+
+    }
     private void Move_NotNearPlayer()
     {
         Vector2 randomDirection = movementDirection;
@@ -52,7 +61,6 @@ public class Boss_1 : BaseController
     private void Move_NearPlayer()
     {
         Vector2 moveVec;
-        float moveY;
         if (Mathf.Abs(player.transform.position.x - transform.position.x) > 1)
             moveVec.x = player.transform.position.x - transform.position.x;
         else
@@ -62,7 +70,7 @@ public class Boss_1 : BaseController
         else
             moveVec.y = 0;
 
-            movementDirection = moveVec.normalized;
+        movementDirection = moveVec.normalized;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
