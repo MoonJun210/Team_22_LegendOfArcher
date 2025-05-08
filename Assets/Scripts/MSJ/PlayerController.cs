@@ -17,8 +17,8 @@ public class PlayerController : BaseController
 
     protected PlayerStatHandler statHandler;
 
-    //[SerializeField] public WeaponHandler WeaponPrefab;
-    //protected WeaponHandler weaponHandler;
+    [SerializeField] public WeaponHandler WeaponPrefab;
+    protected WeaponHandler weaponHandler;
 
     protected bool isAttacking;
     private float timeSinceLastAttack = float.MaxValue;
@@ -58,11 +58,11 @@ public class PlayerController : BaseController
 
         float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         bool isLeft = Mathf.Abs(rotZ) > 90f;
-        //if (weaponPivot != null)
-        //{
-        //    weaponPivot.rotation = Quaternion.Euler(0, 0, rotZ);
-        //}
-        //weaponHandler?.Rotate(isLeft);
+        if (weaponPivot != null)
+        {
+            weaponPivot.rotation = Quaternion.Euler(0, 0, rotZ);
+        }
+        weaponHandler?.Rotate(isLeft);
     }
     public void ApplyKnockback(Transform other, float power, float duration)
     {
@@ -72,25 +72,25 @@ public class PlayerController : BaseController
 
     private void HandleAttackDelay()
     {
-        //if (weaponHandler == null)
-        //    return;
+        if (weaponHandler == null)
+            return;
 
-        //if (timeSinceLastAttack <= weaponHandler.Delay)
-        //{
-        //    timeSinceLastAttack += Time.deltaTime;
-        //}
+        if (timeSinceLastAttack <= weaponHandler.Delay)
+        {
+            timeSinceLastAttack += Time.deltaTime;
+        }
 
-        //if (isAttacking && timeSinceLastAttack > weaponHandler.Delay)
-        //{
-        //    timeSinceLastAttack = 0;
-        //    Attack();
-        //}
+        if (isAttacking && timeSinceLastAttack > weaponHandler.Delay)
+        {
+            timeSinceLastAttack = 0;
+            Attack();
+        }
     }
 
     protected void Attack()
     {
-        //if (lookDirection != Vector2.zero)
-        //    weaponHandler?.Attack();
+        if (lookDirection != Vector2.zero)
+            weaponHandler?.Attack();
     }
 
     public void Death()
