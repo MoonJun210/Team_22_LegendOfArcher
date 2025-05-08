@@ -31,6 +31,12 @@ public class Boss_1 : BaseController
         lookDirection = movementDirection;
         base.Update();
     }
+    protected override void Movment(Vector2 direction)
+    {
+        direction = direction * 1f; // 속도 조절은 여기서
+
+        _rigidbody.velocity = direction;
+    }
     private void Move_NotNearPlayer()
     {
         Vector2 randomDirection = movementDirection;
