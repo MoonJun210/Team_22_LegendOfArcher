@@ -8,13 +8,13 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject laserPrefab;
 
-    private StatHandler statHandler;
+    private BossStatHandler statHandler;
     private int phase = 1;
     private bool laserActivated = false;
 
     private void Awake()
     {
-        statHandler = GetComponent<StatHandler>();
+        statHandler = GetComponent<BossStatHandler>();
     }
 
     private void Start()
@@ -73,6 +73,7 @@ public class BossController : MonoBehaviour
     private void PerformRandomAttack()
     {
         int pattern = Random.Range(0, 3);
+        Debug.Log("패턴 실행: " + pattern); // 패턴 번호 출력
 
         switch (pattern)
         {
@@ -101,7 +102,7 @@ public class BossController : MonoBehaviour
         }
     }
 
-    private IEnumerator RangedPattern()
+ private IEnumerator RangedPattern()
     {
         Vector3 targetPos = GetPlayerPosition();
         GameObject zone = Instantiate(warningZonePrefab, targetPos, Quaternion.identity);
@@ -113,8 +114,12 @@ public class BossController : MonoBehaviour
         Vector3 spawnPos = transform.position;
         Vector2 direction = (targetPos - spawnPos).normalized;
 
+        Debug.Log("방향 계산 완료: " + direction);
+
         GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-        projectile.GetComponent<Rigidbody2D>().velocity = direction * 5f;
+        Debug.Log("Projectile 생성 완료");
+
+        projectile.GetComponent<BossProjectile>().SetDirection(direction);
     }
 
     private IEnumerator ShockwavePattern()
