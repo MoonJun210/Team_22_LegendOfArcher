@@ -6,7 +6,7 @@ public class BossController : MonoBehaviour
 {
     [SerializeField] private GameObject warningZonePrefab;
     [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private GameObject laserPrefab; // <- 추가
+    [SerializeField] private GameObject laserPrefab;
 
     private StatHandler statHandler;
     private int phase = 1;
@@ -24,10 +24,8 @@ public class BossController : MonoBehaviour
 
     private void Update()
     {
-        CheckPhase(); // 중복 정의 제거 후 단일 호출
+        CheckPhase();
     }
-
-    // ✅ 유일한 CheckPhase 정의
     private void CheckPhase()
     {
         float hpRatio = statHandler.CurrentHP / statHandler.MaxHP;
