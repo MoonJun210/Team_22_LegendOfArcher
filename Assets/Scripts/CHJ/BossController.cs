@@ -8,13 +8,13 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject laserPrefab;
 
-    private StatHandler statHandler;
+    private BossStatHandler statHandler;
     private int phase = 1;
     private bool laserActivated = false;
 
     private void Awake()
     {
-        statHandler = GetComponent<StatHandler>();
+        statHandler = GetComponent<BossStatHandler>();
     }
 
     private void Start()
@@ -119,7 +119,7 @@ public class BossController : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
         Debug.Log("Projectile 생성 완료");
 
-        projectile.GetComponent<Projectile>().SetDirection(direction);
+        projectile.GetComponent<BossProjectile>().SetDirection(direction);
     }
 
     private IEnumerator ShockwavePattern()
