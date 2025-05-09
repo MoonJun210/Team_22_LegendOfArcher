@@ -13,6 +13,11 @@ public class PlayerUI : MonoBehaviour
     private void Awake()
     {
         playerStatHandler = GetComponent<PlayerStatHandler>();
+       
+    }
+
+    private void Start()
+    {
         InitHealthImg();
     }
 

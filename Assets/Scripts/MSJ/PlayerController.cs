@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : BaseController
 {
@@ -25,13 +26,26 @@ public class PlayerController : BaseController
     protected bool isAttacking;
     private float timeSinceLastAttack = float.MaxValue;
 
+
+    [SerializeField] private Image dodgeCooldownImage;
+
+    [SerializeField] private float dodgeDistance = 5f;
+    [SerializeField] private float dodgeCooldown = 1.5f;
+    [SerializeField] private float dodgeDuration = 0.2f;
+
+    private bool isDodging = false;
+    private float dodgeTimer = 0f;
+
+
+    [SerializeField] private GameObject ghostPrefab;
+    [SerializeField] private float ghostSpawnInterval = 0.05f;
+
     protected override void Awake()
     {
         base.Awake();
         statHandler = GetComponent<PlayerStatHandler>();
-        animationHandler = GetComponent <PlayerAnimationHandler >();
+        animationHandler = GetComponent<PlayerAnimationHandler>();
         playerUI = GetComponent<PlayerUI>();
-        //weaponHandler = WeaponPrefab.GetComponent<WeaponHandler>();
 
         camera = Camera.main;
 
@@ -40,16 +54,24 @@ public class PlayerController : BaseController
         else
             weaponHandler = GetComponentInChildren<WeaponHandler>();
     }
-    protected virtual void Update()
+    protected override void Update()
     {
-        HandleAction();
-        Rotate(lookDirection);
+        base.Update();
+        if (dodgeTimer > 0f)
+        {
+            dodgeTimer -= Time.deltaTime;
+            dodgeCooldownImage.fillAmount = dodgeTimer / dodgeCooldown;
+        }
+        else
+        {
+            dodgeCooldownImage.fillAmount = 0f;
+        }
         HandleAttackDelay();
     }
 
     protected override void FixedUpdate()
     {
-        base .FixedUpdate();
+        base.FixedUpdate();
         if (knockbackDuration > 0.0f)
         {
             knockbackDuration -= Time.fixedDeltaTime;
@@ -59,13 +81,18 @@ public class PlayerController : BaseController
 
     protected override void Movment(Vector2 direction)
     {
-        direction = direction * statHandler.Speed; // 속도 조절은 여기서
+        if (isDodging)
+        {
+            return;
+        }
+        direction = direction * statHandler.CurrentSpeed; // 속도 조절은 여기서
         if (knockbackDuration > 0.0f)
         {
             direction *= 0.2f;
             direction += knockback;
         }
         _rigidbody.velocity = direction;
+        animationHandler.Move(direction);
     }
 
     protected override void Rotate(Vector2 direction)
@@ -130,14 +157,14 @@ public class PlayerController : BaseController
 
     public void TakeDamaged()
     {
-        if(statHandler.Health > 0)
+        if (statHandler.Health > 0)
         {
-            statHandler.Health--;
+            statHandler.TakeDamage();
             playerUI.UpdateHealthImg();
             animationHandler.Damage();
         }
 
-        if(statHandler.Health <= 0)
+        if (statHandler.Health <= 0)
         {
             Death();
         }
@@ -145,12 +172,12 @@ public class PlayerController : BaseController
 
     public void PlusHealth()
     {
-        if(statHandler.Health >= 5)
+        if (statHandler.Health >= statHandler.MaxHealth)
         {
             return;
         }
 
-        statHandler.Health++;
+        statHandler.Heal();
         playerUI.UpdateHealthImg();
     }
 
@@ -186,24 +213,60 @@ public class PlayerController : BaseController
         }
         isAttacking = inputValue.isPressed;
     }
-    protected override void HandleAction()
+    void OnDodge(InputValue inputValue)
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-        movementDirection = new Vector2(horizontal, vertical).normalized;
-
-        Vector2 mousePosition = Input.mousePosition;
-        Vector2 worldPos = camera.ScreenToWorldPoint(mousePosition);
-        lookDirection = (worldPos - (Vector2)transform.position);
-
-        if (lookDirection.magnitude < .9f)
+        if (isDodging || dodgeTimer > 0f || movementDirection == Vector2.zero)
         {
-            lookDirection = Vector2.zero;
+            Debug.Log("실패");
+            return;
         }
-        else
+
+
+        if (inputValue.isPressed)
         {
-            lookDirection = lookDirection.normalized;
+            Debug.Log("성공");
+
+            StartCoroutine(DodgeCoroutine());
         }
-        isAttacking = Input.GetMouseButton(0);
     }
+
+    private IEnumerator DodgeCoroutine()
+    {
+        isDodging = true;
+        dodgeTimer = dodgeCooldown;
+
+        Vector2 dodgeDir = movementDirection.normalized;
+        float elapsed = 0f;
+
+        StartCoroutine(SpawnGhosts());
+
+        while (elapsed < dodgeDuration)
+        {
+            _rigidbody.velocity = dodgeDir * dodgeDistance / dodgeDuration;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        _rigidbody.velocity = Vector2.zero;
+        isDodging = false;
+    }
+
+    private IEnumerator SpawnGhosts()
+    {
+        float alpha = 0.2f;
+        while (isDodging)
+        {
+            GameObject ghost = Instantiate(ghostPrefab, transform.position, transform.rotation);
+            SpriteRenderer ghostRenderer = ghost.GetComponentInChildren<SpriteRenderer>();
+            SpriteRenderer playerRenderer = characterRenderer;
+
+
+            ghostRenderer.sprite = playerRenderer.sprite;
+            ghostRenderer.flipX = playerRenderer.flipX;
+            ghostRenderer.material.color = new Color(1f, 1f, 1f, alpha);
+            alpha += 0.2f;
+            yield return new WaitForSeconds(ghostSpawnInterval);
+        }
+    }
+
 }

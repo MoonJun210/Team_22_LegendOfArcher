@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class PlayerStatHandler : MonoBehaviour
 {
-    [Range(1, 5)][SerializeField] private int health = 5;
-    public int Health
+    [SerializeField] private CharacterStat statData;
+
+    public int MaxHealth => statData.maxHealth;
+    public float BaseSpeed => statData.moveSpeed;
+
+    public int Health { get; private set; }
+    public float CurrentSpeed { get; private set; }
+
+    private void Awake()
     {
-        get => health;
-        set => health = Mathf.Clamp(value, 0, 5);
+        Health = MaxHealth;
+        CurrentSpeed = BaseSpeed;
     }
 
-    [Range(1f, 20f)][SerializeField] private float speed = 3;
-    public float Speed
+    public void TakeDamage(int amount = 1)
     {
-        get => speed;
-        set => speed = Mathf.Clamp(value, 0, 20);
+        Health = Mathf.Clamp(Health - amount, 0, MaxHealth);
     }
+
+    public void Heal(int amount = 1)
+    {
+        Health = Mathf.Clamp(Health + amount, 0, MaxHealth);
+    }
+
 }
