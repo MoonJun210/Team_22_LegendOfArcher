@@ -16,6 +16,9 @@ public class Boss_1 : BaseController
 
     [SerializeField] private bool pattern_A;
     [SerializeField] private float pattern_A_Cooltime;
+
+    [SerializeField] private bool pattern_B;
+    [SerializeField] private float pattern_B_Cooltime;
     protected override void Awake()
     {
         base.Awake();
@@ -37,8 +40,9 @@ public class Boss_1 : BaseController
                 RandomPattern();
                 Move_NearPlayer();
             }
-            Pattern_A();
         }
+        Pattern_A();
+        Pattern_B();
         if (moveCooltime > 0)
             moveCooltime -= Time.deltaTime;
         else
@@ -71,11 +75,20 @@ public class Boss_1 : BaseController
             case 0:
                 if (pattern_A_Cooltime == 0)
                 {
-                    //패턴 A 함수 호출
+                    // 불리언 변수를 참으로 함으로써 패턴 A 함수 호출
                     isPattern = true;
                     pattern_A = true;
                     Debug.Log("패턴 A 실행");
-                    pattern_A_Cooltime = 5;
+                    pattern_A_Cooltime = 8;
+                }
+                break;
+            case 1:
+                if (pattern_B_Cooltime == 0)
+                {
+                    isPattern = true;
+                    pattern_B = true;
+                    Debug.Log("패턴 B 실행");
+                    pattern_B_Cooltime = 12;
                 }
                 break;
         }
@@ -136,7 +149,33 @@ public class Boss_1 : BaseController
         else
             pattern_A_Cooltime = 0;
     }
-
+    private void Pattern_B()
+    {
+        if (pattern_B)
+        {
+            movementDirection = Vector2.zero;
+            patternTime += Time.deltaTime;
+            if (patternTime > 1 && patternTime < 2)
+            {
+                patternTime = 2;
+                transform.position = player.transform.position;
+                GameObject warning = Instantiate(warningSign_Circle, transform.position, transform.rotation);
+                Vector2 sizevec = new Vector2(8, 8);
+                warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
+                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(3f, 0.2f);
+            }
+            if (patternTime > 6)
+            {
+                pattern_B = false;
+                isPattern = false;
+                patternTime = 0;
+            }
+        }
+        if (pattern_B_Cooltime > 0)
+            pattern_B_Cooltime -= Time.deltaTime;
+        else
+            pattern_B_Cooltime = 0;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject == player)
