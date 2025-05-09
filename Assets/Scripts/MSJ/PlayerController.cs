@@ -34,6 +34,17 @@ public class PlayerController : BaseController
         //weaponHandler = WeaponPrefab.GetComponent<WeaponHandler>();
 
         camera = Camera.main;
+
+        if (WeaponPrefab != null)
+            weaponHandler = Instantiate(WeaponPrefab, weaponPivot);
+        else
+            weaponHandler = GetComponentInChildren<WeaponHandler>();
+    }
+    protected virtual void Update()
+    {
+        HandleAction();
+        Rotate(lookDirection);
+        HandleAttackDelay();
     }
 
     protected override void FixedUpdate()
@@ -174,5 +185,25 @@ public class PlayerController : BaseController
             return;
         }
         isAttacking = inputValue.isPressed;
+    }
+    protected override void HandleAction()
+    {
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+        movementDirection = new Vector2(horizontal, vertical).normalized;
+
+        Vector2 mousePosition = Input.mousePosition;
+        Vector2 worldPos = camera.ScreenToWorldPoint(mousePosition);
+        lookDirection = (worldPos - (Vector2)transform.position);
+
+        if (lookDirection.magnitude < .9f)
+        {
+            lookDirection = Vector2.zero;
+        }
+        else
+        {
+            lookDirection = lookDirection.normalized;
+        }
+        isAttacking = Input.GetMouseButton(0);
     }
 }
