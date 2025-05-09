@@ -3,9 +3,19 @@ using UnityEngine;
 public class Boss_1 : BaseController
 {
     [SerializeField] private GameObject player;
+    [SerializeField] private float moveSpeed;
+
+    [SerializeField] private GameObject warningSign_Circle;
+    [SerializeField] private GameObject warningSign_Square;
 
     [SerializeField] private bool detectPlayer;
     [SerializeField] private float moveCooltime;
+
+    [SerializeField] private bool isPattern;
+    [SerializeField] private float patternTime;
+
+    [SerializeField] private bool pattern_A;
+    [SerializeField] private float pattern_A_Cooltime;
     protected override void Awake()
     {
         base.Awake();
@@ -21,7 +31,13 @@ public class Boss_1 : BaseController
         else
         {
             // 플레이어를 감지했을 경우 각종 움직이거나 하는 함수 출력
-            Move_NearPlayer();
+            // 특정 패턴이 진행 중일때 무분별한 행동 함수 호출를 막기 위한 조건문
+            if (!isPattern)
+            {
+                RandomPattern();
+                Move_NearPlayer();
+            }
+            Pattern_A();
         }
         if (moveCooltime > 0)
             moveCooltime -= Time.deltaTime;
@@ -33,7 +49,7 @@ public class Boss_1 : BaseController
     }
     protected override void Movment(Vector2 direction)
     {
-        direction = direction * 1f; // 속도 조절은 여기서
+        direction = direction * moveSpeed; // 속도 조절은 여기서
 
         _rigidbody.velocity = direction;
     }
@@ -45,6 +61,24 @@ public class Boss_1 : BaseController
         if (direction.x != 0)
             characterRenderer.flipX = isLeft;
 
+    }
+
+    private void RandomPattern()
+    {
+        int randomInt = Random.Range(0, 5);
+        switch (randomInt)
+        {
+            case 0:
+                if (pattern_A_Cooltime == 0)
+                {
+                    //패턴 A 함수 호출
+                    isPattern = true;
+                    pattern_A = true;
+                    Debug.Log("패턴 A 실행");
+                    pattern_A_Cooltime = 5;
+                }
+                break;
+        }
     }
     private void Move_NotNearPlayer()
     {
@@ -71,6 +105,36 @@ public class Boss_1 : BaseController
             moveVec.y = 0;
 
         movementDirection = moveVec.normalized;
+    }
+    private void Pattern_A()
+    {
+        if (pattern_A)
+        {
+            movementDirection = Vector2.zero;
+            if (patternTime == 0)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    Vector2 playerNearVec = new Vector2(player.transform.position.x + Random.Range(-1f, 2f), player.transform.position.y + Random.Range(-1f, 2f));
+                    GameObject warning = Instantiate(warningSign_Circle, playerNearVec, transform.rotation);
+                    Vector2 sizevec = new Vector2(3, 3);
+                    warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
+                    warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(Random.Range(1.5f, 2.0f), 0.2f);
+                }
+            }
+            patternTime += Time.deltaTime;
+            if (patternTime > 3)
+            {
+                pattern_A = false;
+                isPattern = false;
+                patternTime = 0;
+            }
+
+        }
+        if (pattern_A_Cooltime > 0)
+            pattern_A_Cooltime -= Time.deltaTime;
+        else
+            pattern_A_Cooltime = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

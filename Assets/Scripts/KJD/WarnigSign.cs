@@ -20,8 +20,9 @@ public class WarningSign : MonoBehaviour
     [SerializeField] private float destroyTimeFloat;
     private float destroyTime;
 
-    void Awake()
+    void Start()
     {
+        // 보스 오브젝트 스크립트에서도 사이즈 조정이 가능하기 위해 start로 설정.
         transform.localScale = sizeVec;
 
         currentSize.transform.localScale = Vector2.zero;
@@ -41,7 +42,7 @@ public class WarningSign : MonoBehaviour
                 }
                 else if (square_Vertical)
                 {
-                    currentSize.transform.localScale = new Vector2(transform.localScale.x, warningTime / warningTimeFloat);
+                    currentSize.transform.localScale = new Vector2(currentSize.transform.localScale.x, warningTime / warningTimeFloat);
                 }
             }
             else
@@ -64,5 +65,33 @@ public class WarningSign : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    public void SetSizeVec(Vector2 vec)
+    {
+        sizeVec = vec;
+    }
+    public void SetCircle()
+    {
+        circle = true;
+        square = false;
+        square_Vertical = false;
+    }
+    public void SetSquare()
+    {
+        circle = false;
+        square = true;
+        square_Vertical = false;
+    }
+    public void SetSquare_Vertical()
+    {
+        circle = false;
+        square = false;
+        square_Vertical = true;
+    }
+    public void SetWarning_Destroy_Time(float warning, float destroy)
+    {
+        warningTimeFloat = warning;
+        destroyTimeFloat = destroy;
     }
 }
