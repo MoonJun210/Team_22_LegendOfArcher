@@ -134,7 +134,7 @@ public class PlayerController : BaseController
         {
             statHandler.Health--;
             playerUI.UpdateHealthImg();
-            animationHandler.Damage();
+            //animationHandler.Damage();
         }
 
         if(statHandler.Health <= 0)
