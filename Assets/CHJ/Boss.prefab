@@ -125,9 +125,8 @@ MonoBehaviour:
     type: 3}
   projectilePrefab: {fileID: 5496347515035889018, guid: 2f0a50544cdee184d9218d1939709e0b,
     type: 3}
-  laserPrefab: {fileID: 6497594481289810569, guid: d88943a3aae6fcd46b861efc88811cf8,
-    type: 3}
   shooter: {fileID: 1415410868903630136}
+  directionLinePrefab: {fileID: 0}
 --- !u!114 &2188360302486221638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,7 +228,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 50
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

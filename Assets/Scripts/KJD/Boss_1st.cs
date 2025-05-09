@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class Boss_1 : BaseController
 {
-    [SerializeField] private GameObject player;
+    private GameObject _player;
+    private PlayerController _playerController;
+
     [SerializeField] private float moveSpeed;
 
     [SerializeField] private GameObject warningSign_Circle;
@@ -23,6 +25,7 @@ public class Boss_1 : BaseController
     {
         base.Awake();
         //player = GameObject.Find("Player"); << 플레이어 찾기
+        EventManager.Instance.RegisterEvent<GameObject>("InitPlayerSpawned", InitPlayerSpawned);
     }
     protected override void Update()
     {
@@ -108,12 +111,12 @@ public class Boss_1 : BaseController
     private void Move_NearPlayer()
     {
         Vector2 moveVec;
-        if (Mathf.Abs(player.transform.position.x - transform.position.x) > 1)
-            moveVec.x = player.transform.position.x - transform.position.x;
+        if (Mathf.Abs(_player.transform.position.x - transform.position.x) > 1)
+            moveVec.x = _player.transform.position.x - transform.position.x;
         else
             moveVec.x = 0;
-        if (Mathf.Abs(player.transform.position.y - transform.position.y) > 1)
-            moveVec.y = player.transform.position.y - transform.position.y;
+        if (Mathf.Abs(_player.transform.position.y - transform.position.y) > 1)
+            moveVec.y = _player.transform.position.y - transform.position.y;
         else
             moveVec.y = 0;
 
@@ -128,7 +131,7 @@ public class Boss_1 : BaseController
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    Vector2 playerNearVec = new Vector2(player.transform.position.x + Random.Range(-1f, 2f), player.transform.position.y + Random.Range(-1f, 2f));
+                    Vector2 playerNearVec = new Vector2(_player.transform.position.x + Random.Range(-1f, 2f), _player.transform.position.y + Random.Range(-1f, 2f));
                     GameObject warning = Instantiate(warningSign_Circle, playerNearVec, transform.rotation);
                     Vector2 sizevec = new Vector2(3, 3);
                     warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
@@ -158,7 +161,7 @@ public class Boss_1 : BaseController
             if (patternTime > 1 && patternTime < 2)
             {
                 patternTime = 2;
-                transform.position = player.transform.position;
+                transform.position = _player.transform.position;
                 GameObject warning = Instantiate(warningSign_Circle, transform.position, transform.rotation);
                 Vector2 sizevec = new Vector2(8, 8);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
@@ -178,16 +181,22 @@ public class Boss_1 : BaseController
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == player)
+        if (collision.gameObject == _player)
         {
             detectPlayer = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject == player)
+        if (collision.gameObject == _player)
         {
             detectPlayer = false;
         }
+    }
+
+    void InitPlayerSpawned(GameObject player)
+    {
+        _player = player;
+        _playerController = _player.GetComponent<PlayerController>();
     }
 }

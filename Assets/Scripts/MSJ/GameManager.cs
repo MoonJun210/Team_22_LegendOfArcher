@@ -6,7 +6,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public int mapCondition = 0;
-    private GameManager instance;
+    public int currentStatge = 0;
+
+    public static GameManager instance;
+
+    GameObject _player;
 
     private void Awake()
     {
@@ -19,5 +23,19 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
+      
+    }
+
+    public void OnPlayerSpawned(GameObject player)
+    {
+        _player = player;
+
+        EventManager.Instance.TriggerEvent("SearchTarget", _player);
+        EventManager.Instance.TriggerEvent("OnPlayerSpawned", _player);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.UnregisterAllEvents();
     }
 }

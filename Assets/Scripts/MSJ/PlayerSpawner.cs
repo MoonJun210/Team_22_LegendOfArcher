@@ -14,6 +14,10 @@ public class PlayerSpawner : MonoBehaviour
 
     GameObject _player;
 
+    private void Awake()
+    {
+    }
+
     private void Start()
     {
         basicPlayerBtn.onClick.AddListener(SpawnBasicPlayer);
@@ -25,20 +29,26 @@ public class PlayerSpawner : MonoBehaviour
     {
         this.gameObject.SetActive(false);
         _player = Instantiate(playesr[0], spawnPos.transform.position, Quaternion.identity);
-        EventManager.Instance.TriggerEvent("SearchTarget", _player);
+        GameManager.instance.OnPlayerSpawned(_player);
+
     }
 
     public void SpawnElfPlayer()
     {
         this.gameObject.SetActive(false);
         _player = Instantiate(playesr[1], spawnPos.transform.position, Quaternion.identity);
-        EventManager.Instance.TriggerEvent("SearchTarget", _player);
+        GameManager.instance.OnPlayerSpawned(_player);
+
     }
 
     public void SpawnDwarfPlayer()
     {
         this.gameObject.SetActive(false);
         _player = Instantiate(playesr[2], spawnPos.transform.position, Quaternion.identity);
-        EventManager.Instance.TriggerEvent("SearchTarget", _player);
+        GameManager.instance.OnPlayerSpawned(_player);
+
+
     }
+
+
 }

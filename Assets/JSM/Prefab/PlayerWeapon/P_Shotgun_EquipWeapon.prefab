@@ -199,6 +199,6 @@ MonoBehaviour:
   bulletSize: 0.7
   duration: 0.5
   spread: 1
-  numberofProjectilesPerShot: 5
-  multipleProjectilesAngel: 3
+  numberofProjectilesPerShot: 20
+  multipleProjectilesAngel: 1
   projectileColor: {r: 1, g: 1, b: 1, a: 1}

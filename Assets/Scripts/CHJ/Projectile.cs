@@ -19,18 +19,19 @@ public class Projectile : MonoBehaviour
         transform.Translate(direction * speed * Time.deltaTime);
     }
 
-//private void OnTriggerEnter2D(Collider2D collision)
-//    {
-//        if (collision.CompareTag("Player"))
-//        {
-//            Debug.Log("Player hit by projectile!");
-//            // TODO: 데미지 적용
-//            Destroy(gameObject);
-//        }
-//        else if (!collision.isTrigger)
-//        {
-//            // 벽 같은 거에 부딪히면 제거
-//            Destroy(gameObject);
-//        }
-//    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Debug.Log("Player hit by projectile!");
+            // TODO: 데미지 적용
+            collision.gameObject.GetComponent<PlayerController>().TakeDamaged();
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.layer == 10)
+        {
+            // 벽 같은 거에 부딪히면 제거
+            Destroy(gameObject);
+        }
+    }
 }

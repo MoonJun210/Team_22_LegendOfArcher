@@ -13,20 +13,27 @@ public class BossController : MonoBehaviour
     private StatHandler statHandler; // 체력 관리용 핸들러
     private int phase = 1;           // 현재 페이즈 (1~4)
 
+    GameObject _player;
+    PlayerController _playerController;
+
     private void Awake()
     {
         statHandler = GetComponent<StatHandler>();
+        EventManager.Instance.RegisterEvent<GameObject>("GetPlayerPosition", GetPlayerPosition);
     }
 
     private void Start()
     {
         statHandler.CurrentHP = statHandler.MaxHP * 0.1f; // 디버그용 체력 설정
-        StartCoroutine(BossRoutine());
     }
 
     private void Update()
     {
-        CheckPhase();
+        if(_player != null)
+        {
+            CheckPhase();
+
+        }
     }
     // ==== 페이즈 변경 감지 ====
     private void CheckPhase()
@@ -36,7 +43,7 @@ public class BossController : MonoBehaviour
         if (hpRatio <= 0.75f && phase < 2)
         {
             phase = 2;
-            ActivatePhase2Patterns();
+            //ActivatePhase2Patterns();
         }
         if (hpRatio <= 0.5f && phase < 3)
         {
@@ -46,7 +53,7 @@ public class BossController : MonoBehaviour
         if (hpRatio <= 0.25f && phase < 4)
         {
             phase = 4;
-            ActivatePhase4Patterns();
+           // ActivatePhase4Patterns();
         }
     }
     // ==== 통상 패턴 루프 ====
@@ -80,7 +87,7 @@ public class BossController : MonoBehaviour
     //지점 폭파 패턴
     private IEnumerator ExplosionPattern()
     {
-        Vector3 targetPos = GetPlayerPosition();
+        Vector3 targetPos = _player.transform.position;
         GameObject zone = Instantiate(warningZonePrefab, targetPos, Quaternion.identity);
         zone.transform.localScale = new Vector3(3f, 3f, 1f);
 
@@ -95,6 +102,8 @@ public class BossController : MonoBehaviour
             {
                 Debug.Log("데미지");
                 // TODO: 데미지 처리
+                _playerController.TakeDamaged();
+
             }
         }
     }
@@ -102,7 +111,7 @@ public class BossController : MonoBehaviour
     private IEnumerator RangedPattern()
     {
         Vector3 origin = transform.position;
-        Vector2 dir = (GetPlayerPosition() - origin).normalized;
+        Vector2 dir = (_player.transform.position - origin).normalized;
 
         // 별도 클래스가 경고 라인 + 투사체 발사 처리
         yield return StartCoroutine(shooter.Fire(origin, dir));
@@ -113,7 +122,7 @@ public class BossController : MonoBehaviour
         Vector3 spawnPos = transform.position;
 
         //기준 방향
-        Vector2 baseDir = (GetPlayerPosition() - spawnPos).normalized;
+        Vector2 baseDir = (_player.transform.position - spawnPos).normalized;
         float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;
 
         // 2. ±90도 범위 내에서 랜덤 5방 발사
@@ -146,17 +155,18 @@ public class BossController : MonoBehaviour
     private IEnumerator LaserPattern()
     {
         Vector3 origin = transform.position;
-        Vector2 direction = (GetPlayerPosition() - origin).normalized;
+        Vector2 direction = (_player.transform.position - origin).normalized;
 
         // 1. 경고선 (기본값 사용)
         yield return StartCoroutine(shooter.Fire(
             origin,
             direction,
-            lineWidth: 1f
+            lineWidth: 1f,
+            fireProjectile: false
         ));
 
-        // 2. 본 레이저 (짧은 시간, 진한 파랑, 투사체 없음)
-        yield return StartCoroutine(shooter.Fire(
+        // 2. 본 레이저 (시각 효과 먼저)
+        StartCoroutine(shooter.Fire(
             origin,
             direction,
             delay: 0.5f,
@@ -166,13 +176,33 @@ public class BossController : MonoBehaviour
             fireProjectile: false
         ));
 
-        // 3. 데미지 판정
-        RaycastHit2D hit = Physics2D.Raycast(origin, direction, 12f, LayerMask.GetMask("Player"));
-        if (hit.collider != null && hit.collider.CompareTag("Player"))
+        // 3. 데미지 판정 - 0.5초 동안 반복해서 레이캐스트
+        float damageDuration = 0.5f;
+        float elapsed = 0f;
+        bool hitPlayer = false;
+
+        while (elapsed < damageDuration && !hitPlayer)
         {
-            Debug.Log("Player hit by laser!");
-            // TODO: 데미지 처리
+            RaycastHit2D[] hits = Physics2D.RaycastAll(origin, direction, 20f);
+            foreach (RaycastHit2D hit in hits)
+            {
+                if (hit.collider != null && hit.collider.gameObject != gameObject)
+                {
+                    if (hit.collider.CompareTag("Player"))
+                    {
+                        Debug.Log("Player hit during laser!");
+                        _playerController.TakeDamaged();
+                        hitPlayer = true;
+                        break;
+                    }
+                }
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null; // 다음 프레임까지 대기
         }
+
+
     }
 
     private IEnumerator RepeatLaserPattern()
@@ -205,9 +235,12 @@ public class BossController : MonoBehaviour
         Debug.Log("Phase 4 패턴 활성화");
     }
 
-    private Vector3 GetPlayerPosition()
+    private void GetPlayerPosition(GameObject player)
     {
-        return GameObject.FindWithTag("Player").transform.position;
+        _player = player;
+        _playerController = _player.GetComponent<PlayerController>();
+        StartCoroutine(BossRoutine());
+
     }
 
     private void OnDeath()
