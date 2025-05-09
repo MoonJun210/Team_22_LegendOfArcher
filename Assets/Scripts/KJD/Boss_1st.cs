@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Boss_1 : BaseController
 {
-    private GameObject _player;
+    [SerializeField] private GameObject _player;
     private PlayerController _playerController;
 
     [SerializeField] private float moveSpeed;
@@ -21,6 +21,15 @@ public class Boss_1 : BaseController
 
     [SerializeField] private bool pattern_B;
     [SerializeField] private float pattern_B_Cooltime;
+
+    [SerializeField] private bool pattern_C;
+    [SerializeField] private float pattern_C_Cooltime;
+
+    [SerializeField] private bool pattern_D;
+    [SerializeField] private float pattern_D_Cooltime;
+
+    [SerializeField] private bool pattern_E;
+    [SerializeField] private float pattern_E_Cooltime;
     protected override void Awake()
     {
         base.Awake();
@@ -46,6 +55,8 @@ public class Boss_1 : BaseController
         }
         Pattern_A();
         Pattern_B();
+        Pattern_C();
+        Pattern_D();
         if (moveCooltime > 0)
             moveCooltime -= Time.deltaTime;
         else
@@ -78,10 +89,8 @@ public class Boss_1 : BaseController
             case 0:
                 if (pattern_A_Cooltime == 0)
                 {
-                    // 불리언 변수를 참으로 함으로써 패턴 A 함수 호출
                     isPattern = true;
                     pattern_A = true;
-                    Debug.Log("패턴 A 실행");
                     pattern_A_Cooltime = 8;
                 }
                 break;
@@ -90,8 +99,23 @@ public class Boss_1 : BaseController
                 {
                     isPattern = true;
                     pattern_B = true;
-                    Debug.Log("패턴 B 실행");
                     pattern_B_Cooltime = 12;
+                }
+                break;
+            case 2:
+                if (pattern_C_Cooltime == 0)
+                {
+                    isPattern = true;
+                    pattern_C = true;
+                    pattern_C_Cooltime = 8;
+                }
+                break;
+            case 3:
+                if (pattern_D_Cooltime == 0)
+                {
+                    isPattern = true;
+                    pattern_D = true;
+                    pattern_D_Cooltime = 8;
                 }
                 break;
         }
@@ -136,6 +160,7 @@ public class Boss_1 : BaseController
                     Vector2 sizevec = new Vector2(3, 3);
                     warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
                     warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(Random.Range(1.5f, 2.0f), 0.2f);
+                    warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
                 }
             }
             patternTime += Time.deltaTime;
@@ -166,6 +191,7 @@ public class Boss_1 : BaseController
                 Vector2 sizevec = new Vector2(8, 8);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
                 warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(3f, 0.2f);
+                warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
             }
             if (patternTime > 6)
             {
@@ -179,16 +205,94 @@ public class Boss_1 : BaseController
         else
             pattern_B_Cooltime = 0;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Pattern_C()
     {
-        if (collision.gameObject == _player)
+        if (pattern_C)
+        {
+            movementDirection = Vector2.zero;
+            transform.position = new Vector2(0, 11); // 맵 중앙 이동
+            patternTime += Time.deltaTime;
+            if (patternTime > 0.5 && patternTime < 1)
+            {
+                patternTime = 1;
+                transform.position = _player.transform.position;
+                for (int i = 0; i < 2; i++)
+                {
+                    Vector2 wsVec = Vector2.zero;
+                    switch (i)
+                    {
+                        case 0: wsVec = new Vector2(-4, 11.5f); break;
+                        case 1: wsVec = new Vector2(4, 11.5f); break;
+                    }
+                    GameObject warning = Instantiate(warningSign_Square, wsVec, transform.rotation);
+                    Vector2 sizevec = new Vector2(6, 11);
+                    warning.GetComponent<WarningSign>().SetSquare_Vertical();
+                    warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
+                    warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(3f, 0.2f);
+                    warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
+                }
+            }
+            if (patternTime > 5)
+            {
+                pattern_C = false;
+                isPattern = false;
+                patternTime = 0;
+            }
+        }
+        if (pattern_C_Cooltime > 0)
+            pattern_C_Cooltime -= Time.deltaTime;
+        else
+            pattern_C_Cooltime = 0;
+    }
+    private void Pattern_D()
+    {
+        if (pattern_D)
+        {
+            movementDirection = Vector2.zero;
+            transform.position = new Vector2(0, 11); // 맵 중앙 이동
+            patternTime += Time.deltaTime;
+            if (patternTime > 0.5 && patternTime < 1)
+            {
+                patternTime = 1;
+                transform.position = _player.transform.position;
+                for (int i = 0; i < 2; i++)
+                {
+                    Vector2 wsVec = Vector2.zero;
+                    switch (i)
+                    {
+                        case 0: wsVec = new Vector2(0, 14.5f); break;
+                        case 1: wsVec = new Vector2(0, 8.0f); break;
+                    }
+                    GameObject warning = Instantiate(warningSign_Square, wsVec, transform.rotation);
+                    Vector2 sizevec = new Vector2(14, 5);
+                    warning.GetComponent<WarningSign>().SetSquare_Vertical();
+                    warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
+                    warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(3f, 0.2f);
+                    warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
+                }
+            }
+            if (patternTime > 5)
+            {
+                pattern_D = false;
+                isPattern = false;
+                patternTime = 0;
+            }
+        }
+        if (pattern_D_Cooltime > 0)
+            pattern_D_Cooltime -= Time.deltaTime;
+        else
+            pattern_D_Cooltime = 0;
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
         {
             detectPlayer = true;
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject == _player)
+        if (collision.CompareTag("Player"))
         {
             detectPlayer = false;
         }
