@@ -8,7 +8,7 @@ public class StatHandler : MonoBehaviour
     [field: SerializeField] public float MaxHP { get; private set; } = 300f;
 
     // 현재 체력 (초기값은 MaxHP로 설정)
-    public float CurrentHP { get; private set; }
+    public float CurrentHP { get; set; }
 
     private void Awake()
     {
