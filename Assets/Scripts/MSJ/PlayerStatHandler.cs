@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerStatHandler : MonoBehaviour
 {
-    [Range(1, 100)][SerializeField] private int health = 10;
+    [Range(1, 5)][SerializeField] private int health = 5;
     public int Health
     {
         get => health;
-        set => health = Mathf.Clamp(value, 0, 100);
+        set => health = Mathf.Clamp(value, 0, 5);
     }
 
     [Range(1f, 20f)][SerializeField] private float speed = 3;

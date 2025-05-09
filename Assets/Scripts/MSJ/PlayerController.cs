@@ -17,6 +17,8 @@ public class PlayerController : BaseController
 
     protected PlayerStatHandler statHandler;
 
+    protected PlayerUI playerUI;
+
     [SerializeField] public WeaponHandler WeaponPrefab;
     protected WeaponHandler weaponHandler;
 
@@ -28,6 +30,9 @@ public class PlayerController : BaseController
         base.Awake();
         statHandler = GetComponent<PlayerStatHandler>();
         animationHandler = GetComponent <PlayerAnimationHandler >();
+        playerUI = GetComponent<PlayerUI>();
+        //weaponHandler = WeaponPrefab.GetComponent<WeaponHandler>();
+
         camera = Camera.main;
     }
 
@@ -110,6 +115,32 @@ public class PlayerController : BaseController
         }
 
         Destroy(gameObject, 2f);
+    }
+
+    public void TakeDamaged()
+    {
+        if(statHandler.Health > 0)
+        {
+            statHandler.Health--;
+            playerUI.UpdateHealthImg();
+            animationHandler.Damage();
+        }
+
+        if(statHandler.Health <= 0)
+        {
+            Death();
+        }
+    }
+
+    public void PlusHealth()
+    {
+        if(statHandler.Health >= 5)
+        {
+            return;
+        }
+
+        statHandler.Health++;
+        playerUI.UpdateHealthImg();
     }
 
 
