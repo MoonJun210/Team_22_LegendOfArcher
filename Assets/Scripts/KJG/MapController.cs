@@ -55,7 +55,7 @@ public class MapController : MonoBehaviour
         switch (stage)
         {
             case 1:
-                StageObjects[0].SetActive(false);
+                StageObjects[0].SetActive(true);
                 StageObjects[1].SetActive(true);
                 StageObjects[2].SetActive(true);
                 break;

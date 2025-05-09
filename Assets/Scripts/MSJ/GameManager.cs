@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public int mapCondition = 0;
     private GameManager instance;
 
     private void Awake()
