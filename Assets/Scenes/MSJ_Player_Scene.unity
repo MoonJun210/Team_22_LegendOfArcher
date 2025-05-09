@@ -638,7 +638,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 844657846}
   weaponPivot: {fileID: 447955257}
-  WeaponPrefab: {fileID: 0}
+  WeaponPrefab: {fileID: 1763198452482100018, guid: 11a680ce7b534e54b80f2a48803bfdea,
+    type: 3}
 --- !u!50 &1924808049
 Rigidbody2D:
   serializedVersion: 4
