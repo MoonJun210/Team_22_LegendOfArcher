@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class FollowCamera : MonoBehaviour
 {
-    public Transform target;
+    private Transform target;
     float offsetX;
     float offsetY;
 
-    void Start()
+    private void Awake()
     {
-        if (target == null)
-            return;
-
-        offsetX = transform.position.x - target.position.x;
-        offsetY = transform.position.y - target.position.y;
+        EventManager.Instance.RegisterEvent<GameObject>("SearchTarget", SearchTarget);
     }
+
 
     void Update()
     {
@@ -26,5 +23,12 @@ public class FollowCamera : MonoBehaviour
         pos.x = target.position.x + offsetX;
         pos.y = target.position.y + offsetY;
         transform.position = pos;
+    }
+
+    void SearchTarget(GameObject player)
+    {
+        target = player.transform;
+        offsetX = transform.position.x - target.position.x;
+        offsetY = transform.position.y - target.position.y;
     }
 }
