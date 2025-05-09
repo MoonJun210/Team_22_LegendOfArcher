@@ -40,6 +40,10 @@ public class PlayerController : BaseController
     [SerializeField] private GameObject ghostPrefab;
     [SerializeField] private float ghostSpawnInterval = 0.05f;
 
+    private bool isInvincible = false;
+    [SerializeField] private float invincibleDuration = 1f;
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -157,11 +161,18 @@ public class PlayerController : BaseController
 
     public void TakeDamaged()
     {
+        if (isInvincible)
+        {
+            Debug.Log("현재 무적 상태입니다.");
+            return;
+        }
+
         if (statHandler.Health > 0)
         {
             statHandler.TakeDamage();
             playerUI.UpdateHealthImg();
             animationHandler.Damage();
+            StartCoroutine(InvincibilityCoroutine()); // 무적 시간 시작
         }
 
         if (statHandler.Health <= 0)
@@ -268,5 +279,28 @@ public class PlayerController : BaseController
             yield return new WaitForSeconds(ghostSpawnInterval);
         }
     }
+
+    private IEnumerator InvincibilityCoroutine()
+    {
+        isInvincible = true;
+
+        
+        float elapsed = 0f;
+        SpriteRenderer renderer = GetComponentInChildren<SpriteRenderer>();
+        while (elapsed < invincibleDuration)
+        {
+            if (renderer != null)
+                //renderer.color = new Color(1, 1, 1, 0.5f); // 반투명
+            yield return new WaitForSeconds(0.1f);
+            if (renderer != null)
+                //renderer.color = new Color(1, 1, 1, 1f); // 원래대로
+            yield return new WaitForSeconds(0.1f);
+            elapsed += 0.2f;
+        }
+
+        isInvincible = false;
+        animationHandler.InvincibilityEnd();
+    }
+
 
 }
