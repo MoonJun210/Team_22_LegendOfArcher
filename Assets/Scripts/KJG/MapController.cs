@@ -10,10 +10,12 @@ public class MapController : MonoBehaviour
     [SerializeField] private GameObject EndCollision;
     [SerializeField] private GameObject[] StageObjects;
 
-    public void BattleStart()
+    public void BattleStart(int stage)
     {
         StartDesign.SetActive(true);
         StartCollision.SetActive(true);
+
+        MapStageStart(stage);
 
         if (EndDesigns != null)
         {
@@ -26,10 +28,12 @@ public class MapController : MonoBehaviour
         if (EndCollision != null) { EndCollision.SetActive(false); }
     }
 
-    public void BattleEnd()
+    public void BattleEnd(int stage)
     {
         StartDesign.SetActive(false);
         StartCollision.SetActive(false);
+
+        MapStageEnd(stage);
 
         foreach (GameObject dummy in EndDesigns)
         {
