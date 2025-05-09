@@ -7,14 +7,15 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject warningZonePrefab;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private GameObject laserPrefab;
+    [SerializeField] private ProjectileWarningShooter shooter;
 
-    private BossStatHandler statHandler;
+    private StatHandler statHandler;
     private int phase = 1;
     private bool laserActivated = false;
 
     private void Awake()
     {
-        statHandler = GetComponent<BossStatHandler>();
+        statHandler = GetComponent<StatHandler>();
     }
 
     private void Start()
@@ -26,6 +27,7 @@ public class BossController : MonoBehaviour
     {
         CheckPhase();
     }
+
     private void CheckPhase()
     {
         float hpRatio = statHandler.CurrentHP / statHandler.MaxHP;
@@ -92,53 +94,40 @@ public class BossController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Destroy(zone);
 
+        //지점 폭파 데미지
         Collider2D[] hits = Physics2D.OverlapCircleAll(targetPos, 1.5f);
         foreach (var hit in hits)
         {
             if (hit.CompareTag("Player"))
             {
-                Debug.Log("Player hit by melee attack!");
+                Debug.Log("데미지");
+                // TODO: 데미지 처리
             }
         }
     }
 
- private IEnumerator RangedPattern()
+    private IEnumerator RangedPattern()
     {
-        Vector3 targetPos = GetPlayerPosition();
-        GameObject zone = Instantiate(warningZonePrefab, targetPos, Quaternion.identity);
-        zone.transform.localScale = new Vector3(2f, 2f, 1f);
+        Vector3 origin = transform.position;
+        Vector2 dir = (GetPlayerPosition() - origin).normalized;
 
-        yield return new WaitForSeconds(1f);
-        Destroy(zone);
-
-        Vector3 spawnPos = transform.position;
-        Vector2 direction = (targetPos - spawnPos).normalized;
-
-        Debug.Log("방향 계산 완료: " + direction);
-
-        GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-        Debug.Log("Projectile 생성 완료");
-
-        projectile.GetComponent<BossProjectile>().SetDirection(direction);
+        // 별도 클래스가 경고 라인 + 투사체 발사 처리
+        yield return StartCoroutine(shooter.Fire(origin, dir));
     }
 
     private IEnumerator ShockwavePattern()
     {
-        Vector3 bossPos = transform.position;
-        GameObject zone = Instantiate(warningZonePrefab, bossPos, Quaternion.identity);
-        zone.transform.localScale = new Vector3(4f, 4f, 1f);
+        Vector3 spawnPos = transform.position;
 
-        yield return new WaitForSeconds(1f);
-        Destroy(zone);
-
-        Collider2D[] hits = Physics2D.OverlapCircleAll(bossPos, 2f);
-        foreach (var hit in hits)
+        for (int i = 0; i < 5; i++)
         {
-            if (hit.CompareTag("Player"))
-            {
-                Debug.Log("Player hit by shockwave!");
-            }
+            float angle = Random.Range(0f, 360f);
+            Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad));
+
+            StartCoroutine(shooter.Fire(spawnPos, dir));
         }
+
+        yield return new WaitForSeconds(1.2f);
     }
 
     private IEnumerator LaserPattern()
