@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossStatHandler : MonoBehaviour
+public class StatHandler : MonoBehaviour
 {
     // 최대 체력 (Inspector에서 설정 가능)
     [field: SerializeField] public float MaxHP { get; private set; } = 300f;
