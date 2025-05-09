@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 6701360315031141855}
   - component: {fileID: 1763198452482100018}
   m_Layer: 0
-  m_Name: P_Bow_EquipWeapon
+  m_Name: P_Shotgun_EquipWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,8 +186,8 @@ MonoBehaviour:
   delay: 1
   weaponSize: 1
   power: 1
-  speed: 1
-  attackRange: 10
+  speed: 10
+  attackRange: 3
   target:
     serializedVersion: 2
     m_Bits: 128
@@ -197,8 +197,8 @@ MonoBehaviour:
   projectileSpawnPosition: {fileID: 795348126131181381}
   bulletIndex: 0
   bulletSize: 0.7
-  duration: 10
+  duration: 0.01
   spread: 1
-  numberofProjectilesPerShot: 3
+  numberofProjectilesPerShot: 5
   multipleProjectilesAngel: 3
-  projectileColor: {r: 1, g: 1, b: 1, a: 0}
+  projectileColor: {r: 1, g: 1, b: 1, a: 1}

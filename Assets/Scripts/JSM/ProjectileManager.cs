@@ -17,9 +17,6 @@ public class ProjectileManager : MonoBehaviour
         GameObject origin = projectilePrefabs[rangeWeaponHandler.BulletIndex];
         GameObject obj = Instantiate(origin, startPostiion, Quaternion.identity);
 
-        var sr = obj.GetComponentInChildren<SpriteRenderer>();
-        Debug.Log($"Sprite: {sr.sprite}, sortingOrder: {sr.sortingOrder}, enabled: {sr.enabled}");
-
         ProjectileController projectileController = obj.GetComponent<ProjectileController>();
         projectileController.Init(direction, rangeWeaponHandler);
     }

@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelCollisionLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 1024
   fxOnDestory: 1
 --- !u!1 &2050760986113990348
 GameObject:
