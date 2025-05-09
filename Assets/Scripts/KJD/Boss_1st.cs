@@ -83,7 +83,7 @@ public class Boss_1 : BaseController
 
     private void RandomPattern()
     {
-        int randomInt = Random.Range(0, 5);
+        int randomInt = Random.Range(0, 4);
         switch (randomInt)
         {
             case 0:
@@ -107,7 +107,7 @@ public class Boss_1 : BaseController
                 {
                     isPattern = true;
                     pattern_C = true;
-                    pattern_C_Cooltime = 8;
+                    pattern_C_Cooltime = 12;
                 }
                 break;
             case 3:
@@ -115,7 +115,7 @@ public class Boss_1 : BaseController
                 {
                     isPattern = true;
                     pattern_D = true;
-                    pattern_D_Cooltime = 8;
+                    pattern_D_Cooltime = 12;
                 }
                 break;
         }
@@ -155,7 +155,7 @@ public class Boss_1 : BaseController
             {
                 for (int i = 0; i < 5; i++)
                 {
-                    Vector2 playerNearVec = new Vector2(_player.transform.position.x + Random.Range(-1f, 2f), _player.transform.position.y + Random.Range(-1f, 2f));
+                    Vector2 playerNearVec = new Vector2(_player.transform.position.x + Random.Range(-2f, 3f), _player.transform.position.y + Random.Range(-2f, 3f));
                     GameObject warning = Instantiate(warningSign_Circle, playerNearVec, transform.rotation);
                     Vector2 sizevec = new Vector2(3, 3);
                     warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
@@ -186,14 +186,14 @@ public class Boss_1 : BaseController
             if (patternTime > 1 && patternTime < 2)
             {
                 patternTime = 2;
-                transform.position = _player.transform.position;
-                GameObject warning = Instantiate(warningSign_Circle, transform.position, transform.rotation);
+                _rigidbody.MovePosition(_player.transform.position);
+                GameObject warning = Instantiate(warningSign_Circle, _player.transform.position, transform.rotation);
                 Vector2 sizevec = new Vector2(8, 8);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
-                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(3f, 0.2f);
+                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(2f, 0.2f);
                 warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
             }
-            if (patternTime > 6)
+            if (patternTime > 5)
             {
                 pattern_B = false;
                 isPattern = false;
@@ -228,11 +228,11 @@ public class Boss_1 : BaseController
                     Vector2 sizevec = new Vector2(6, 11);
                     warning.GetComponent<WarningSign>().SetSquare_Vertical();
                     warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
-                    warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(3f, 0.2f);
+                    warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(2f, 0.2f);
                     warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
                 }
             }
-            if (patternTime > 5)
+            if (patternTime > 3.5)
             {
                 pattern_C = false;
                 isPattern = false;
@@ -267,11 +267,11 @@ public class Boss_1 : BaseController
                     Vector2 sizevec = new Vector2(14, 5);
                     warning.GetComponent<WarningSign>().SetSquare_Vertical();
                     warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
-                    warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(3f, 0.2f);
+                    warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(2f, 0.2f);
                     warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
                 }
             }
-            if (patternTime > 5)
+            if (patternTime > 3.5)
             {
                 pattern_D = false;
                 isPattern = false;

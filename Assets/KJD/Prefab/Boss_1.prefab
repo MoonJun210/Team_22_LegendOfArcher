@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1058214611164834462}
   - component: {fileID: 1956457634576805259}
   - component: {fileID: 2708049722547666345}
+  - component: {fileID: 6546536728669901157}
   - component: {fileID: 6690924394388516652}
   m_Layer: 0
   m_Name: Boss_1
@@ -149,6 +150,41 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5
+--- !u!58 &6546536728669901157
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5960452725164374989}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!114 &6690924394388516652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterRenderer: {fileID: 1058214611164834462}
+  _player: {fileID: 0}
   moveSpeed: 2
   warningSign_Circle: {fileID: 4846183655958276654, guid: cce3cc23b91abd846b369e804f88f201,
     type: 3}
@@ -175,3 +212,9 @@ MonoBehaviour:
   pattern_A_Cooltime: 0
   pattern_B: 0
   pattern_B_Cooltime: 0
+  pattern_C: 0
+  pattern_C_Cooltime: 0
+  pattern_D: 0
+  pattern_D_Cooltime: 0
+  pattern_E: 0
+  pattern_E_Cooltime: 0
