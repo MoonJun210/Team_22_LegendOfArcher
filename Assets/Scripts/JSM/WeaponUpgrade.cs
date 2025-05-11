@@ -1,9 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class WeaponUpgrade : RangeWeaponModifier
+public class WeaponUpgrade : MonoBehaviour
 {
+    protected RangeWeaponHandler targetHandler;
+    public static WeaponUpgrade Instance { get; private set; }
+    public class UpgradeOption
+    {
+        public string Id;
+        public string Title;
+        public string Description;
+        public Sprite Icon;
+        public Action OnSelected;
+
+        public UpgradeOption(string title, string desc, Sprite icon, Action callback)
+        {
+            Title = title;
+            Description = desc;
+            Icon = icon;
+            OnSelected = callback;
+        }
+    }
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+    private void Start()
+    {
+        if (targetHandler == null)
+            targetHandler = GetComponentInChildren<RangeWeaponHandler>();
+        if (targetHandler == null)
+        {
+            Debug.LogError("[RangeWeaponModifier] 대상 Handler를 찾을 수 없습니다.");
+            enabled = false;
+            return;
+        }
+    }
     //delay                         공격딜레이
     //weaponSize                    무기 크기
     //power                         데미지
@@ -20,12 +57,14 @@ public class WeaponUpgrade : RangeWeaponModifier
     //multipleProjectilesAngel      집탄률
     //projectileColor               총알의 색(투명도 체크 필요)
 
-    public void RangeUp()
-    {
-        ModifyField("range", '+', 1.5f);
-    }
     public void TearUp()
     {
-        ModifyField("delay", '-', 0.1f);
+        if (targetHandler != null)
+            targetHandler.Delay -= 0.1f;
+    }
+    public void TripleShot()
+    {
+        if (targetHandler != null)
+            targetHandler.tripleShotEnabled = true;
     }
 }

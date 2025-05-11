@@ -123,7 +123,7 @@ public class PlayerController : BaseController
             timeSinceLastAttack += Time.deltaTime;
         }
 
-        if (isAttacking && timeSinceLastAttack > weaponHandler.Delay)
+        if (isAttacking && timeSinceLastAttack > weaponHandler.Delay && Time.timeScale != 0f)
         {
             timeSinceLastAttack = 0;
             Attack();

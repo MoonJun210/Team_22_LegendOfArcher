@@ -48,19 +48,6 @@ public class ProjectileController : MonoBehaviour
         }
         else if (rangeWeaponHandler.target.value == (rangeWeaponHandler.target.value | (1 << collision.gameObject.layer)))
         {
-            //ResourceController resourceController = collision.GetComponent<ResourceController>();
-            //if (resourceController != null)
-            //{
-            //    resourceController.ChangeHealth(-rangeWeaponHandler.Power);
-            //    if (rangeWeaponHandler.IsOnKnockback)
-            //    {
-            //        PlayerController controller = collision.GetComponent<PlayerController>();
-            //        if (controller != null)
-            //        {
-            //            controller.ApplyKnockback(transform, rangeWeaponHandler.KnockbackPower, rangeWeaponHandler.KnockbackTime);
-            //        }
-            //    }
-            //}
             PlayerController controller = collision.GetComponent<PlayerController>();
             if (controller != null)
             {

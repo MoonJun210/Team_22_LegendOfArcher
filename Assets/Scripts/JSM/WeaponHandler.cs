@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class WeaponHandler : MonoBehaviour
 {
+    [SerializeField] private int weaponId;
+    public int WeaponId => weaponId;
     [Header("Attack Info")]
     [SerializeField] private float delay = 1f;
     public float Delay { get => delay; set => delay = value; }

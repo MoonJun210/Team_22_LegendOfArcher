@@ -1,9 +1,9 @@
 using UnityEngine;
+using System.Collections;
 using Random = UnityEngine.Random;
 
 public class RangeWeaponHandler : WeaponHandler
 {
-
     [Header("Ranged Attack Data")]
     [SerializeField] private Transform projectileSpawnPosition;
 
@@ -28,6 +28,10 @@ public class RangeWeaponHandler : WeaponHandler
     [SerializeField] private Color projectileColor;
     public Color ProjectileColor { get { return projectileColor; } }
 
+    [Header("Special Modes")]
+    public bool tripleShotEnabled = false;   // 3점사 모드
+    private float burstInterval = 0.1f;
+
     private ProjectileManager projectileManager;
     protected override void Start()
     {
@@ -38,17 +42,31 @@ public class RangeWeaponHandler : WeaponHandler
     {
         base.Attack();
 
-        float projectilesAngleSpace = multipleProjectilesAngel;
-        int numberOfProjectilesPerShot = numberofProjectilesPerShot;
+        if (tripleShotEnabled)
+            StartCoroutine(TripleBurst());
+        else
+            SingleBurst();
+    }
 
-        float minAngle = -(numberOfProjectilesPerShot / 2f) * projectilesAngleSpace;
-
-
-        for (int i = 0; i < numberOfProjectilesPerShot; i++)
+    private IEnumerator TripleBurst()
+    {
+        for (int i = 0; i < 3; i++)
         {
-            float angle = minAngle + projectilesAngleSpace * i;
-            float randomSpread = Random.Range(-spread, spread);
-            angle += randomSpread;
+            SingleBurst();
+            yield return new WaitForSeconds(burstInterval);
+        }
+    }
+
+    private void SingleBurst()
+    {
+        float angleStep = MultipleProjectilesAngel;
+        int count = NumberofProjectilesPerShot;
+        float startAng = -(count - 1) * angleStep * 0.5f;
+
+        for (int i = 0; i < count; i++)
+        {
+            float angle = startAng + angleStep * i
+                        + Random.Range(-Spread, Spread);
             CreateProjectile(Controller.LookDirection, angle);
         }
     }
@@ -58,7 +76,8 @@ public class RangeWeaponHandler : WeaponHandler
         projectileManager.ShootBullet(
             this,
             projectileSpawnPosition.position,
-            RotateVector2(_lookDirection, angle));
+            RotateVector2(_lookDirection, angle)
+            );
     }
     private static Vector2 RotateVector2(Vector2 v, float degree)
     {
