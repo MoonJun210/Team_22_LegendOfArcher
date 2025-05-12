@@ -210,7 +210,7 @@ public class Boss_1 : BaseController
         if (pattern_C)
         {
             movementDirection = Vector2.zero;
-            transform.position = new Vector2(0, 11); // 맵 중앙 이동
+            _rigidbody.MovePosition(new Vector2(0, 11)); // 맵 중앙 이동
             patternTime += Time.deltaTime;
             if (patternTime > 0.5 && patternTime < 1)
             {
@@ -249,7 +249,7 @@ public class Boss_1 : BaseController
         if (pattern_D)
         {
             movementDirection = Vector2.zero;
-            transform.position = new Vector2(0, 11); // 맵 중앙 이동
+            _rigidbody.MovePosition(new Vector2(0, 11)); // 맵 중앙 이동
             patternTime += Time.deltaTime;
             if (patternTime > 0.5 && patternTime < 1)
             {

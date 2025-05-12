@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Boss_2 : BaseController
 {
@@ -39,19 +40,22 @@ public class Boss_2 : BaseController
     }
     protected override void Update()
     {
-        if (!detectPlayer)
+        if (_player != null)
         {
-            // 플레이어를 감지하지 못하는 경우 어슬렁거리는 기능
-            Move_NotNearPlayer();
-        }
-        else
-        {
-            // 플레이어를 감지했을 경우 각종 움직이거나 하는 함수 출력
-            // 특정 패턴이 진행 중일때 무분별한 행동 함수 호출를 막기 위한 조건문
-            if (!isPattern)
+            if (!detectPlayer)
             {
-                RandomPattern();
-                Move_NearPlayer();
+                // 플레이어를 감지하지 못하는 경우 어슬렁거리는 기능
+                Move_NotNearPlayer();
+            }
+            else
+            {
+                // 플레이어를 감지했을 경우 각종 움직이거나 하는 함수 출력
+                // 특정 패턴이 진행 중일때 무분별한 행동 함수 호출를 막기 위한 조건문
+                if (!isPattern)
+                {
+                    RandomPattern();
+                    Move_NearPlayer();
+                }
             }
         }
         Pattern_A();
@@ -156,12 +160,12 @@ public class Boss_2 : BaseController
         if (pattern_A)
         {
             movementDirection = Vector2.zero;
-            transform.position = new Vector2(0, 11.5f); // 맵 중앙 이동
+            _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
             if (patternTime > patternCycleSec && patternTime < 9.1f)
             {
                 Vector3 rotateVec = new Vector3(0, 0, patternTime * 60);
                 Vector2 sizevec = new Vector2(1.5f, 16);
-                GameObject warning = Instantiate(warningSign_Square, transform.position, transform.rotation);
+                GameObject warning = Instantiate(warningSign_Square, new Vector2(0, 11.5f), transform.rotation);
                 warning.transform.eulerAngles = rotateVec;
 
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
@@ -189,12 +193,12 @@ public class Boss_2 : BaseController
         if (pattern_B)
         {
             movementDirection = Vector2.zero;
-            transform.position = new Vector2(0, 11.5f); // 맵 중앙 이동
+            _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
             if (patternTime > patternCycleSec && patternTime < 9.1f)
             {
                 Vector3 rotateVec = new Vector3(0, 0, -patternTime * 60);
                 Vector2 sizevec = new Vector2(1.5f, 16);
-                GameObject warning = Instantiate(warningSign_Square, transform.position, transform.rotation);
+                GameObject warning = Instantiate(warningSign_Square, new Vector2(0, 11.5f), transform.rotation);
                 warning.transform.eulerAngles = rotateVec;
 
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
@@ -220,6 +224,8 @@ public class Boss_2 : BaseController
         if (pattern_C)
         {
             movementDirection = Vector2.zero;
+            if (patternTime == 0)
+                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
             if (patternTime > patternCycleSec && patternTime < 3.5f)
             {
                 Vector2 sizevec = new Vector2(2f, 11);
@@ -250,13 +256,13 @@ public class Boss_2 : BaseController
         if (pattern_D)
         {
             movementDirection = Vector2.zero;
-            transform.position = new Vector2(0, 11); // 맵 중앙 이동
             patternTime += Time.deltaTime;
             if (patternTime < 1)
             {
+                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
                 patternTime = 1;
                 transform.position = _player.transform.position;
-                Vector2 CenterVec = new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f));
+                Vector2 CenterVec = new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f)); // 생존 구역 맵 어딘가로 순간이동
                 for (int i = 0; i < 4; i++)
                 {
                     Vector2 sizevec = new Vector2(15f, 15f);
