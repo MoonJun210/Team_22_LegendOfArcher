@@ -111,6 +111,20 @@ public class BugAI : MonoBehaviour
         chargeDirection = (targetPosition - (Vector2)transform.position).normalized;
 
         StartCoroutine(ChargeWithWarning());
+        StartCoroutine(SelfDestructTimer(3f));
+    }
+    private IEnumerator SelfDestructTimer(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        if (this != null && gameObject.activeInHierarchy)
+        {
+            Debug.Log("시간 초과로 강제 자폭");
+
+            _rigidbody.velocity = Vector2.zero;
+
+            StartCoroutine(Explode());
+        }
     }
 
     private void PickRandomDirection()
