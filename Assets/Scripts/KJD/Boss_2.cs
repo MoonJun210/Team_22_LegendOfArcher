@@ -99,7 +99,7 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_A = true;
-                    pattern_A_Cooltime = 30;
+                    pattern_A_Cooltime = 40;
                     patternCycleSec = 0;
                 }
                 break;
@@ -108,7 +108,7 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_B = true;
-                    pattern_B_Cooltime = 30;
+                    pattern_B_Cooltime = 40;
                     patternCycleSec = 0;
                 }
                 break;
@@ -118,7 +118,7 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_C = true;
-                    pattern_C_Cooltime = 10;
+                    pattern_C_Cooltime = 20;
                     patternCycleSec = 0;
                 }
                 break;
@@ -127,7 +127,7 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_D = true;
-                    pattern_D_Cooltime = 5;
+                    pattern_D_Cooltime = 25;
                 }
                 break;
         }
@@ -264,7 +264,6 @@ public class Boss_2 : BaseController
             {
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
                 patternTime = 1;
-                transform.position = _player.transform.position;
                 Vector2 CenterVec = new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f)); // 생존 구역 맵 어딘가로 순간이동
                 for (int i = 0; i < 4; i++)
                 {

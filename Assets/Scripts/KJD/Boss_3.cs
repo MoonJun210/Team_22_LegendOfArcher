@@ -98,7 +98,7 @@ public class Boss_3 : BaseController
                 {
                     isPattern = true;
                     pattern_A = true;
-                    pattern_A_Cooltime = 30;
+                    pattern_A_Cooltime = 40;
                     patternCycleSec = 0;
                 }
                 break;
@@ -107,7 +107,7 @@ public class Boss_3 : BaseController
                 {
                     isPattern = true;
                     pattern_B = true;
-                    pattern_B_Cooltime = 30;
+                    pattern_B_Cooltime = 40;
                     patternCycleSec = 0;
                 }
                 break;
@@ -117,7 +117,7 @@ public class Boss_3 : BaseController
                 {
                     isPattern = true;
                     pattern_C = true;
-                    pattern_C_Cooltime = 7;
+                    pattern_C_Cooltime = 30;
                     patternCycleSec = 0;
                 }
                 break;
@@ -126,7 +126,7 @@ public class Boss_3 : BaseController
                 {
                     isPattern = true;
                     pattern_D = true;
-                    pattern_D_Cooltime = 10;
+                    pattern_D_Cooltime = 30;
                     patternCycleSec = 0;
                 }
                 break;
