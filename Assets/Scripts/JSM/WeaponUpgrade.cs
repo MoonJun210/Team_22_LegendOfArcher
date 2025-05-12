@@ -144,4 +144,19 @@ public class WeaponUpgrade : MonoBehaviour
             targetHandler.Delay *= 1.5f;
         }
     }
+    //특수능력
+    public void ActiveDoubleWeapon()
+    {
+        if (targetHandler != null)
+        {
+            targetHandler.NumberofProjectilesPerShot *= 2;
+        }
+    }
+    public void InactiveDoubleWeapon()
+    {
+        if (targetHandler != null)
+        {
+            targetHandler.NumberofProjectilesPerShot /= 2;
+        }
+    }
 }
