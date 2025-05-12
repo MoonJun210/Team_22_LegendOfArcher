@@ -23,14 +23,14 @@ public class MapAnimation : MonoBehaviour
 
         float time = 1f;
 
-        while (time > 0f)
+        foreach (SpriteRenderer dummy in renderer)
         {
-            time -= Time.deltaTime;
-            foreach (SpriteRenderer dummy in renderer)
+            while (time > 0f)
             {
                 Color dummyColor = dummy.color;
                 dummyColor.a = Mathf.Lerp(1f, 0f, Time.deltaTime);
                 dummy.color = dummyColor;
+                time -= Time.deltaTime;
             }
         }
         yield return null;
@@ -41,14 +41,14 @@ public class MapAnimation : MonoBehaviour
         SpriteRenderer[] renderer = mapAnime[value].GetComponentsInChildren<SpriteRenderer>();
 
         float time = 1f;
-        while (time > 0f)
+        foreach (SpriteRenderer dummy in renderer)
         {
-            time -= Time.deltaTime;
-            foreach (SpriteRenderer dummy in renderer)
+            while (time > 0f)
             {
                 Color dummyColor = dummy.color;
                 dummyColor.a = Mathf.Lerp(0f, 1f, Time.deltaTime);
                 dummy.color = dummyColor;
+                time -= Time.deltaTime;
             }
         }
         yield return null;
@@ -56,18 +56,21 @@ public class MapAnimation : MonoBehaviour
 
     IEnumerator ChangeMapTrans(int value)
     {
-        Transform[] trans = mapAnime[value].GetComponentsInChildren<Transform>();
 
-        foreach (Transform dummy in trans)
+        Transform trans = mapAnime[value].GetComponentInChildren<Transform>();
+        Vector3 dummyPostion = trans.position;
+        dummyPostion.x = dummyPostion.x - 0.1f;
+        dummyPostion.y = dummyPostion.y - 0.5f;
+
+        float time = 1f;
+        while (time > 0f)
         {
-            Vector3 dummyPostion = dummy.position;
-            dummyPostion.x = dummyPostion.x - 0.1f;
-            dummyPostion.y = dummyPostion.y - 0.5f;
-
             dummyPostion.x = dummyPostion.x + Mathf.Lerp(0f, 0.1f, Time.deltaTime);
             dummyPostion.y = dummyPostion.y + Mathf.Lerp(0f, 0.5f, Time.deltaTime);
-            dummy.position = dummyPostion;
+            trans.position = dummyPostion;
+            time -= Time.deltaTime;
         }
+
         yield return null;
     }
 }

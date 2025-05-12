@@ -13,11 +13,11 @@ public class MapController : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log(MapConditionObj.Length);
+        
     }
     private void Update()
     {
-
+        
     }
 
     public void BattleSetting()
@@ -30,6 +30,7 @@ public class MapController : MonoBehaviour
 
     public void BattleStart()
     {
+
         MapConditionObj[0].SetActive(false);
         MapConditionObj[1].SetActive(true);
         BattleOff.SetActive(false);
