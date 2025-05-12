@@ -25,6 +25,13 @@ public class BossController : MonoBehaviour
     private void Start()
     {
         statHandler.CurrentHP = statHandler.MaxHP * 0.1f; // 디버그용 체력 설정
+        // 디버그용 Player 태그를 가진 오브젝트 자동 연결
+        _player = GameObject.FindGameObjectWithTag("Player");
+        if (_player != null)
+        {
+            _playerController = _player.GetComponent<PlayerController>();
+            StartCoroutine(BossRoutine());
+        }
     }
 
     private void Update()
@@ -35,7 +42,7 @@ public class BossController : MonoBehaviour
 
         }
     }
-    // ==== 페이즈 변경 감지 ====
+    // 페이즈 변경 감지
     private void CheckPhase()
     {
         float hpRatio = statHandler.CurrentHP / statHandler.MaxHP;
@@ -43,7 +50,7 @@ public class BossController : MonoBehaviour
         if (hpRatio <= 0.75f && phase < 2)
         {
             phase = 2;
-            //ActivatePhase2Patterns();
+            ActivatePhase2Patterns();
         }
         if (hpRatio <= 0.5f && phase < 3)
         {
@@ -53,10 +60,10 @@ public class BossController : MonoBehaviour
         if (hpRatio <= 0.25f && phase < 4)
         {
             phase = 4;
-           // ActivatePhase4Patterns();
+            ActivatePhase4Patterns();
         }
     }
-    // ==== 통상 패턴 루프 ====
+    // 통상 패턴 루프
     private IEnumerator BossRoutine()
     {
         while (statHandler.CurrentHP > 0)
@@ -72,7 +79,7 @@ public class BossController : MonoBehaviour
         PerformRandomAttack();
         yield return new WaitForSeconds(2.5f);
     }
-    // ==== 통상 패턴 중 무작위 하나 선택 ====
+    // 통상 패턴 중 무작위 하나 선택
     private void PerformRandomAttack()
     {
         int pattern = Random.Range(0, 2);
@@ -94,7 +101,7 @@ public class BossController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Destroy(zone);
 
-        //지점 폭파 데미지
+        // 지점 폭파 데미지
         Collider2D[] hits = Physics2D.OverlapCircleAll(targetPos, 1.5f);
         foreach (var hit in hits)
         {
@@ -107,7 +114,7 @@ public class BossController : MonoBehaviour
             }
         }
     }
-    //조준 투사체 발사
+    // 조준 투사체 발사
     private IEnumerator RangedPattern()
     {
         Vector3 origin = transform.position;
@@ -116,12 +123,12 @@ public class BossController : MonoBehaviour
         // 별도 클래스가 경고 라인 + 투사체 발사 처리
         yield return StartCoroutine(shooter.Fire(origin, dir));
     }
-    //방사형 5방 투사체 발사
+    // 방사형 5방 투사체 발사
     private IEnumerator ShockwavePattern()
     {
         Vector3 spawnPos = transform.position;
 
-        //기준 방향
+        // 기준 방향
         Vector2 baseDir = (_player.transform.position - spawnPos).normalized;
         float baseAngle = Mathf.Atan2(baseDir.y, baseDir.x) * Mathf.Rad2Deg;
 
@@ -137,7 +144,7 @@ public class BossController : MonoBehaviour
 
         yield return new WaitForSeconds(1.2f); // 연사 후 대기
     }
-    //레이저 패턴
+    // 레이저 패턴
     private IEnumerator RepeatShockwavePattern()
     {
         while (phase >= 2)
@@ -173,7 +180,8 @@ public class BossController : MonoBehaviour
             lineLength: 20f,
             lineWidth: 1f,
             colorOverride: new Color(0f, 0f, 1f, 1f),
-            fireProjectile: false
+            fireProjectile: false,
+            growDuration: 0.07f
         ));
 
         // 3. 데미지 판정 - 0.5초 동안 반복해서 레이캐스트

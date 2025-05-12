@@ -6,6 +6,7 @@ public class StatHandler : MonoBehaviour
 {
     // 최대 체력 (Inspector에서 설정 가능)
     [field: SerializeField] public float MaxHP { get; private set; } = 300f;
+    [field: SerializeField] public float MoveSpeed { get; private set; } = 3f;
 
     // 현재 체력 (초기값은 MaxHP로 설정)
     public float CurrentHP { get; set; }
