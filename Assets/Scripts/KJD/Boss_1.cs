@@ -3,6 +3,7 @@ using UnityEngine;
 public class Boss_1 : BaseController
 {
     [SerializeField] private GameObject _player;
+    [SerializeField] private BossTriggerColider triggerColider;
     private PlayerController _playerController;
 
     [SerializeField] private float moveSpeed;
@@ -35,6 +36,7 @@ public class Boss_1 : BaseController
         base.Awake();
         //player = GameObject.Find("Player"); << 플레이어 찾기
         EventManager.Instance.RegisterEvent<GameObject>("InitPlayerSpawned", InitPlayerSpawned);
+        triggerColider = GetComponentInChildren<BossTriggerColider>();
     }
     protected override void Update()
     {
@@ -57,6 +59,7 @@ public class Boss_1 : BaseController
         Pattern_B();
         Pattern_C();
         Pattern_D();
+        detectPlayer = triggerColider.GetDetectPlayer();
         if (moveCooltime > 0)
             moveCooltime -= Time.deltaTime;
         else

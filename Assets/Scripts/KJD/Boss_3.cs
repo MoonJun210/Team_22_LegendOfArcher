@@ -1,12 +1,11 @@
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
-public class Boss_2 : BaseController
+public class Boss_3 : BaseController
 {
     [SerializeField] private GameObject _player;
     [SerializeField] private BossTriggerColider triggerColider;
     private PlayerController _playerController;
-
+    
     [SerializeField] private float moveSpeed;
 
     [SerializeField] private GameObject warningSign_Circle;
@@ -118,7 +117,7 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_C = true;
-                    pattern_C_Cooltime = 10;
+                    pattern_C_Cooltime = 7;
                     patternCycleSec = 0;
                 }
                 break;
@@ -127,7 +126,8 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_D = true;
-                    pattern_D_Cooltime = 5;
+                    pattern_D_Cooltime = 10;
+                    patternCycleSec = 0;
                 }
                 break;
         }
@@ -163,21 +163,21 @@ public class Boss_2 : BaseController
         if (pattern_A)
         {
             movementDirection = Vector2.zero;
-            _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
-            if (patternTime > patternCycleSec && patternTime < 9.1f)
+            if (patternTime == 0)
+                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+            if (patternTime > patternCycleSec && patternTime < 6.1f)
             {
-                Vector3 rotateVec = new Vector3(0, 0, patternTime * 60);
-                Vector2 sizevec = new Vector2(1.5f, 16);
-                GameObject warning = Instantiate(warningSign_Square, new Vector2(0, 11.5f), transform.rotation);
-                warning.transform.eulerAngles = rotateVec;
+                Vector3 atkVec = new Vector2(_player.transform.position.x + Random.Range(-1.0f, 1.0f), _player.transform.position.y + Random.Range(-1.0f, 1.0f));
+                Vector2 sizevec = new Vector2(2f, 2f);
+                GameObject warning = Instantiate(warningSign_Circle, atkVec, transform.rotation);
 
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
-                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(1.4f, 0.2f);
+                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(1.1f, 0.2f);
                 warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
-                patternCycleSec += 0.25f;
+                patternCycleSec += 0.3f;
             }
             patternTime += Time.deltaTime;
-            if (patternTime > 12)
+            if (patternTime > 8)
             {
                 pattern_A = false;
                 isPattern = false;
@@ -196,21 +196,25 @@ public class Boss_2 : BaseController
         if (pattern_B)
         {
             movementDirection = Vector2.zero;
-            _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
-            if (patternTime > patternCycleSec && patternTime < 9.1f)
+            if (patternTime == 0)
+                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+            if (patternTime > patternCycleSec && patternTime < 3.1f)
             {
-                Vector3 rotateVec = new Vector3(0, 0, -patternTime * 60);
-                Vector2 sizevec = new Vector2(1.5f, 16);
-                GameObject warning = Instantiate(warningSign_Square, new Vector2(0, 11.5f), transform.rotation);
-                warning.transform.eulerAngles = rotateVec;
-
+                float fireX = _player.transform.position.x - transform.position.x + Random.Range(-2f, 2f);
+                float fireY = _player.transform.position.y - transform.position.y + Random.Range(-2f, 2f);
+                Vector2 fireVec = new Vector2(fireX, fireY).normalized;
+                float firePower = Random.Range(1f, 8f);
+                float sizeXY = Random.Range(1f, 3f);
+                GameObject warning = Instantiate(warningSign_Circle, transform.position, transform.rotation);
+                Vector2 sizevec = new Vector2(sizeXY, sizeXY);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
-                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(1.4f, 0.2f);
+                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(Random.Range(1.5f, 2.5f), 0.2f);
                 warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
-                patternCycleSec += 0.25f;
+                warning.GetComponent<Rigidbody2D>().velocity = fireVec * firePower;
+                patternCycleSec += 0.15f;
             }
             patternTime += Time.deltaTime;
-            if (patternTime > 11)
+            if (patternTime > 5)
             {
                 pattern_B = false;
                 isPattern = false;
@@ -228,17 +232,18 @@ public class Boss_2 : BaseController
         {
             movementDirection = Vector2.zero;
             if (patternTime == 0)
-                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
-            if (patternTime > patternCycleSec && patternTime < 3.5f)
             {
-                Vector2 sizevec = new Vector2(2f, 11);
-                Vector2 posVec = new Vector2(-6 + patternCycleSec * 4, 11.5f);
-                GameObject warning = Instantiate(warningSign_Square, posVec, transform.rotation);
-                warning.GetComponent<WarningSign>().SetSquare_Vertical();
+                _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
+                float fireX = Random.Range(-0.5f, 0.5f);
+                float fireY = Random.Range(-1.5f, 1.5f);
+                float firePower = 1.2f;
+                Vector2 fireVec = new Vector2(fireX, fireY).normalized;
+                Vector2 sizevec = new Vector2(20f, 20f);
+                GameObject warning = Instantiate(warningSign_Circle, new Vector2(0, 11.5f), transform.rotation);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
-                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(1.5f, 0.2f);
+                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(4f, 0.2f);
                 warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
-                patternCycleSec += 0.5f;
+                warning.GetComponent<Rigidbody2D>().velocity = fireVec * firePower;
             }
             patternTime += Time.deltaTime;
             if (patternTime > 6)
@@ -259,36 +264,22 @@ public class Boss_2 : BaseController
         if (pattern_D)
         {
             movementDirection = Vector2.zero;
-            patternTime += Time.deltaTime;
-            if (patternTime < 1)
-            {
+            if (patternTime == 0)
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
-                patternTime = 1;
-                transform.position = _player.transform.position;
-                Vector2 CenterVec = new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f)); // 생존 구역 맵 어딘가로 순간이동
-                for (int i = 0; i < 4; i++)
-                {
-                    Vector2 sizevec = new Vector2(15f, 15f);
-                    Vector2 caseVec = Vector2.zero;
-                    switch (i)
-                    {
-                        case 0:
-                            caseVec = new Vector2(CenterVec.x - 9, CenterVec.y + 6); break;
-                        case 1:
-                            caseVec = new Vector2(CenterVec.x + 6, CenterVec.y + 9); break;
-                        case 2:
-                            caseVec = new Vector2(CenterVec.x + 9, CenterVec.y + -6); break;
-                        case 3:
-                            caseVec = new Vector2(CenterVec.x - 6, CenterVec.y + -9); break;
-
-                    }
-                    GameObject warning = Instantiate(warningSign_Square, caseVec, transform.rotation);
-                    warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
-                    warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(3f, 0.2f);
-                    warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
-                }
+            if (patternTime > patternCycleSec && patternTime < 7.1f)
+            {
+                Vector3 rotateVec = new Vector3(0, 0, Random.Range(0, 360));
+                Vector3 atkVec = new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f));
+                Vector2 sizevec = new Vector2(30f, 0.5f);
+                GameObject warning = Instantiate(warningSign_Circle, atkVec, transform.rotation);
+                warning.transform.eulerAngles = rotateVec;
+                warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
+                warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(1.5f, 0.2f);
+                warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
+                patternCycleSec += 0.25f;
             }
-            if (patternTime > 4)
+            patternTime += Time.deltaTime;
+            if (patternTime > 8)
             {
                 pattern_D = false;
                 isPattern = false;
@@ -300,21 +291,6 @@ public class Boss_2 : BaseController
         else
             pattern_D_Cooltime = 0;
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            detectPlayer = true;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            detectPlayer = false;
-        }
-    }
-
     void InitPlayerSpawned(GameObject player)
     {
         _player = player;

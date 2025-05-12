@@ -12,7 +12,7 @@ public class WarningSign : MonoBehaviour
     [SerializeField] private GameObject currentSize;
     [SerializeField] private SpriteRenderer currentSizeSprite;
     private Collider2D collider2D;
-
+    private Rigidbody2D rigid2D;
     [SerializeField] private Vector2 sizeVec;
 
     [SerializeField] private bool circle;
@@ -35,6 +35,7 @@ public class WarningSign : MonoBehaviour
         if (square_Vertical)
             currentSize.transform.localScale = new Vector2(1, 0);
         collider2D = GetComponent<Collider2D>();
+        rigid2D = GetComponent<Rigidbody2D>();
         collider2D.enabled = false;
     }
     void Update()
