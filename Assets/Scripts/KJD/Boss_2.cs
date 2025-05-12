@@ -300,21 +300,6 @@ public class Boss_2 : BaseController
         else
             pattern_D_Cooltime = 0;
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            detectPlayer = true;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            detectPlayer = false;
-        }
-    }
-
     void InitPlayerSpawned(GameObject player)
     {
         _player = player;

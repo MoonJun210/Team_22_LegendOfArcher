@@ -218,7 +218,6 @@ public class Boss_1 : BaseController
             if (patternTime > 0.5 && patternTime < 1)
             {
                 patternTime = 1;
-                transform.position = _player.transform.position;
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 wsVec = Vector2.zero;
@@ -257,7 +256,6 @@ public class Boss_1 : BaseController
             if (patternTime > 0.5 && patternTime < 1)
             {
                 patternTime = 1;
-                transform.position = _player.transform.position;
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 wsVec = Vector2.zero;
@@ -285,20 +283,6 @@ public class Boss_1 : BaseController
             pattern_D_Cooltime -= Time.deltaTime;
         else
             pattern_D_Cooltime = 0;
-    }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            detectPlayer = true;
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            detectPlayer = false;
-        }
     }
 
     void InitPlayerSpawned(GameObject player)
