@@ -25,6 +25,8 @@ public class PlayerController : BaseController
 
     protected bool isAttacking;
     private float timeSinceLastAttack = float.MaxValue;
+    protected bool isSpecialAttacking;
+    private float timeSinceLastSpecialAttack = float.MaxValue;
 
 
     [SerializeField] private Image dodgeCooldownImage;
@@ -67,6 +69,7 @@ public class PlayerController : BaseController
             dodgeCooldownImage.fillAmount = 0f;
         }
         HandleAttackDelay();
+        HandleSpecialAttackDelay();
     }
 
     protected override void FixedUpdate()
@@ -129,11 +132,38 @@ public class PlayerController : BaseController
             Attack();
         }
     }
+    private void HandleSpecialAttackDelay()
+    {
+        if (weaponHandler == null)
+            return;
+
+        if (timeSinceLastSpecialAttack <= weaponHandler.SpecialDelay)
+        {
+            timeSinceLastSpecialAttack += Time.deltaTime;
+        }
+
+        if (isSpecialAttacking && timeSinceLastSpecialAttack > weaponHandler.SpecialDelay && Time.timeScale != 0f)
+        {
+            timeSinceLastSpecialAttack = 0;
+            SpecialAttack();
+        }
+        else if (!isSpecialAttacking)
+            Debug.Log("스페셜 어택 오류");
+        else if (timeSinceLastSpecialAttack < weaponHandler.SpecialDelay)
+            Debug.Log("딜레이 오류");
+        else if (Time.timeScale == 0f)
+            Debug.Log("타임오류");
+    }
 
     protected void Attack()
     {
         if (lookDirection != Vector2.zero)
             weaponHandler?.Attack();
+    }
+    protected void SpecialAttack()
+    {
+        if (lookDirection != Vector2.zero)
+            weaponHandler?.SpecialAttack();
     }
 
     public void Death()
@@ -212,6 +242,14 @@ public class PlayerController : BaseController
             return;
         }
         isAttacking = inputValue.isPressed;
+    }
+    void OnSpecial(InputValue inputValue)
+    {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+        isSpecialAttacking = inputValue.isPressed;
     }
     void OnDodge(InputValue inputValue)
     {

@@ -186,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponId: 1
   delay: 0.5
+  specialDelay: 8
   weaponSize: 1
   power: 1
   speed: 15
@@ -204,7 +205,7 @@ MonoBehaviour:
   numberofProjectilesPerShot: 1
   multipleProjectilesAngel: 1
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
-  tripleShotEnabled: 0
+  TripleShotEnabled: 0
 --- !u!114 &7605278242477802006
 MonoBehaviour:
   m_ObjectHideFlags: 0
