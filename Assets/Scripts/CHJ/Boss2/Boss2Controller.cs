@@ -21,17 +21,19 @@ public class Boss2Controller : MonoBehaviour
 
     GameObject _player;
     PlayerController _playerController;
+    DieExplosion _die;
 
     private void Awake()
     {
         statHandler = GetComponent<StatHandler>();
+        _die = GetComponent<DieExplosion>();
         EventManager.Instance.RegisterEvent<GameObject>("GetPlayerPosition", GetPlayerPosition);
     }
 
     private void Start()
     {
-        statHandler.CurrentHP = statHandler.MaxHP * 0.1f;
-        _player = GameObject.FindGameObjectWithTag("Player");
+        //statHandler.CurrentHP = statHandler.MaxHP * 0.1f;
+        //_player = GameObject.FindGameObjectWithTag("Player");
         if (_player != null)
         {
             _playerController = _player.GetComponent<PlayerController>();
@@ -235,6 +237,7 @@ public class Boss2Controller : MonoBehaviour
     private void OnDeath()
     {
         Debug.Log("보스2 사망 처리");
+        _die.ExecuteDeathSequence();
     }
 
 
@@ -244,6 +247,12 @@ public class Boss2Controller : MonoBehaviour
         {
             detectPlayer = true;
             Debug.Log("플레이어 감지 시작");
+        }
+
+        if(collision.gameObject.layer == 15)
+        {
+            statHandler.TakeDamage(_playerController.GetPower());
+            Destroy(collision.gameObject);
         }
     }
 

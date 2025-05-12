@@ -340,5 +340,8 @@ public class PlayerController : BaseController
         animationHandler.InvincibilityEnd();
     }
 
-
+    public float GetPower()
+    {
+        return weaponHandler.Power;
+    }
 }

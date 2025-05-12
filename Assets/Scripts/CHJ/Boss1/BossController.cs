@@ -15,18 +15,20 @@ public class BossController : MonoBehaviour
 
     GameObject _player;
     PlayerController _playerController;
+    DieExplosion _die;
 
     private void Awake()
     {
         statHandler = GetComponent<StatHandler>();
+        _die = GetComponent<DieExplosion>();
         EventManager.Instance.RegisterEvent<GameObject>("GetPlayerPosition", GetPlayerPosition);
     }
 
     private void Start()
     {
-        statHandler.CurrentHP = statHandler.MaxHP * 0.1f; // 디버그용 체력 설정
+        //statHandler.CurrentHP = statHandler.MaxHP * 0.1f; // 디버그용 체력 설정
         // 디버그용 Player 태그를 가진 오브젝트 자동 연결
-        _player = GameObject.FindGameObjectWithTag("Player");
+        //_player = GameObject.FindGameObjectWithTag("Player");
         if (_player != null)
         {
             _playerController = _player.GetComponent<PlayerController>();
@@ -34,7 +36,7 @@ public class BossController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Update() 
     {
         if(_player != null)
         {
@@ -254,5 +256,15 @@ public class BossController : MonoBehaviour
     private void OnDeath()
     {
         Debug.Log("보스 사망 처리");
+        _die.ExecuteDeathSequence();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.layer == 15)
+        {
+            statHandler.TakeDamage(_playerController.GetPower());
+            Destroy(collision.gameObject);
+        }
     }
 }

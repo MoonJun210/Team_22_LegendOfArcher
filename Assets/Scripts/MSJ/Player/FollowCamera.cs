@@ -16,16 +16,16 @@ public class FollowCamera : MonoBehaviour
         EventManager.Instance.RegisterEvent<GameObject>("SearchTarget", SearchTarget);
     }
 
-    void Update()
+
+    private void LateUpdate()
     {
-        if (target == null)
-            return;
+        if (target == null) return;
 
         Vector3 desiredPosition = new Vector3(
-            target.position.x ,
-            target.position.y ,
-            transform.position.z
-        );
+           target.position.x,
+           target.position.y,
+           transform.position.z
+       );
 
         // Lerp를 통해 부드럽게 이동
         transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);

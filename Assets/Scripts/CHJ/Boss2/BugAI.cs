@@ -24,6 +24,8 @@ public class BugAI : MonoBehaviour
 
     private Transform bossTransform;
     private GameObject player;
+    private PlayerController playerController;
+    private StatHandler statHandler;
 
     private Vector2 targetPosition;
     private Vector2 chargeDirection;
@@ -33,6 +35,9 @@ public class BugAI : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerController = GetComponent<PlayerController>();
+        statHandler = GetComponent<StatHandler>();
     }
 
     private void Start()
@@ -41,7 +46,7 @@ public class BugAI : MonoBehaviour
         if (boss != null)
             bossTransform = boss.transform;
 
-        player = GameObject.FindGameObjectWithTag("Player");
+
         shooter = GetComponent<ProjectileWarningShooter>();
 
         PickRandomDirection();
@@ -144,6 +149,13 @@ public class BugAI : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
             isPlayerInRange = true;
+
+        if (collision.gameObject.layer == 15)
+        {
+            statHandler.TakeDamage(playerController.GetPower());
+            Destroy(collision.gameObject);
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
