@@ -9,13 +9,14 @@ public class ProjectileWarningShooter : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
 
     public IEnumerator Fire(
-        Vector3 origin,                 // 투사체와 경고선이 시작될 위치
-        Vector2 direction,              // 발사 방향 (단위 벡터)
-        float delay = 1f,               // 경고선이 유지되는 시간 (초)
-        float lineLength = 20f,         // 경고선의 길이
-        float lineWidth = 0.1f,         // 경고선의 두께
-        Color? colorOverride = null,    // 선 색상 오버라이드 (null이면 기본 색상 사용)
-        bool fireProjectile = true      // 투사체 발사 여부 (false면 경고선만 표시)
+        Vector3 origin,
+        Vector2 direction,
+        float delay = 1f,
+        float lineLength = 20f,
+        float lineWidth = 0.1f,
+        Color? colorOverride = null,
+        bool fireProjectile = true,
+        float growDuration = 0.2f
     )
     {
         // 경고선(LineRenderer) 오브젝트 생성
@@ -30,13 +31,16 @@ public class ProjectileWarningShooter : MonoBehaviour
         lr.SetPosition(0, origin);
         lr.SetPosition(1, origin + (Vector3)(direction * lineLength));
 
-        // 선의 굵기 설정
-        lr.startWidth = lineWidth;
-        lr.endWidth = lineWidth;
+        // 처음에는 두께 0으로 시작
+        lr.startWidth = 0f;
+        lr.endWidth = 0f;
 
         // 색상 설정: 기본은 반투명 빨간색, 필요 시 외부에서 오버라이드
-        Color lineColor = colorOverride ?? new Color(1f, 0f, 0f, 0.4f); // 기본: 경고선용 반투명 빨강
+        Color lineColor = colorOverride ?? new Color(1f, 0f, 0f, 0.4f);
         lr.startColor = lr.endColor = lineColor;
+
+        // 두께가 부드럽게 증가하는 코루틴 실행
+        StartCoroutine(AnimateLaserWidth(lr, lineWidth, growDuration));
 
         // 설정된 시간만큼 경고선 유지
         yield return new WaitForSeconds(delay);
@@ -50,5 +54,24 @@ public class ProjectileWarningShooter : MonoBehaviour
             GameObject projectile = Instantiate(projectilePrefab, origin, Quaternion.identity);
             projectile.GetComponent<Projectile>().SetDirection(direction);
         }
+    }
+
+    // === 두께를 부드럽게 키우는 애니메이션 코루틴 ===
+    private IEnumerator AnimateLaserWidth(LineRenderer lr, float targetWidth, float duration)
+    {
+        float time = 0f;
+        while (time < duration)
+        {
+            float width = Mathf.Lerp(0f, targetWidth, time / duration);
+            lr.startWidth = width;
+            lr.endWidth = width;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        // 마지막에 정확히 고정
+        lr.startWidth = targetWidth;
+        lr.endWidth = targetWidth;
     }
 }

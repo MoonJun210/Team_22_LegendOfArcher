@@ -126,7 +126,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 5496347515035889018, guid: 2f0a50544cdee184d9218d1939709e0b,
     type: 3}
   shooter: {fileID: 1415410868903630136}
-  directionLinePrefab: {fileID: 0}
+  directionLinePrefab: {fileID: 3209263052792688852}
 --- !u!114 &2188360302486221638
 MonoBehaviour:
   m_ObjectHideFlags: 0
