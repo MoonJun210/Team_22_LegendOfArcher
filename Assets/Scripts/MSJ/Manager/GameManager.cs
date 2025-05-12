@@ -28,9 +28,14 @@ public class GameManager : MonoBehaviour
     public void OnPlayerSpawned(GameObject player)
     {
         _player = player;
-
+        
         EventManager.Instance.TriggerEvent("SearchTarget", _player);
         EventManager.Instance.TriggerEvent("OnPlayerSpawned", _player);
+    }
+
+    public void CameraTargetToPlayer()
+    {
+        EventManager.Instance.TriggerEvent("SearchTarget", _player);
     }
 
     private void OnDisable()

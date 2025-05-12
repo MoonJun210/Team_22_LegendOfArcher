@@ -5,6 +5,7 @@ using UnityEngine;
 public class FollowCamera : MonoBehaviour
 {
     private Transform target;
+    private Transform player;
     float offsetX;
     float offsetY;
 
@@ -21,8 +22,8 @@ public class FollowCamera : MonoBehaviour
             return;
 
         Vector3 desiredPosition = new Vector3(
-            target.position.x + offsetX,
-            target.position.y + offsetY,
+            target.position.x ,
+            target.position.y ,
             transform.position.z
         );
 
@@ -30,10 +31,14 @@ public class FollowCamera : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
     }
 
-    void SearchTarget(GameObject player)
+    void SearchTarget(GameObject target)
     {
-        target = player.transform;
-        offsetX = transform.position.x - target.position.x;
-        offsetY = transform.position.y - target.position.y;
+        this.target = target.transform;
+        offsetX = transform.position.x - this.target.position.x;
+        offsetY = transform.position.y - this.target.position.y;
+
+        Debug.Log("타겟변경");
     }
+
+  
 }
