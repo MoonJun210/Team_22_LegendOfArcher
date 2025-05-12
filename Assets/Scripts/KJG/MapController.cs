@@ -4,66 +4,52 @@ using UnityEngine;
 
 public class MapController : MonoBehaviour
 {
-    [SerializeField] private GameObject StartDesign;
-    [SerializeField] private GameObject StartCollision;
-    [SerializeField] private GameObject[] EndDesigns;
-    [SerializeField] private GameObject EndCollision;
-    [SerializeField] private GameObject[] StageObjects;
+    [SerializeField] private GameObject[] MapConditionObj;
+    [SerializeField] private GameObject EndSpawnPoint;
+    [SerializeField] private GameObject BattleOff;
+    [SerializeField] private GameObject[] StartSign;
+    // [SerializeField] private GameObject EndCollision;
+    // [SerializeField] private GameObject[] StageObjects;
 
-    public void BattleStart(int stage)
+    void Awake()
     {
-        StartDesign.SetActive(true);
-        StartCollision.SetActive(true);
-
-        MapStageStart(stage);
-
-        if (EndDesigns != null)
-        {
-            foreach (GameObject dummy in EndDesigns)
-            {
-                dummy.SetActive(false);
-            }
-        }
-
-        if (EndCollision != null) { EndCollision.SetActive(false); }
+        Debug.Log(MapConditionObj.Length);
     }
-
-    public void BattleEnd(int stage)
+    private void Update()
     {
-        StartDesign.SetActive(false);
-        StartCollision.SetActive(false);
-
-        MapStageEnd(stage);
-
-        foreach (GameObject dummy in EndDesigns)
-        {
-            dummy.SetActive(true);
-        }
-
-        EndCollision.SetActive(true);
-    }
-
-    public void MapStageStart(int stage)
-    {
-        switch (stage)
-        {
-            case 1:
-                StageObjects[0].SetActive(false);
-                break;
-        }
 
     }
 
-    public void MapStageEnd(int stage)
+    public void BattleSetting()
     {
-        switch (stage)
-        {
-            case 1:
-                StageObjects[0].SetActive(true);
-                StageObjects[1].SetActive(true);
-                StageObjects[2].SetActive(true);
-                break;
-        }
+        MapConditionObj[0].SetActive(true);
+        MapConditionObj[1].SetActive(false);
+        MapConditionObj[2].SetActive(false);
+        GameManager.instance.mapCondition = 0;
+    }
+
+    public void BattleStart()
+    {
+        MapConditionObj[0].SetActive(false);
+        MapConditionObj[1].SetActive(true);
+        BattleOff.SetActive(false);
+
+        GameManager.instance.mapCondition = 1;
+        if (MapConditionObj[2] != null) { MapConditionObj[2].SetActive(false); }
+    }
+
+    public void BattleEnd()
+    {
+        MapConditionObj[1].SetActive(false);
+        MapConditionObj[2].SetActive(true);
+        BattleOff.SetActive(true);
+
+        GameManager.instance.mapCondition = 2;
+    }
+
+
+    public void isBattle()
+    {
 
     }
 }
