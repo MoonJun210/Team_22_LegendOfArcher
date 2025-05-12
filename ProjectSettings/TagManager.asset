@@ -7,6 +7,9 @@ TagManager:
   - WarningLine
   - EndPoint
   - SpawnPoint
+  - FxTemporaire
+  - Boss
+  - Bug
   layers:
   - Default
   - TransparentFX
@@ -23,7 +26,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Projectile
   - 
   - 
   - 

@@ -1,10 +1,16 @@
 using UnityEngine;
+using System.Collections;
 
 public class WeaponHandler : MonoBehaviour
 {
+    [SerializeField] private int weaponId;
+    public int WeaponId => weaponId;
     [Header("Attack Info")]
     [SerializeField] private float delay = 1f;
     public float Delay { get => delay; set => delay = value; }
+
+    [SerializeField] private float specialDelay = 1f;
+    public float SpecialDelay { get => specialDelay; set => specialDelay = value; }
 
     [SerializeField] private float weaponSize = 1f;
     public float WeaponSize { get => weaponSize; set => weaponSize = value; }
@@ -36,6 +42,7 @@ public class WeaponHandler : MonoBehaviour
 
     private Animator animator;
     private SpriteRenderer weaponRenderer;
+    private GameObject extraWeaponInstance;
 
     protected virtual void Awake()
     {
@@ -56,6 +63,22 @@ public class WeaponHandler : MonoBehaviour
     {
         AttackAnimation();
     }
+    public virtual void SpecialAttack()
+    {
+        switch (WeaponId)
+        {
+            case 1://5초간 무기 발사 2배 쿨타임 15초
+                if (extraWeaponInstance == null)
+                    StartCoroutine(TemporaryExtraWeapon(5f));
+                break;
+            case 2://평타의 3배데미지 지뢰 설치 쿨타임 20초
+                Debug.Log(WeaponId + "번 특수공격!");
+                break;
+            case 3://5초 무적 쿨타임 30초
+                Debug.Log(WeaponId + "번 특수공격!");
+                break;
+        }
+    }
 
     public void AttackAnimation()
     {
@@ -66,6 +89,24 @@ public class WeaponHandler : MonoBehaviour
     {
         weaponRenderer.flipY = isLeft;
     }
+    private IEnumerator TemporaryExtraWeapon(float duration)
+    {
+        var original = weaponRenderer.gameObject;
 
+        var clone = Instantiate(
+            original,
+            transform.parent,
+            false
+        );
 
+        clone.name = original.name + "_Clone";
+        clone.transform.localPosition = new Vector3(-0.3f, 0f, 0f);
+        clone.transform.localRotation = Quaternion.identity;
+        clone.transform.localScale = Vector3.one;
+        WeaponUpgrade.Instance.ActiveDoubleWeapon();
+
+        yield return new WaitForSeconds(duration);
+        Destroy(clone);
+        WeaponUpgrade.Instance.InactiveDoubleWeapon();
+    }
 }

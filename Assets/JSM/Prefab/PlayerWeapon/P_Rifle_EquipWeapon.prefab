@@ -147,6 +147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6701360315031141855}
   - component: {fileID: 1763198452482100018}
+  - component: {fileID: 7605278242477802006}
   m_Layer: 0
   m_Name: P_Rifle_EquipWeapon
   m_TagString: Untagged
@@ -183,7 +184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f44154dc91bc4724c8b029508ea25e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponId: 1
   delay: 0.5
+  specialDelay: 8
   weaponSize: 1
   power: 1
   speed: 15
@@ -202,3 +205,16 @@ MonoBehaviour:
   numberofProjectilesPerShot: 1
   multipleProjectilesAngel: 1
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
+  TripleShotEnabled: 0
+--- !u!114 &7605278242477802006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5686634455331973538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f25bfc34fa67d4f41ad2c45f95a9db75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
