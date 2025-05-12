@@ -28,7 +28,7 @@ public class MapAnimation : MonoBehaviour
             {
 
                 Color dummyColor = dummy.color;
-                dummyColor.a = Mathf.Lerp(1f, 0f, time / 1);
+                dummyColor.a = Mathf.Lerp(1f, 0f, time);
                 dummy.color = dummyColor;
             }
             time += Time.deltaTime;
@@ -49,7 +49,7 @@ public class MapAnimation : MonoBehaviour
             {
 
                 Color dummyColor = dummy.color;
-                dummyColor.a = Mathf.Lerp(0f, 1f, time / 1);
+                dummyColor.a = Mathf.Lerp(0f, 1f, time);
                 dummy.color = dummyColor;
             }
             time += Time.deltaTime;
@@ -59,21 +59,17 @@ public class MapAnimation : MonoBehaviour
 
     IEnumerator ChangeMapTrans(int value)
     {
-
-        Transform trans = mapAnime[value].GetComponentInChildren<Transform>();
-        Vector3 dummyPostion = trans.position;
-        dummyPostion.x = dummyPostion.x - 0.1f;
-        dummyPostion.y = dummyPostion.y - 0.5f;
-
+        Transform trans = mapAnime[value].GetComponent<Transform>();
+        Vector3 startVe = new Vector3(-0.1f, -0.5f, trans.position.z);
+        Vector3 endVe = new Vector3(0f, 0f, trans.position.z);
         float time = 0f;
         while (time < 1f)
         {
-            dummyPostion.x = dummyPostion.x + Mathf.Lerp(0f, 0.1f, time / 1);
-            dummyPostion.y = dummyPostion.y + Mathf.Lerp(0f, 0.5f, time / 1);
-            trans.position = dummyPostion;
+            trans.localPosition = Vector3.Lerp(startVe, endVe, time);
             time += Time.deltaTime;
 
             yield return null;
         }
+        trans.localPosition = endVe;
     }
 }
