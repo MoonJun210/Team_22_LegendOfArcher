@@ -38,16 +38,16 @@ public class MapManager : MonoBehaviour
 
             case 1:
                 mapController.BattleStart();
-                mapAnimation.TurnOnMap(1);
+                mapAnimation.TurnOnMap(1, false);
                 mapAnimation.TurnOffMap(0);
                 mapAnimation.TurnOffMap(3);
                 break;
 
             case 2:
                 mapController.BattleEnd();
-                mapAnimation.TurnOnMap(2);
+                mapAnimation.TurnOnMap(2, true);
                 mapAnimation.TurnOffMap(1);
-                mapAnimation.TurnOnMap(3);
+                mapAnimation.TurnOnMap(3, false);
                 break;
         }
     }

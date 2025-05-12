@@ -30,10 +30,7 @@ public class MapController : MonoBehaviour
 
     public void BattleStart()
     {
-
-        MapConditionObj[0].SetActive(false);
         MapConditionObj[1].SetActive(true);
-        BattleOff.SetActive(false);
 
         GameManager.instance.mapCondition = 1;
         if (MapConditionObj[2] != null) { MapConditionObj[2].SetActive(false); }
@@ -41,7 +38,6 @@ public class MapController : MonoBehaviour
 
     public void BattleEnd()
     {
-        MapConditionObj[1].SetActive(false);
         MapConditionObj[2].SetActive(true);
         BattleOff.SetActive(true);
 
