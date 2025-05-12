@@ -15,7 +15,7 @@ public class UpgradeOptionUI : MonoBehaviour
     public void Initialize(UpgradeOption option, System.Action markSpecific)
     {
         _option = option;
-        _markSpecific = markSpecific;   // 🔴 새로운 필드에 저장
+        _markSpecific = markSpecific;
 
         iconImage.sprite = option.Icon;
         titleText.text = option.Title;
@@ -29,7 +29,6 @@ public class UpgradeOptionUI : MonoBehaviour
     {
         _markSpecific?.Invoke();
         _option.OnSelected?.Invoke();
-        // 메뉴 닫기
         UpgradeMenu.Instance.CloseMenu();
     }
 }

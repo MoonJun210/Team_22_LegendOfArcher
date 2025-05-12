@@ -198,13 +198,13 @@ MonoBehaviour:
   knockbackTime: 0.5
   projectileSpawnPosition: {fileID: 795348126131181381}
   bulletIndex: 0
-  bulletSize: 0.7
+  bulletSize: 0.5
   duration: 0.5
-  spread: 1
-  numberofProjectilesPerShot: 20
-  multipleProjectilesAngel: 1
+  spread: 10
+  numberofProjectilesPerShot: 7
+  multipleProjectilesAngel: 3
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
-  tripleShotEnabled: 0
+  TripleShotEnabled: 0
 --- !u!114 &5596095861916290494
 MonoBehaviour:
   m_ObjectHideFlags: 0

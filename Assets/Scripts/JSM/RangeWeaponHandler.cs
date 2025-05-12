@@ -8,28 +8,28 @@ public class RangeWeaponHandler : WeaponHandler
     [SerializeField] private Transform projectileSpawnPosition;
 
     [SerializeField] private int bulletIndex;
-    public int BulletIndex { get { return bulletIndex; } }
+    public int BulletIndex { get => bulletIndex; set => bulletIndex = value; }
 
     [SerializeField] private float bulletSize = 1;
-    public float BulletSize { get { return bulletSize; } }
+    public float BulletSize { get => bulletSize; set => bulletSize = value; }
 
     [SerializeField] private float duration;
-    public float Duration { get { return duration; } }
+    public float Duration { get => duration; set => duration = value; }
 
     [SerializeField] private float spread;
-    public float Spread { get { return spread; } }
+    public float Spread { get => spread; set => spread = value; }
 
     [SerializeField] private int numberofProjectilesPerShot;
-    public int NumberofProjectilesPerShot { get { return numberofProjectilesPerShot; } }
+    public int NumberofProjectilesPerShot { get => numberofProjectilesPerShot; set => numberofProjectilesPerShot = value; }
 
     [SerializeField] private float multipleProjectilesAngel;
-    public float MultipleProjectilesAngel { get { return multipleProjectilesAngel; } }
+    public float MultipleProjectilesAngel { get => multipleProjectilesAngel; set => multipleProjectilesAngel = value; }
 
     [SerializeField] private Color projectileColor;
-    public Color ProjectileColor { get { return projectileColor; } }
+    public Color ProjectileColor { get => projectileColor; set => projectileColor = value; }
 
     [Header("Special Modes")]
-    public bool tripleShotEnabled = false;   // 3점사 모드
+    public bool TripleShotEnabled = false;   // 3점사 모드
     private float burstInterval = 0.1f;
 
     private ProjectileManager projectileManager;
@@ -42,7 +42,7 @@ public class RangeWeaponHandler : WeaponHandler
     {
         base.Attack();
 
-        if (tripleShotEnabled)
+        if (TripleShotEnabled)
             StartCoroutine(TripleBurst());
         else
             SingleBurst();

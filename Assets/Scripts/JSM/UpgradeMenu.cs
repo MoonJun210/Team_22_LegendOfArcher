@@ -7,9 +7,9 @@ public class UpgradeMenu : MonoBehaviour
     public static UpgradeMenu Instance { get; private set; }
 
     [Header("UI Settings")]
-    [SerializeField] private GameObject menuRoot;         // Canvas 아래 패널
-    [SerializeField] private Transform optionsParent;    // 옵션들을 생성할 부모
-    [SerializeField] private GameObject optionUIPrefab;   // UpgradeOptionUI 프리팹
+    [SerializeField] private GameObject menuRoot;
+    [SerializeField] private Transform optionsParent;
+    [SerializeField] private GameObject optionUIPrefab;
     [SerializeField] private UpgradeDefinitions definitions;
 
     private HashSet<string> _chosenTitles = new HashSet<string>();
@@ -22,15 +22,12 @@ public class UpgradeMenu : MonoBehaviour
 
     public void ShowOptions(List<UpgradeOption> options)
     {
-        // 이전 옵션 클리어
         foreach (Transform t in optionsParent) Destroy(t.gameObject);
-        // 새로 생성
         foreach (var opt in options)
         {
             var uiObj = Instantiate(optionUIPrefab, optionsParent);
             var ui = uiObj.GetComponent<UpgradeOptionUI>();
 
-            // 클릭 시 한 번 선택된 옵션으로 기록
             System.Action markChosen = () =>
             {
                 _chosenTitles.Add(opt.Title);
@@ -45,7 +42,7 @@ public class UpgradeMenu : MonoBehaviour
     public void CloseMenu()
     {
         menuRoot.SetActive(false);
-        Time.timeScale = 1f;  // 게임 재개
+        Time.timeScale = 1f;
     }
     public void OnBossDefeated()
     {

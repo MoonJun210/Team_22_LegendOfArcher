@@ -10,35 +10,36 @@ public class UpgradeDefinitions : MonoBehaviour
     [SerializeField] private Sprite speedIcon;
     [SerializeField] private Sprite piercingIcon;
 
-    /// <summary>
-    /// 정의된 모든 옵션을 리턴합니다.
-    /// </summary>
     public List<UpgradeOption> GetAllOptions()
     {
-        // 헬퍼 함수: 아이콘이 null이면 defaultIcon으로 대체
         Sprite IconOrDefault(Sprite spr) => spr != null ? spr : defaultIcon;
 
         return new List<UpgradeOption>()
         {
             new UpgradeOption(
-                "사거리 증가",
-                "원거리 무기의 사거리를 +2만큼 늘립니다.",
+                "데미지 증가",
+                "무기의 데미지를 올립니다.",
                 IconOrDefault(rangeIcon),
-                () => WeaponUpgrade.Instance.TearUp()
+                () => WeaponUpgrade.Instance.WU_PowerUp()
             ),
             new UpgradeOption(
-                "연발 속도",
-                "공격 딜레이를 -0.2초만큼 줄입니다.",
+                "연사 증가",
+                "공격 사이의 간격을 줄입니다.",
                 IconOrDefault(speedIcon),
-                () => WeaponUpgrade.Instance.TearUp()
+                () => WeaponUpgrade.Instance.WU_TearUp()
             ),
             new UpgradeOption(
-                "관통탄",
-                "총알이 적을 관통하도록 만듭니다.",
+                "고속탄",
+                "총알이 더 빨라집니다.",
                 IconOrDefault(piercingIcon),
-                () => WeaponUpgrade.Instance.TearUp()
+                () => WeaponUpgrade.Instance.WU_SpeedUp()
             ),
-            // 필요하면 더 추가…
+            new UpgradeOption(
+                "난사",
+                "연사가 증가하지만, 더 부정확하게 발사됩니다.",
+                IconOrDefault(piercingIcon),
+                () => WeaponUpgrade.Instance.WU_Rampage()
+            )
         };
     }
     public List<UpgradeOption> GetOptionsByCategory(int category)
@@ -50,30 +51,48 @@ public class UpgradeDefinitions : MonoBehaviour
                 return new List<UpgradeOption>()
                 {
                     new UpgradeOption(
-                        "라이플",
-                        "공격 딜레이를 -0.2초만큼 줄입니다.",
+                        "조정간 점사",
+                        "공격방식이 3점사가 됩니다.",
                         IconOrDefault(speedIcon),
-                        () => WeaponUpgrade.Instance.TearUp()
+                        () => WeaponUpgrade.Instance.WU_TripleShot()
+                    ),
+                    new UpgradeOption(
+                        "런앤건",
+                        "이동속도와 연사속도가 증가합니다",
+                        IconOrDefault(speedIcon),
+                        () => WeaponUpgrade.Instance.WU_RunAndGun()
                     ),
                 };
             case 2:
                 return new List<UpgradeOption>()
                 {
                     new UpgradeOption(
-                        "샷건",
-                        "공격 딜레이를 -0.2초만큼 줄입니다.",
+                        "뚱뚱한 총탄",
+                        "탄속이 느려지지만 넉백이 생기고 데미지가 올라갑니다.",
                         IconOrDefault(speedIcon),
-                        () => WeaponUpgrade.Instance.TearUp()
+                        () => WeaponUpgrade.Instance.WU_HeavyBullet()
+                    ),
+                    new UpgradeOption(
+                        "유사 슬러그",
+                        "집탄율과 데미지가 더 올라갑니다",
+                        IconOrDefault(speedIcon),
+                        () => WeaponUpgrade.Instance.WU_SlugBullet()
                     ),
                 };
             case 3:
                 return new List<UpgradeOption>()
                 {
                     new UpgradeOption(
-                        "저격소총",
-                        "공격 딜레이를 -0.2초만큼 줄입니다.",
+                        "침착함",
+                        "이동속도를 희생하여 데미지를 높입니다.",
                         IconOrDefault(speedIcon),
-                        () => WeaponUpgrade.Instance.TearUp()
+                        () => WeaponUpgrade.Instance.WU_Steady()
+                    ),
+                    new UpgradeOption(
+                        "기다림의 미학",
+                        "공격속도를 희생하여 데미지를 높입니다.",
+                        IconOrDefault(speedIcon),
+                        () => WeaponUpgrade.Instance.WU_Waiting()
                     ),
                 };
             default:
