@@ -7,10 +7,10 @@ public class MapAnimation : MonoBehaviour
 {
     [SerializeField] private GameObject[] mapAnime;
 
-    public void TurnOnMap(int value)
+    public void TurnOnMap(int value, bool trans)
     {
         StartCoroutine(FadeIn(value));
-        StartCoroutine(ChangeMapTrans(value));
+        if (trans == true) {StartCoroutine(ChangeMapTrans(value));}
     }
     public void TurnOffMap(int value)
     {
@@ -21,37 +21,39 @@ public class MapAnimation : MonoBehaviour
     {
         SpriteRenderer[] renderer = mapAnime[value].GetComponentsInChildren<SpriteRenderer>();
 
-        float time = 1f;
+        float time = 0f;
 
         foreach (SpriteRenderer dummy in renderer)
         {
-            while (time > 0f)
+            while (time < 1f)
             {
                 Color dummyColor = dummy.color;
-                dummyColor.a = Mathf.Lerp(1f, 0f, Time.deltaTime);
+                dummyColor.a = Mathf.Lerp(1f, 0f, time/1);
                 dummy.color = dummyColor;
-                time -= Time.deltaTime;
+                time += Time.deltaTime;
+
+                yield return null;
             }
         }
-        yield return null;
+        mapAnime[value].SetActive(false);
     }
 
     IEnumerator FadeIn(int value)
     {
         SpriteRenderer[] renderer = mapAnime[value].GetComponentsInChildren<SpriteRenderer>();
 
-        float time = 1f;
+        float time = 0f;
         foreach (SpriteRenderer dummy in renderer)
         {
-            while (time > 0f)
+            while (time < 1f)
             {
                 Color dummyColor = dummy.color;
-                dummyColor.a = Mathf.Lerp(0f, 1f, Time.deltaTime);
+                dummyColor.a = Mathf.Lerp(0f, 1f, time/1);
                 dummy.color = dummyColor;
-                time -= Time.deltaTime;
+                time += Time.deltaTime;
+                yield return null;
             }
         }
-        yield return null;
     }
 
     IEnumerator ChangeMapTrans(int value)
@@ -62,15 +64,15 @@ public class MapAnimation : MonoBehaviour
         dummyPostion.x = dummyPostion.x - 0.1f;
         dummyPostion.y = dummyPostion.y - 0.5f;
 
-        float time = 1f;
-        while (time > 0f)
+        float time = 0f;
+        while (time < 1f)
         {
-            dummyPostion.x = dummyPostion.x + Mathf.Lerp(0f, 0.1f, Time.deltaTime);
-            dummyPostion.y = dummyPostion.y + Mathf.Lerp(0f, 0.5f, Time.deltaTime);
+            dummyPostion.x = dummyPostion.x + Mathf.Lerp(0f, 0.1f, time/1);
+            dummyPostion.y = dummyPostion.y + Mathf.Lerp(0f, 0.5f, time/1);
             trans.position = dummyPostion;
-            time -= Time.deltaTime;
-        }
+            time += Time.deltaTime;
 
-        yield return null;
+            yield return null;
+        }
     }
 }
