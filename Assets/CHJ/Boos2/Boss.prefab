@@ -33,7 +33,7 @@ RectTransform:
   m_Father: {fileID: 7537614093727684699}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -132,7 +132,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1612566481502117865
 Transform:
   m_ObjectHideFlags: 0
@@ -220,7 +220,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
 --- !u!114 &3355014557381520001
 MonoBehaviour:
@@ -234,12 +234,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bbf3e0c77f560a4281590e2846e06a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warningZonePrefab: {fileID: 2892526321535979038, guid: 48b53a4d6306b2e4b8b431a5735e617e,
+  warningZonePrefab: {fileID: 4846183655958276654, guid: e6863394e56f19c4b86513542324755d,
     type: 3}
   projectilePrefab: {fileID: 5496347515035889018, guid: 2f0a50544cdee184d9218d1939709e0b,
     type: 3}
   shooter: {fileID: 1415410868903630136}
   directionLinePrefab: {fileID: 3209263052792688852}
+  explosionEffectPrefab: {fileID: 8771972552311404799, guid: e6cefc1c598473a478aaea451d04b63e,
+    type: 3}
 --- !u!114 &2188360302486221638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458adcb69ede26b4aa26e0d1cda1b46e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField: 300
+  <MaxHP>k__BackingField: 50
   <MoveSpeed>k__BackingField: 3
   healthSlider: {fileID: 8422412655435448862}
 --- !u!114 &1415410868903630136
@@ -478,7 +480,7 @@ Transform:
   m_GameObject: {fileID: 5656162624739256506}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -525,8 +527,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 50
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
-    type: 3}
+  m_Sprite: {fileID: 21300114, guid: 29c9cded5e558164aaf8c9bf08aa1510, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
