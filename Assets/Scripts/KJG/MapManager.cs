@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class MapManager : MonoBehaviour
 
     public GameObject[] maps;
     public GameObject[] spawnPoints;
-    int stageLevel = 0;
+    [SerializeField] int stageLevel = 1;
 
     private static MapManager mapInstance;
     public static MapManager MapInstance
@@ -66,10 +67,10 @@ public class MapManager : MonoBehaviour
         EventManager.Instance.TriggerEvent("FadeIn", 0.5f);
         yield return new WaitForSeconds(0.5f);
         stageLevel++;
-        ChagneMapCondition(0);
         StageChange();
         BossSpawner.Instance.SpawnBoss();
-        player.transform.position = spawnPoints[stageLevel].transform.position;
+        ChagneMapCondition(0);
+        player.transform.position = spawnPoints[stageLevel - 1].transform.position + Vector3.up;
         yield return new WaitForSeconds(0.6f);
 
         EventManager.Instance.TriggerEvent("FadeOut", 0.5f);
@@ -78,29 +79,40 @@ public class MapManager : MonoBehaviour
 
     private void StageChange()
     {
-        switch(stageLevel)
+        switch (stageLevel)
         {
-            case 0:
-                for(int i = 0; i < maps.Length; i++)
-                {
-                    maps[i].SetActive(false);
-                }
-                maps[0].SetActive(true);
-                break;
             case 1:
                 for (int i = 0; i < maps.Length; i++)
                 {
                     maps[i].SetActive(false);
                 }
-                maps[1].SetActive(true);
+                maps[0].SetActive(true);
+
+                mapController = maps[0].GetComponentInChildren<MapController>();
+                mapAnimation = maps[0].GetComponentInChildren<MapAnimation>();
                 break;
             case 2:
                 for (int i = 0; i < maps.Length; i++)
                 {
                     maps[i].SetActive(false);
                 }
+                maps[1].SetActive(true);
+
+                mapController = maps[1].GetComponentInChildren<MapController>();
+                mapAnimation = maps[1].GetComponentInChildren<MapAnimation>();
+                break;
+            case 3:
+                for (int i = 0; i < maps.Length; i++)
+                {
+                    maps[i].SetActive(false);
+                }
                 maps[2].SetActive(true);
+
+                mapController = maps[2].GetComponentInChildren<MapController>();
+                mapAnimation = maps[2].GetComponentInChildren<MapAnimation>();
                 break;
         }
     }
 }
+
+

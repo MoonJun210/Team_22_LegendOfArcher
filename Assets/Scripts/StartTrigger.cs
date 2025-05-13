@@ -11,7 +11,7 @@ public class StartTrigger : MonoBehaviour
         {
             MapManager.MapInstance.ChagneMapCondition(1);
             EventManager.Instance.TriggerEvent("InitPlayerSpawned", GameManager.instance._player);
-            
+            gameObject.SetActive(false);
         }
     }
 

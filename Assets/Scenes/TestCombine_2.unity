@@ -17527,6 +17527,7 @@ MonoBehaviour:
   - {fileID: 525080937}
   EndSpawnPoint: {fileID: 814721824}
   BattleOff: {fileID: 473808326}
+  TriggerTile: {fileID: 2004216510}
   StartSign: []
 --- !u!156049354 &269813887
 Grid:
@@ -19467,6 +19468,7 @@ MonoBehaviour:
   - {fileID: 994895521}
   EndSpawnPoint: {fileID: 0}
   BattleOff: {fileID: 350177867}
+  TriggerTile: {fileID: 1019833360}
   StartSign: []
 --- !u!114 &527799046
 MonoBehaviour:
@@ -25499,6 +25501,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 1044156479}
   - {fileID: 136557016}
+  stageLevel: 1
 --- !u!4 &881416555
 Transform:
   m_ObjectHideFlags: 0
@@ -52688,7 +52691,7 @@ GameObject:
   - component: {fileID: 2004216515}
   - component: {fileID: 2004216514}
   - component: {fileID: 2004216513}
-  - component: {fileID: 2004216512}
+  - component: {fileID: 2004216516}
   m_Layer: 0
   m_Name: TiggerTile
   m_TagString: Untagged
@@ -52711,18 +52714,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 269813884}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2004216512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2004216510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6dcdc36ac7af049348882ceada29aeda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!19719996 &2004216513
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -53170,6 +53161,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &2004216516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004216510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d06ee580b1739943bb4e8691311d299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2018479298
 GameObject:
   m_ObjectHideFlags: 0
