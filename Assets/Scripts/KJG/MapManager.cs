@@ -17,10 +17,10 @@ public class MapManager : MonoBehaviour
     {
         mapInstance = this;
         if (mapController == null)
-            {mapController = GetComponentInChildren<MapController>();}
+        { mapController = GetComponentInChildren<MapController>(); }
 
         if (mapAnimation == null)
-            {mapAnimation = GetComponentInChildren<MapAnimation>();}
+        { mapAnimation = GetComponentInChildren<MapAnimation>(); }
     }
 
     private void Start()
@@ -39,7 +39,6 @@ public class MapManager : MonoBehaviour
             case 1:
                 mapController.BattleStart();
                 mapAnimation.TurnOnMap(1, false);
-                mapAnimation.TurnOffMap(0);
                 mapAnimation.TurnOffMap(3);
                 break;
 
@@ -47,6 +46,7 @@ public class MapManager : MonoBehaviour
                 mapController.BattleEnd();
                 mapAnimation.TurnOnMap(2, true);
                 mapAnimation.TurnOffMap(1);
+                mapAnimation.TurnOffMap(0);
                 mapAnimation.TurnOnMap(3, false);
                 break;
         }

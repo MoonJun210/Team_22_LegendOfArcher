@@ -9,12 +9,6 @@ public class MapTrigger : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             MapManager.MapInstance.ChagneMapCondition(1);
-
-        }
-        else if (collision.CompareTag("Key"))
-        {
-            MapManager.MapInstance.ChagneMapCondition(2);
-            gameObject.SetActive(false);
         }
     }
 }

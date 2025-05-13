@@ -10,6 +10,8 @@ TagManager:
   - FxTemporaire
   - Boss
   - Bug
+  - Key
+  - PushObject
   layers:
   - Default
   - TransparentFX
