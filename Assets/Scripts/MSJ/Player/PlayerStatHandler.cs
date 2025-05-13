@@ -28,4 +28,9 @@ public class PlayerStatHandler : MonoBehaviour
         Health = Mathf.Clamp(Health + amount, 0, MaxHealth);
     }
 
+    public void SetSpeed(float newSpeed)
+    {
+        CurrentSpeed = newSpeed;
+    }
+
 }

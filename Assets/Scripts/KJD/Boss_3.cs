@@ -306,10 +306,13 @@ public class Boss_3 : BaseController
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 15)
+        if (collision.gameObject.layer == 15 || collision.gameObject.layer == 16)
         {
-            _statHandler.TakeDamage(_playerController.GetPower());
-            Destroy(collision.gameObject);
+            _statHandler.TakeDamage(collision.gameObject.layer == 15? _playerController.GetPower() : _playerController.GetPower()*3);
+            if(!_playerController.IsSniper() || collision.gameObject.layer == 16)
+            {
+                Destroy(collision.gameObject);
+            }
             // 죽음 처리
             if (_statHandler.CurrentHP <= 0)
             {

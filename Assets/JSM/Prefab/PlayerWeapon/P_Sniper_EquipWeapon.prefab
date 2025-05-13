@@ -74,7 +74,7 @@ Animator:
   m_GameObject: {fileID: 5293523468764621112}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0d3b81ca295e92c468944a85078545ae, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0657236ff75d6a042a534cca13c79c5c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -184,10 +184,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f44154dc91bc4724c8b029508ea25e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponId: 3
+  weaponId: 2
   delay: 1.5
+  specialDelay: 20
   weaponSize: 1
-  power: 1
+  power: 2
   speed: 30
   attackRange: 0
   target:
@@ -196,6 +197,11 @@ MonoBehaviour:
   isOnKnockback: 0
   knockbackPower: 0.1
   knockbackTime: 0.5
+  doubleSkill: {fileID: 0}
+  minePrefab: {fileID: 8745021417115480622, guid: 9eec6e09be626f34dae0e6f1a212d797,
+    type: 3}
+  maxMines: 3
+  gray: {fileID: 0}
   projectileSpawnPosition: {fileID: 795348126131181381}
   bulletIndex: 0
   bulletSize: 0.7
@@ -204,7 +210,7 @@ MonoBehaviour:
   numberofProjectilesPerShot: 1
   multipleProjectilesAngel: 1
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
-  tripleShotEnabled: 0
+  TripleShotEnabled: 0
 --- !u!114 &-1503848090516237438
 MonoBehaviour:
   m_ObjectHideFlags: 0
