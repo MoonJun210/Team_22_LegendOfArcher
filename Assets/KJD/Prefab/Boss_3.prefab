@@ -398,7 +398,7 @@ MonoBehaviour:
   characterRenderer: {fileID: 885000285437804816}
   _player: {fileID: 0}
   triggerColider: {fileID: 0}
-  flashPtc: {fileID: 8771972552311404799, guid: bbf9e36a48d6c5648a13889afab076fd,
+  flashPtc: {fileID: 8771972552311404799, guid: d7999af07b212d24fbee4d43fbf57f00,
     type: 3}
   moveSpeed: 2
   warningSign_Circle: {fileID: 4846183655958276654, guid: cce3cc23b91abd846b369e804f88f201,
