@@ -24,25 +24,24 @@ public class BugAI : MonoBehaviour
 
     private Transform bossTransform;
     private GameObject player;
-    private PlayerController playerController;
-    private StatHandler statHandler;
 
     private Vector2 targetPosition;
     private Vector2 chargeDirection;
     private bool isCharging = false;
-    public bool isPlayerInRange { get; private set; } = false;
+
+    DetectPlayer _detectPlayer;
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-        player = GameObject.FindGameObjectWithTag("Player");
-        playerController = GetComponent<PlayerController>();
-        statHandler = GetComponent<StatHandler>();
+        _detectPlayer = GetComponentInChildren<DetectPlayer>();
     }
 
     private void Start()
     {
         GameObject boss = GameObject.FindWithTag("Boss");
+        player = GameObject.FindGameObjectWithTag("Player");
+
         if (boss != null)
             bossTransform = boss.transform;
 
@@ -97,7 +96,7 @@ public class BugAI : MonoBehaviour
 
     private void TryAutoCharge()
     {
-        if (Boss2Controller.Phase >= 3 && !isCharging && isPlayerInRange)
+        if (Boss2Controller.Phase >= 3 && !isCharging && _detectPlayer.detect)
         {
             StartCharge();
         }
@@ -147,22 +146,15 @@ public class BugAI : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-            isPlayerInRange = true;
-
+      
         if (collision.gameObject.layer == 15)
         {
-            statHandler.TakeDamage(playerController.GetPower());
             Destroy(collision.gameObject);
             Destroy(this.gameObject);
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-            isPlayerInRange = false;
-    }
+
     private IEnumerator ChargeWithWarning()
     {
         // 경고선 표시
@@ -186,6 +178,7 @@ public class BugAI : MonoBehaviour
         {
             GameObject warning = Instantiate(warningSign_Circle, transform.position + Vector3.forward * -1, Quaternion.identity);
             warning.transform.localScale = Vector3.one * 3f;
+            warning.transform.SetParent(transform);
             Destroy(warning, 1.2f);
         }
 

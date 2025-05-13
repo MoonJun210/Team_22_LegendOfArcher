@@ -17,16 +17,18 @@ public class Boss2Controller : MonoBehaviour
 
     private StatHandler statHandler;
     private int phase = 1;
-    private bool detectPlayer = false;
 
     GameObject _player;
     PlayerController _playerController;
     DieExplosion _die;
 
+    DetectPlayer _detectPlayer;
+
     private void Awake()
     {
         statHandler = GetComponent<StatHandler>();
         _die = GetComponent<DieExplosion>();
+        _detectPlayer = GetComponentInChildren<DetectPlayer>();
         EventManager.Instance.RegisterEvent<GameObject>("GetPlayerPosition", GetPlayerPosition);
     }
 
@@ -108,7 +110,7 @@ public class Boss2Controller : MonoBehaviour
 
     private IEnumerator MeleeApproachAttack()
     {
-        if (!detectPlayer) yield break;
+        if (!_detectPlayer.detect) yield break;
         Vector3 targetPos = _player.transform.position;
         float speed = statHandler.MoveSpeed;
         float duration = 1.0f;
@@ -243,11 +245,6 @@ public class Boss2Controller : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
-        {
-            detectPlayer = true;
-            Debug.Log("플레이어 감지 시작");
-        }
 
         if(collision.gameObject.layer == 15)
         {
@@ -256,12 +253,5 @@ public class Boss2Controller : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            detectPlayer = false;
-            Debug.Log("플레이어 감지 종료");
-        }
-    }
+
 }

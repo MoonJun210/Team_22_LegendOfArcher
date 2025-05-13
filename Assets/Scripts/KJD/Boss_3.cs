@@ -32,13 +32,20 @@ public class Boss_3 : BaseController
 
     [SerializeField] private bool pattern_E;
     [SerializeField] private float pattern_E_Cooltime;
+
+    StatHandler _statHandler;
+    DieExplosion _diceExplosion;
+
     protected override void Awake()
     {
         base.Awake();
         //player = GameObject.Find("Player"); << 플레이어 찾기
         EventManager.Instance.RegisterEvent<GameObject>("InitPlayerSpawned", InitPlayerSpawned);
         triggerColider = GetComponentInChildren<BossTriggerColider>();
+        _statHandler = GetComponent<StatHandler>();
+        _diceExplosion = GetComponent<DieExplosion>();
     }
+
     protected override void Update()
     {
         if (_player != null)
@@ -295,5 +302,19 @@ public class Boss_3 : BaseController
     {
         _player = player;
         _playerController = _player.GetComponent<PlayerController>();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 15)
+        {
+            _statHandler.TakeDamage(_playerController.GetPower());
+            Destroy(collision.gameObject);
+            // 죽음 처리
+            if (_statHandler.CurrentHP <= 0)
+            {
+                _diceExplosion.ExecuteDeathSequence();
+            }
+        }
     }
 }

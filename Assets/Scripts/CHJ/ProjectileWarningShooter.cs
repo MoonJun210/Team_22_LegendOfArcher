@@ -39,6 +39,7 @@ public class ProjectileWarningShooter : MonoBehaviour
         Color lineColor = colorOverride ?? new Color(1f, 0f, 0f, 0.4f);
         lr.startColor = lr.endColor = lineColor;
 
+        line.transform.SetParent(transform);
         // 두께가 부드럽게 증가하는 코루틴 실행
         StartCoroutine(AnimateLaserWidth(lr, lineWidth, growDuration));
 

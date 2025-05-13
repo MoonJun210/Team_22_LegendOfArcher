@@ -29,11 +29,11 @@ public class BossController : MonoBehaviour
         //statHandler.CurrentHP = statHandler.MaxHP * 0.1f; // 디버그용 체력 설정
         // 디버그용 Player 태그를 가진 오브젝트 자동 연결
         //_player = GameObject.FindGameObjectWithTag("Player");
-        if (_player != null)
-        {
-            _playerController = _player.GetComponent<PlayerController>();
-            StartCoroutine(BossRoutine());
-        }
+        //if (_player != null)
+        //{
+        //    _playerController = _player.GetComponent<PlayerController>();
+        //    StartCoroutine(BossRoutine());
+        //}
     }
 
     private void Update() 
