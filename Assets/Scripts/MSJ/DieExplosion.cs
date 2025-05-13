@@ -8,7 +8,12 @@ public class DieExplosion : MonoBehaviour
     [SerializeField] private float returnDelay = 1f;
     [SerializeField] private Vector3 particleOffset = new Vector3(0, 0, -2);
 
-    [SerializeField] private GameObject upgradeZone;
+    private GameObject upgradeZone;
+
+    private void Start()
+    {
+        upgradeZone = InactiveObjectFinder.FindInactiveObjectWithName("UpgradeZone");
+    }
 
     public void ExecuteDeathSequence()
     {

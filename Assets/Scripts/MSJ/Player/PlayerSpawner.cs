@@ -12,6 +12,7 @@ public class PlayerSpawner : MonoBehaviour
     private void Start()
     {
         SpawnPlayer();
+        BossSpawner.Instance.SpawnBoss();
         EventManager.Instance.TriggerEvent("FadeOut", 0.7f);
     }
 
