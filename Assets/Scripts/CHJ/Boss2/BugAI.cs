@@ -18,6 +18,7 @@ public class BugAI : MonoBehaviour
     [SerializeField] private ProjectileWarningShooter shooter;    // 경고선 표시용
     [SerializeField] private float warningDelay = 1.2f;           // 경고 후 자폭 딜레이
     [SerializeField] private GameObject warningSign_Circle;       // 자폭 경고 시각 효과 프리팹
+    [SerializeField] private GameObject explosionEffectPrefab;    // 폭발 이펙트
 
     //내부 상태
     private Rigidbody2D _rigidbody;
@@ -171,7 +172,8 @@ public class BugAI : MonoBehaviour
             chargeDirection,
             delay: 1f,
             lineLength: 20f,
-            lineWidth: 0.5f,
+            startWidth: 0.5f,
+            endWidth: 0.5f,
             fireProjectile: false
         ));
 
@@ -182,26 +184,27 @@ public class BugAI : MonoBehaviour
     // 자폭 연출 및 범위 데미지 처리
     private IEnumerator Explode()
     {
-        // 경고 이펙트 표시
-        if (warningSign_Circle != null)
+        // 경고 이펙트 표시 (WarningSign 시스템 적용)
+        if (warningSign_Circle != null && player != null)
         {
             GameObject warning = Instantiate(warningSign_Circle, transform.position + Vector3.forward * -1, Quaternion.identity);
-            warning.transform.localScale = Vector3.one * 3f;
-            warning.transform.SetParent(transform);
-            Destroy(warning, 1.2f);
+
+            warning.GetComponent<WarningSign>().SetSizeVec(Vector2.one * 3f);
+            warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(1f, 0.2f);
+            warning.GetComponent<WarningSign>().SetPlayer(player, player.GetComponent<PlayerController>());
+            warning.GetComponent<WarningSign>().SetCircle();
         }
 
         // 잠깐 연출 시간 대기
         yield return new WaitForSeconds(1f);
 
-        // 범위 내 플레이어 데미지
-        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 3f);
-        foreach (var hit in hits)
+        // 폭발 이펙트 생성 (지점 폭파용)
+        if (explosionEffectPrefab != null)
         {
-            if (hit.CompareTag("Player"))
-            {
-                hit.GetComponent<PlayerController>()?.TakeDamaged();
-            }
+            Vector3 fxPos = transform.position;
+            fxPos.z = -2f;
+            GameObject effect = Instantiate(explosionEffectPrefab, fxPos, Quaternion.identity);
+            Destroy(effect, 2f);
         }
 
         Destroy(gameObject); // 자폭 후 제거

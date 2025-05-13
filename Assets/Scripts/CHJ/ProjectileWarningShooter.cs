@@ -14,7 +14,9 @@ public class ProjectileWarningShooter : MonoBehaviour
         Vector2 direction,                        // 발사 방향
         float delay = 1f,                         // 경고선 유지 시간
         float lineLength = 20f,                   // 경고선 길이
-        float lineWidth = 0.1f,                   // 최종 경고선 두께
+        float startWidth = 0.1f,                  // 경고선 시작 두께
+        float endWidth = 0.1f,                    // 경고선 끝 두께
+        //float lineWidth = 0.1f,                   // 최종 경고선 두께
         Color? colorOverride = null,              // 경고선 색상 지정 (없으면 기본)
         bool fireProjectile = true,               // 경고 후 투사체 발사 여부
         float growDuration = 0.2f                 // 경고선 굵어지는 데 걸리는 시간
@@ -44,7 +46,7 @@ public class ProjectileWarningShooter : MonoBehaviour
         line.transform.SetParent(transform);
 
         // 경고선 두께 애니메이션 실행
-        StartCoroutine(AnimateLaserWidth(lr, lineWidth, growDuration));
+        StartCoroutine(AnimateLaserWidth(lr, startWidth, endWidth, growDuration));
 
         // 경고선 유지 시간만큼 대기
         yield return new WaitForSeconds(delay);
@@ -60,23 +62,24 @@ public class ProjectileWarningShooter : MonoBehaviour
         }
     }
 
-
     // 경고선의 두께를 부드럽게 증가시키는 애니메이션
-    private IEnumerator AnimateLaserWidth(LineRenderer lr, float targetWidth, float duration)
+    private IEnumerator AnimateLaserWidth(LineRenderer lr, float start, float end, float duration)
     {
         float time = 0f;
         while (time < duration)
         {
-            float width = Mathf.Lerp(0f, targetWidth, time / duration);
-            lr.startWidth = width;
-            lr.endWidth = width;
+            float currentStart = Mathf.Lerp(0f, start, time / duration);
+            float currentEnd = Mathf.Lerp(0f, end, time / duration);
+
+            lr.startWidth = currentStart;
+            lr.endWidth = currentEnd;
 
             time += Time.deltaTime;
             yield return null;
         }
 
         // 종료 시 두께 고정
-        lr.startWidth = targetWidth;
-        lr.endWidth = targetWidth;
+        lr.startWidth = start;
+        lr.endWidth = end;
     }
 }
