@@ -17,7 +17,7 @@ public class StartTrigger : MonoBehaviour
             MapManager.MapInstance.ChagneMapCondition(1);
             EventManager.Instance.TriggerEvent("GetPlayerPosition", _player);
             EventManager.Instance.TriggerEvent("InitPlayerSpawned", _player);
-            
+            gameObject.SetActive(false);
         }
     }
 

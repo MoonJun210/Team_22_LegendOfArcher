@@ -7,6 +7,7 @@ public class MapController : MonoBehaviour
     [SerializeField] private GameObject[] MapConditionObj;
     [SerializeField] private GameObject EndSpawnPoint;
     [SerializeField] private GameObject BattleOff;
+    [SerializeField] private GameObject TriggerTile;
     [SerializeField] private GameObject[] StartSign;
     // [SerializeField] private GameObject EndCollision;
     // [SerializeField] private GameObject[] StageObjects;
@@ -23,6 +24,7 @@ public class MapController : MonoBehaviour
     public void BattleSetting()
     {
         MapConditionObj[0].SetActive(true);
+        TriggerTile.SetActive(true);
         MapConditionObj[1].SetActive(false);
         MapConditionObj[2].SetActive(false);
         GameManager.instance.mapCondition = 0;
