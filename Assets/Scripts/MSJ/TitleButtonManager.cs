@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class TitleButtonManager : MonoBehaviour
 {
     public GameObject settingPanel;
+    public GameObject startPanel;
 
     public void TurnOnSettingPanel()
     {
@@ -19,7 +20,7 @@ public class TitleButtonManager : MonoBehaviour
 
     public void StartButton()
     {
-        SceneManager.LoadScene("TestCombine_2");
+        startPanel.SetActive(true);
     }
 
     public void ExitButton()

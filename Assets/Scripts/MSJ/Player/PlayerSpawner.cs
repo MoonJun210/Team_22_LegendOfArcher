@@ -5,50 +5,20 @@ using UnityEngine.UI;
 
 public class PlayerSpawner : MonoBehaviour
 {
-
-    public GameObject[] playesr;
     public GameObject spawnPos;
-    [SerializeField] private Button basicPlayerBtn;
-    [SerializeField] private Button elfBtn;
-    [SerializeField] private Button dwarfBtn;
-
+    public GameObject[] players;
     GameObject _player;
-
-    private void Awake()
-    {
-    }
 
     private void Start()
     {
-        basicPlayerBtn.onClick.AddListener(SpawnBasicPlayer);
-        elfBtn.onClick.AddListener(SpawnElfPlayer);
-        dwarfBtn.onClick.AddListener(SpawnDwarfPlayer);
+        SpawnPlayer();
+        EventManager.Instance.TriggerEvent("FadeOut", 0.7f);
     }
 
-    public void SpawnBasicPlayer()
+    public void SpawnPlayer()
     {
-        this.gameObject.SetActive(false);
-        _player = Instantiate(playesr[0], spawnPos.transform.position, Quaternion.identity);
+        _player = Instantiate(players[GameManager.instance.playerNum], spawnPos.transform.position, Quaternion.identity);
         GameManager.instance.OnPlayerSpawned(_player);
-
     }
-
-    public void SpawnElfPlayer()
-    {
-        this.gameObject.SetActive(false);
-        _player = Instantiate(playesr[1], spawnPos.transform.position, Quaternion.identity);
-        GameManager.instance.OnPlayerSpawned(_player);
-
-    }
-
-    public void SpawnDwarfPlayer()
-    {
-        this.gameObject.SetActive(false);
-        _player = Instantiate(playesr[2], spawnPos.transform.position, Quaternion.identity);
-        GameManager.instance.OnPlayerSpawned(_player);
-
-
-    }
-
 
 }

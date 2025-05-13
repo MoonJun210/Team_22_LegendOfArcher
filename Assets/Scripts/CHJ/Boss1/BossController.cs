@@ -21,7 +21,7 @@ public class BossController : MonoBehaviour
     {
         statHandler = GetComponent<StatHandler>();
         _die = GetComponent<DieExplosion>();
-        EventManager.Instance.RegisterEvent<GameObject>("GetPlayerPosition", GetPlayerPosition);
+        EventManager.Instance.RegisterEvent<GameObject>("InitPlayerSpawned", GetPlayerPosition);
     }
 
     private void Start()
@@ -266,5 +266,10 @@ public class BossController : MonoBehaviour
             statHandler.TakeDamage(_playerController.GetPower());
             Destroy(collision.gameObject);
         }
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.UnregisterEvent<GameObject>("InitPlayerSpawned", GetPlayerPosition);
     }
 }
