@@ -1117,7 +1117,6 @@ MonoBehaviour:
   optionUIPrefab: {fileID: 6992104294387787536, guid: 1169ef008e8505b4d81cac048670d52c,
     type: 3}
   definitions: {fileID: 1277979651}
-  img: {fileID: 21300000, guid: 02faa80961afa0d43b8396888458b96a, type: 3}
 --- !u!4 &1133514456
 Transform:
   m_ObjectHideFlags: 0
@@ -1164,6 +1163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefabs:
   - {fileID: 355972851779528729, guid: 2b317436c48b0534982acf1230f30fc9, type: 3}
+  - {fileID: 6780872719735708286, guid: ffdd4b0bcf332eb418d923d809a2cc96, type: 3}
 --- !u!4 &1249327044
 Transform:
   m_ObjectHideFlags: 0
@@ -1284,6 +1284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2caa3a63d98ec294b8238be57898fc49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  smoothSpeed: 5
 --- !u!1 &1277979649
 GameObject:
   m_ObjectHideFlags: 0

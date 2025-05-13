@@ -9,10 +9,11 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;            // 투사체 프리팹
     [SerializeField] private ProjectileWarningShooter shooter;       // 경고선 및 발사 처리 클래스
     [SerializeField] private GameObject directionLinePrefab;         // 경고선 시각화용 프리팹
+    [SerializeField] private GameObject explosionEffectPrefab;       // 폭파 에셋
 
     private StatHandler statHandler; // 체력 관리용 핸들러
     private int phase = 1;           // 현재 페이즈 (1~4)
-
+    private bool isRoutineStarted = false; // 중복방지
     GameObject _player;
     PlayerController _playerController;
     DieExplosion _die;
@@ -36,9 +37,9 @@ public class BossController : MonoBehaviour
         //}
     }
 
-    private void Update() 
+    private void Update()
     {
-        if(_player != null)
+        if (_player != null)
         {
             CheckPhase();
 
@@ -78,8 +79,12 @@ public class BossController : MonoBehaviour
     // 한 번의 통상 패턴 실행
     private IEnumerator DoPattern()
     {
-        PerformRandomAttack();
-        yield return new WaitForSeconds(2.5f);
+        for (int i = 0; i < (phase*2); i++) // phase에 따라 반복
+        {
+            PerformRandomAttack();
+            yield return new WaitForSeconds(0.5f); // 패턴 간 텀
+        }
+        yield return new WaitForSeconds(2f);
     }
     // 통상 패턴 중 무작위 하나 선택
     private void PerformRandomAttack()
@@ -97,25 +102,23 @@ public class BossController : MonoBehaviour
     private IEnumerator ExplosionPattern()
     {
         Vector3 targetPos = _player.transform.position;
-        GameObject zone = Instantiate(warningZonePrefab, targetPos, Quaternion.identity);
-        zone.transform.localScale = new Vector3(3f, 3f, 1f);
 
-        yield return new WaitForSeconds(1f);
-        Destroy(zone);
+        // WarnigSign 프리팹 적용
+        GameObject warning = Instantiate(warningZonePrefab, targetPos, Quaternion.identity);
 
-        // 지점 폭파 데미지
-        Collider2D[] hits = Physics2D.OverlapCircleAll(targetPos, 1.5f);
-        foreach (var hit in hits)
-        {
-            if (hit.CompareTag("Player"))
-            {
-                Debug.Log("데미지");
-                // TODO: 데미지 처리
-                _playerController.TakeDamaged();
+        Vector2 sizevec = new Vector2(3f, 3f); // 원하는 사이즈
+        warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
+        warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(1f, 0.2f); // 경고 지속 시간 / 삭제 시 페이드 시간
+        warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
+        warning.GetComponent<WarningSign>().SetCircle(); // 원형 경고로 설정 (원형이 아닌 경우 SetSquare 등)
 
-            }
-        }
+        // 폭발은 Destroy로 하지 않고 WarningSign 내부에서 자동 삭제됨
+        yield return new WaitForSeconds(1.2f); // 경고 + 삭제 시간보다 약간 여유롭게
+
+        Vector3 spawnPos = new Vector3(targetPos.x, targetPos.y, -2f);
+        Instantiate(explosionEffectPrefab, spawnPos, Quaternion.identity);
     }
+
     // 조준 투사체 발사
     private IEnumerator RangedPattern()
     {
@@ -125,6 +128,8 @@ public class BossController : MonoBehaviour
         // 별도 클래스가 경고 라인 + 투사체 발사 처리
         yield return StartCoroutine(shooter.Fire(origin, dir));
     }
+
+
     // 방사형 5방 투사체 발사
     private IEnumerator ShockwavePattern()
     {
@@ -153,7 +158,7 @@ public class BossController : MonoBehaviour
         {
             yield return StartCoroutine(ShockwavePattern());
 
-            float baseDelay = 6f;
+            float baseDelay = 4f;
             float delay = (phase == 4) ? baseDelay * 0.5f : baseDelay;
 
             yield return new WaitForSeconds(delay);
@@ -170,20 +175,22 @@ public class BossController : MonoBehaviour
         yield return StartCoroutine(shooter.Fire(
             origin,
             direction,
-            lineWidth: 1f,
+            startWidth: 0f,
+            endWidth: 1.5f,
             fireProjectile: false
         ));
 
         // 2. 본 레이저 (시각 효과 먼저)
         StartCoroutine(shooter.Fire(
-            origin,
-            direction,
-            delay: 0.5f,
-            lineLength: 20f,
-            lineWidth: 1f,
-            colorOverride: new Color(0f, 0f, 1f, 1f),
-            fireProjectile: false,
-            growDuration: 0.07f
+        origin,
+        direction,
+        delay: 0.5f,
+        lineLength: 20f,
+        startWidth: 0f,
+        endWidth: 1.5f,
+        colorOverride: new Color(1f, 1f, 1f, 1f),
+        fireProjectile: false,
+        growDuration: 0.07f
         ));
 
         // 3. 데미지 판정 - 0.5초 동안 반복해서 레이캐스트
@@ -211,8 +218,6 @@ public class BossController : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null; // 다음 프레임까지 대기
         }
-
-
     }
 
     private IEnumerator RepeatLaserPattern()
@@ -221,7 +226,7 @@ public class BossController : MonoBehaviour
         {
             yield return StartCoroutine(LaserPattern());
 
-            float baseDelay = 8f;
+            float baseDelay = 6f;
             float delay = (phase == 4) ? baseDelay * 0.5f : baseDelay;
 
             yield return new WaitForSeconds(delay);
@@ -249,8 +254,12 @@ public class BossController : MonoBehaviour
     {
         _player = player;
         _playerController = _player.GetComponent<PlayerController>();
-        StartCoroutine(BossRoutine());
 
+        if (!isRoutineStarted)
+        {
+            isRoutineStarted = true;
+            StartCoroutine(BossRoutine());
+        }
     }
 
     private void OnDeath()
@@ -261,7 +270,7 @@ public class BossController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == 15)
+        if (collision.gameObject.layer == 15)
         {
             statHandler.TakeDamage(_playerController.GetPower());
             Destroy(collision.gameObject);

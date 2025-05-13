@@ -39,6 +39,12 @@ public class UpgradeDefinitions : MonoBehaviour
                 "연사가 증가하지만, 더 부정확하게 발사됩니다.",
                 IconOrDefault(piercingIcon),
                 () => WeaponUpgrade.Instance.WU_Rampage()
+            ),
+            new UpgradeOption(
+                "이속 증가",
+                "이동속도가 증가합니다.",
+                IconOrDefault(piercingIcon),
+                () => WeaponUpgrade.Instance.WU_RunningShoes()
             )
         };
     }
@@ -67,22 +73,6 @@ public class UpgradeDefinitions : MonoBehaviour
                 return new List<UpgradeOption>()
                 {
                     new UpgradeOption(
-                        "뚱뚱한 총탄",
-                        "탄속이 느려지지만 넉백이 생기고 데미지가 올라갑니다.",
-                        IconOrDefault(speedIcon),
-                        () => WeaponUpgrade.Instance.WU_HeavyBullet()
-                    ),
-                    new UpgradeOption(
-                        "유사 슬러그",
-                        "집탄율과 데미지가 더 올라갑니다",
-                        IconOrDefault(speedIcon),
-                        () => WeaponUpgrade.Instance.WU_SlugBullet()
-                    ),
-                };
-            case 3:
-                return new List<UpgradeOption>()
-                {
-                    new UpgradeOption(
                         "침착함",
                         "이동속도를 희생하여 데미지를 높입니다.",
                         IconOrDefault(speedIcon),
@@ -93,6 +83,22 @@ public class UpgradeDefinitions : MonoBehaviour
                         "공격속도를 희생하여 데미지를 높입니다.",
                         IconOrDefault(speedIcon),
                         () => WeaponUpgrade.Instance.WU_Waiting()
+                    ),
+                };
+            case 3:
+                return new List<UpgradeOption>()
+                {
+                    new UpgradeOption(
+                        "뚱뚱한 총탄",
+                        "탄속이 느려지지만 데미지가 올라갑니다.",
+                        IconOrDefault(speedIcon),
+                        () => WeaponUpgrade.Instance.WU_HeavyBullet()
+                    ),
+                    new UpgradeOption(
+                        "유사 슬러그",
+                        "집탄율과 데미지가 더 올라갑니다",
+                        IconOrDefault(speedIcon),
+                        () => WeaponUpgrade.Instance.WU_SlugBullet()
                     ),
                 };
             default:
