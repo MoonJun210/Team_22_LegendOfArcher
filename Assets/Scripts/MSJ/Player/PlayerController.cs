@@ -27,9 +27,12 @@ public class PlayerController : BaseController
     private float timeSinceLastAttack = float.MaxValue;
     protected bool isSpecialAttacking;
     private float timeSinceLastSpecialAttack = float.MaxValue;
+    private float specialCooldownTimer;
+    private float specialCooldown;
 
 
     [SerializeField] private Image dodgeCooldownImage;
+    [SerializeField] private Image specialCooldownImage;
 
     [SerializeField] private float dodgeDistance = 5f;
     [SerializeField] private float dodgeCooldown = 1.5f;
@@ -38,13 +41,15 @@ public class PlayerController : BaseController
     private bool isDodging = false;
     private float dodgeTimer = 0f;
 
+    private SpriteRenderer[] renderers;
 
     [SerializeField] private GameObject ghostPrefab;
     [SerializeField] private float ghostSpawnInterval = 0.05f;
 
-    private bool isInvincible = false;
+    public bool isInvincible { get; private set; }
     [SerializeField] private float invincibleDuration = 1f;
 
+    private MaterialPropertyBlock propBlock;
 
     protected override void Awake()
     {
@@ -52,13 +57,15 @@ public class PlayerController : BaseController
         statHandler = GetComponent<PlayerStatHandler>();
         animationHandler = GetComponent<PlayerAnimationHandler>();
         playerUI = GetComponent<PlayerUI>();
-
+        propBlock = new MaterialPropertyBlock();
         camera = Camera.main;
+        renderers = GetComponentsInChildren<SpriteRenderer>();
 
         if (WeaponPrefab != null)
             weaponHandler = Instantiate(WeaponPrefab, weaponPivot);
         else
             weaponHandler = GetComponentInChildren<WeaponHandler>();
+        specialCooldown = weaponHandler.SpecialDelay;
     }
     protected override void Update()
     {
@@ -141,22 +148,17 @@ public class PlayerController : BaseController
         if (weaponHandler == null)
             return;
 
-        if (timeSinceLastSpecialAttack <= weaponHandler.SpecialDelay)
+        if (timeSinceLastSpecialAttack <= specialCooldown)
         {
             timeSinceLastSpecialAttack += Time.deltaTime;
         }
 
-        if (isSpecialAttacking && timeSinceLastSpecialAttack > weaponHandler.SpecialDelay && Time.timeScale != 0f)
+        if (isSpecialAttacking && timeSinceLastSpecialAttack > specialCooldown && Time.timeScale != 0f)
         {
             timeSinceLastSpecialAttack = 0;
             SpecialAttack();
+            StartCoroutine(SpecialCooldownCoroutine());
         }
-        else if (!isSpecialAttacking)
-            Debug.Log("스페셜 어택 오류");
-        else if (timeSinceLastSpecialAttack < weaponHandler.SpecialDelay)
-            Debug.Log("딜레이 오류");
-        else if (Time.timeScale == 0f)
-            Debug.Log("타임오류");
     }
 
     protected void Attack()
@@ -366,5 +368,35 @@ public class PlayerController : BaseController
                 Destroy(collision.gameObject);
             }
         }
+    }
+    public bool IsSniper()
+    {
+        return weaponHandler.WeaponId==2;
+    }
+
+    public void SetInvincible(bool on)
+    {
+        isInvincible = on;
+        Debug.Log($"무적 상태: {(on ? "ON" : "OFF")}");
+        Color c = on ? Color.gray : Color.white; // 혹은 원래 색 캐싱
+        foreach (var r in renderers)
+        {
+            r.GetPropertyBlock(propBlock);
+            propBlock.SetColor("_Color", c);
+            r.SetPropertyBlock(propBlock);
+        }
+    }
+    private IEnumerator SpecialCooldownCoroutine()
+    {
+        specialCooldownTimer = specialCooldown;
+        specialCooldownImage.fillAmount = 1f;
+
+        while (specialCooldownTimer > 0f)
+        {
+            specialCooldownTimer -= Time.deltaTime;
+            specialCooldownImage.fillAmount = specialCooldownTimer / specialCooldown;
+            yield return null;
+        }
+        specialCooldownImage.fillAmount = 0f;
     }
 }

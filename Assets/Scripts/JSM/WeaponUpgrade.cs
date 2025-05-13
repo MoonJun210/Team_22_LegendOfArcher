@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeaponUpgrade : MonoBehaviour
 {
     protected RangeWeaponHandler targetHandler;
+    protected PlayerStatHandler statHandler;
     public static WeaponUpgrade Instance { get; private set; }
     public class UpgradeOption
     {
@@ -33,8 +34,14 @@ public class WeaponUpgrade : MonoBehaviour
     }
     private void Start()
     {
+        targetHandler = GetComponentInChildren<RangeWeaponHandler>();
         if (targetHandler == null)
-            targetHandler = GetComponentInChildren<RangeWeaponHandler>();
+        {
+            Debug.LogError("[RangeWeaponModifier] 대상 Handler를 찾을 수 없습니다.");
+            enabled = false;
+            return;
+        }
+        statHandler = GetComponentInParent<PlayerStatHandler>();
         if (targetHandler == null)
         {
             Debug.LogError("[RangeWeaponModifier] 대상 Handler를 찾을 수 없습니다.");
@@ -90,13 +97,20 @@ public class WeaponUpgrade : MonoBehaviour
             targetHandler.Spread *= 5f;
         }
     }
-
+    public void WU_RunningShoes()
+    {
+        if (targetHandler != null)
+        {
+            statHandler.SetSpeed(statHandler.CurrentSpeed * 1.2f);
+        }
+    }
     //돌격소총 전용 - 데미지업 없이 연사만 증가하는 방향으로
     public void WU_TripleShot()
     {
         if (targetHandler != null)
         {
             targetHandler.TripleShotEnabled = true;
+            targetHandler.Delay *= 1.5f;
         }
     }
     public void WU_RunAndGun()
@@ -104,7 +118,7 @@ public class WeaponUpgrade : MonoBehaviour
         if (targetHandler != null)
         {
             targetHandler.Delay *= 0.9f;
-            //이동속도 증가 추가필요
+            statHandler.SetSpeed(statHandler.CurrentSpeed*1.2f);
         }
     }
 
@@ -114,8 +128,7 @@ public class WeaponUpgrade : MonoBehaviour
         if (targetHandler != null)
         {
             targetHandler.Speed *= 0.8f;
-            targetHandler.Power *= 1.2f;
-            targetHandler.IsOnKnockback = true;
+            targetHandler.Power *= 1.5f;
         }
     }
     public void WU_SlugBullet()
@@ -133,7 +146,7 @@ public class WeaponUpgrade : MonoBehaviour
         if (targetHandler != null)
         {
             targetHandler.Power *= 1.5f;
-            //이동속도 감소 추가필요
+            statHandler.SetSpeed(statHandler.CurrentSpeed * 0.7f);
         }
     }
     public void WU_Waiting()

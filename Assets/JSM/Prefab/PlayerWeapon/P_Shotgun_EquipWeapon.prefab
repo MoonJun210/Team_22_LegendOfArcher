@@ -74,7 +74,7 @@ Animator:
   m_GameObject: {fileID: 5293523468764621112}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0d3b81ca295e92c468944a85078545ae, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1bb7f3c2820583e4296b0bf0983c8545, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -126,7 +126,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 160
-  m_Sprite: {fileID: 21300000, guid: e7d2378a197097e47995895cb1baab99, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bb61e4701144a1e47bba95918af76040, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -184,8 +184,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f44154dc91bc4724c8b029508ea25e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponId: 2
+  weaponId: 3
   delay: 1
+  specialDelay: 30
   weaponSize: 1
   power: 1
   speed: 10
@@ -196,8 +197,12 @@ MonoBehaviour:
   isOnKnockback: 0
   knockbackPower: 0.1
   knockbackTime: 0.5
+  doubleSkill: {fileID: 0}
+  minePrefab: {fileID: 0}
+  maxMines: 3
+  gray: {fileID: 2100000, guid: fed4edadc5bbccd4c82311afc8250a5e, type: 2}
   projectileSpawnPosition: {fileID: 795348126131181381}
-  bulletIndex: 0
+  bulletIndex: 1
   bulletSize: 0.5
   duration: 0.5
   spread: 10
