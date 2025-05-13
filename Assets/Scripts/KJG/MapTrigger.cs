@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class MapTrigger : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            MapManager.MapInstance.ChagneMapCondition(1);
-        }
-    }
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     if (collision.CompareTag("Player"))
+    //     {
+    //         MapManager.MapInstance.ChagneMapCondition(1);
+    //     }
+    // }
 }
