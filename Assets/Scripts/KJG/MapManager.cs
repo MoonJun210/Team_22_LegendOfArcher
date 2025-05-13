@@ -68,7 +68,7 @@ public class MapManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         stageLevel++;
         StageChange();
-        BossSpawner.Instance.SpawnBoss();
+        //BossSpawner.Instance.SpawnBoss();
         ChagneMapCondition(0);
         player.transform.position = spawnPoints[stageLevel - 1].transform.position + Vector3.up;
         yield return new WaitForSeconds(0.6f);
@@ -110,6 +110,16 @@ public class MapManager : MonoBehaviour
 
                 mapController = maps[2].GetComponentInChildren<MapController>();
                 mapAnimation = maps[2].GetComponentInChildren<MapAnimation>();
+                break;
+            case 4:
+                for (int i = 0; i < maps.Length; i++)
+                {
+                    maps[i].SetActive(false);
+                }
+                maps[3].SetActive(true);
+
+                mapController = maps[3].GetComponentInChildren<MapController>();
+                mapAnimation = maps[3].GetComponentInChildren<MapAnimation>();
                 break;
         }
     }
