@@ -24995,6 +24995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefabs:
   - {fileID: 355972851779528729, guid: 2b317436c48b0534982acf1230f30fc9, type: 3}
+  - {fileID: 6780872719735708286, guid: ffdd4b0bcf332eb418d923d809a2cc96, type: 3}
 --- !u!4 &803770590
 Transform:
   m_ObjectHideFlags: 0
