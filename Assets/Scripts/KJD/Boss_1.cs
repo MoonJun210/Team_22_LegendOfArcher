@@ -6,8 +6,6 @@ public class Boss_1 : BaseController
     [SerializeField] private BossTriggerColider triggerColider;
     private PlayerController _playerController;
 
-    [SerializeField] private float moveSpeed;
-
     [SerializeField] private GameObject warningSign_Circle;
     [SerializeField] private GameObject warningSign_Square;
 
@@ -34,6 +32,7 @@ public class Boss_1 : BaseController
 
     StatHandler _statHandler;
     DieExplosion _diceExplosion;
+    private bool isDead;
     protected override void Awake()
     {
         base.Awake();
@@ -45,19 +44,26 @@ public class Boss_1 : BaseController
     }
     protected override void Update()
     {
-        if (!detectPlayer)
+        if (isDead) return;
+        if (_player != null)
         {
-            // 플레이어를 감지하지 못하는 경우 어슬렁거리는 기능
-            Move_NotNearPlayer();
-        }
-        else
-        {
-            // 플레이어를 감지했을 경우 각종 움직이거나 하는 함수 출력
-            // 특정 패턴이 진행 중일때 무분별한 행동 함수 호출를 막기 위한 조건문
-            if (!isPattern)
+            if (!detectPlayer)
             {
-                RandomPattern();
-                Move_NearPlayer();
+                // 플레이어를 감지하지 못하는 경우 어슬렁거리는 기능
+                Move_NotNearPlayer();
+                // 감지를 못해도 패턴 쿨타임이 차면 패턴 실행
+                if (!isPattern)
+                    RandomPattern();
+            }
+            else
+            {
+                // 플레이어를 감지했을 경우 각종 움직이거나 하는 함수 출력
+                // 특정 패턴이 진행 중일때 무분별한 행동 함수 호출를 막기 위한 조건문
+                if (!isPattern)
+                {
+                    RandomPattern();
+                    Move_NearPlayer();
+                }
             }
         }
         Pattern_A();
@@ -75,7 +81,7 @@ public class Boss_1 : BaseController
     }
     protected override void Movment(Vector2 direction)
     {
-        direction = direction * moveSpeed; // 속도 조절은 여기서
+        direction = direction * _statHandler.MoveSpeed; // 속도 조절은 여기서
 
         _rigidbody.velocity = direction;
     }
@@ -99,7 +105,7 @@ public class Boss_1 : BaseController
                 {
                     isPattern = true;
                     pattern_A = true;
-                    pattern_A_Cooltime = 8;
+                    pattern_A_Cooltime = 10;
                 }
                 break;
             case 1:
@@ -107,7 +113,7 @@ public class Boss_1 : BaseController
                 {
                     isPattern = true;
                     pattern_B = true;
-                    pattern_B_Cooltime = 12;
+                    pattern_B_Cooltime = 20;
                 }
                 break;
             case 2:
@@ -115,7 +121,7 @@ public class Boss_1 : BaseController
                 {
                     isPattern = true;
                     pattern_C = true;
-                    pattern_C_Cooltime = 12;
+                    pattern_C_Cooltime = 30;
                 }
                 break;
             case 3:
@@ -123,7 +129,7 @@ public class Boss_1 : BaseController
                 {
                     isPattern = true;
                     pattern_D = true;
-                    pattern_D_Cooltime = 12;
+                    pattern_D_Cooltime = 30;
                 }
                 break;
         }
@@ -158,9 +164,10 @@ public class Boss_1 : BaseController
     {
         if (pattern_A)
         {
-            movementDirection = Vector2.zero;
+            Move_NotNearPlayer();
             if (patternTime == 0)
             {
+                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
                 for (int i = 0; i < 5; i++)
                 {
                     Vector2 playerNearVec = new Vector2(_player.transform.position.x + Random.Range(-2f, 3f), _player.transform.position.y + Random.Range(-2f, 3f));
@@ -303,9 +310,11 @@ public class Boss_1 : BaseController
             _statHandler.TakeDamage(_playerController.GetPower());
             Destroy(collision.gameObject);
             // 죽음 처리
-            if(_statHandler.CurrentHP <= 0)
+            if(_statHandler.CurrentHP <= 0 && !isDead)
             {
                 _diceExplosion.ExecuteDeathSequence();
+                isDead = true;
+                movementDirection = Vector2.zero;
             }
         }
     }
