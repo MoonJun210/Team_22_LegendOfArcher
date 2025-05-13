@@ -308,6 +308,7 @@ GameObject:
   - component: {fileID: 6690924394388516652}
   - component: {fileID: 4923755943348124463}
   - component: {fileID: 6976235221154852744}
+  - component: {fileID: 3059153256779881651}
   m_Layer: 0
   m_Name: Boss_1
   m_TagString: Untagged
@@ -373,7 +374,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 52
-  m_Sprite: {fileID: 21300000, guid: 587503b6015abc741ad5147fff8f4a06, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3a4508f06168c2f4084e9ad964eab373, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -461,7 +462,8 @@ MonoBehaviour:
   characterRenderer: {fileID: 1058214611164834462}
   _player: {fileID: 0}
   triggerColider: {fileID: 0}
-  moveSpeed: 2
+  flashPtc: {fileID: 8771972552311404799, guid: bbf9e36a48d6c5648a13889afab076fd,
+    type: 3}
   warningSign_Circle: {fileID: 4846183655958276654, guid: cce3cc23b91abd846b369e804f88f201,
     type: 3}
   warningSign_Square: {fileID: 3528510344563083850, guid: e95100734910c094088c22745bc4f6d7,
@@ -492,8 +494,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458adcb69ede26b4aa26e0d1cda1b46e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField: 3
-  <MoveSpeed>k__BackingField: 3
+  <MaxHP>k__BackingField: 30
+  <MoveSpeed>k__BackingField: 1
   healthSlider: {fileID: 5944525238631931427}
 --- !u!114 &6976235221154852744
 MonoBehaviour:
@@ -512,6 +514,27 @@ MonoBehaviour:
   explosionDelay: 1.5
   returnDelay: 1
   particleOffset: {x: 0, y: 0, z: -2}
+--- !u!95 &3059153256779881651
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5960452725164374989}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7586323216113366162
 GameObject:
   m_ObjectHideFlags: 0

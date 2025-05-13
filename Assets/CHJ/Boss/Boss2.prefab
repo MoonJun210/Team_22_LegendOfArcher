@@ -139,7 +139,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &3250655364519305331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +156,8 @@ MonoBehaviour:
     type: 3}
   bugPrefab: {fileID: 7290456133617519070, guid: 36efec0695366f242acab97138a64c2c,
     type: 3}
+  spawnEffectPrefab: {fileID: 7226888052703040409, guid: 8c1fb9cda9d0c8c4cad73e18ce570cad,
+    type: 3}
   maxBugCount: 8
   summonInterval: 4
   groundTilemap: {fileID: 0}
@@ -171,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458adcb69ede26b4aa26e0d1cda1b46e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField: 3
+  <MaxHP>k__BackingField: 10
   <MoveSpeed>k__BackingField: 3
   healthSlider: {fileID: 2605814447358880049}
 --- !u!61 &3887956744826044986
@@ -514,6 +516,7 @@ GameObject:
   - component: {fileID: 5082756264665045351}
   - component: {fileID: 3543142328131485224}
   - component: {fileID: 6517202766649827370}
+  - component: {fileID: 1208311528602866309}
   m_Layer: 14
   m_Name: MainSprite
   m_TagString: Untagged
@@ -577,8 +580,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 52
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1fa0a8a649dd4de4bb0f366838d5ee46, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -637,6 +639,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detect: 0
+--- !u!95 &1208311528602866309
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143753560147697196}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 18163125f8dcc0b43b3e86d1b8f67271, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4275354377365402875
 GameObject:
   m_ObjectHideFlags: 0

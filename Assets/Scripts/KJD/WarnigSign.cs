@@ -6,6 +6,8 @@ public class WarningSign : MonoBehaviour
 {
     [SerializeField] private GameObject _player;
     [SerializeField] private PlayerController _playerController;
+    [SerializeField] private GameObject[] _particles;
+    [SerializeField] private int ptcIndex;
 
     [SerializeField] private GameObject maxSize;
     [SerializeField] private SpriteRenderer maxSizeSprite;
@@ -60,6 +62,9 @@ public class WarningSign : MonoBehaviour
                 destroyTime = destroyTimeFloat;
                 isDestroy = true;
                 collider2D.enabled = true;
+                Vector2 ptcVec = new Vector3(transform.position.x, transform.position.y, transform.position.z - 2);
+                GameObject ptc = Instantiate(_particles[ptcIndex], ptcVec, transform.rotation);
+                ptc.transform.localScale = transform.localScale / 6;
             }
         }
         else
@@ -107,6 +112,10 @@ public class WarningSign : MonoBehaviour
     {
         warningTimeFloat = warning;
         destroyTimeFloat = destroy;
+    }
+    public void SetPtcIndex(int Index)
+    {
+        ptcIndex = Index;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
