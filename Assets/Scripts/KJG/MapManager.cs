@@ -68,7 +68,7 @@ public class MapManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         stageLevel++;
         StageChange();
-        //BossSpawner.Instance.SpawnBoss();
+        BossSpawner.Instance.SpawnBoss();
         ChagneMapCondition(0);
         player.transform.position = spawnPoints[stageLevel - 1].transform.position + Vector3.up;
         yield return new WaitForSeconds(0.6f);
