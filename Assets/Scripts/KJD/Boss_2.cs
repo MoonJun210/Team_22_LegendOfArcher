@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class Boss_2 : BaseController
 {
@@ -36,6 +35,7 @@ public class Boss_2 : BaseController
 
     StatHandler _statHandler;
     DieExplosion _diceExplosion;
+    private bool isDead;
     protected override void Awake()
     {
         base.Awake();
@@ -48,12 +48,16 @@ public class Boss_2 : BaseController
 
     protected override void Update()
     {
+        if (isDead) return;
         if (_player != null)
         {
             if (!detectPlayer)
             {
                 // 플레이어를 감지하지 못하는 경우 어슬렁거리는 기능
                 Move_NotNearPlayer();
+                // 감지를 못해도 패턴 쿨타임이 차면 패턴 실행
+                if (!isPattern)
+                    RandomPattern();
             }
             else
             {
@@ -105,7 +109,7 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_A = true;
-                    pattern_A_Cooltime = 40;
+                    pattern_A_Cooltime = 35;
                     patternCycleSec = 0;
                 }
                 break;
@@ -114,7 +118,7 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_B = true;
-                    pattern_B_Cooltime = 40;
+                    pattern_B_Cooltime = 35;
                     patternCycleSec = 0;
                 }
                 break;
@@ -124,7 +128,7 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_C = true;
-                    pattern_C_Cooltime = 20;
+                    pattern_C_Cooltime = 10;
                     patternCycleSec = 0;
                 }
                 break;
@@ -133,7 +137,7 @@ public class Boss_2 : BaseController
                 {
                     isPattern = true;
                     pattern_D = true;
-                    pattern_D_Cooltime = 25;
+                    pattern_D_Cooltime = 15;
                 }
                 break;
         }
@@ -318,9 +322,10 @@ public class Boss_2 : BaseController
             _statHandler.TakeDamage(_playerController.GetPower());
             Destroy(collision.gameObject);
             // 죽음 처리
-            if (_statHandler.CurrentHP <= 0)
+            if (_statHandler.CurrentHP <= 0 && !isDead)
             {
                 _diceExplosion.ExecuteDeathSequence();
+                isDead = true;
             }
         }
     }

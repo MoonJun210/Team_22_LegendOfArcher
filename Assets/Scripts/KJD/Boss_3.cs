@@ -35,7 +35,7 @@ public class Boss_3 : BaseController
 
     StatHandler _statHandler;
     DieExplosion _diceExplosion;
-
+    private bool isDead;
     protected override void Awake()
     {
         base.Awake();
@@ -48,12 +48,16 @@ public class Boss_3 : BaseController
 
     protected override void Update()
     {
+        if (isDead) return;
         if (_player != null)
         {
             if (!detectPlayer)
             {
                 // 플레이어를 감지하지 못하는 경우 어슬렁거리는 기능
                 Move_NotNearPlayer();
+                // 감지를 못해도 패턴 쿨타임이 차면 패턴 실행
+                if (!isPattern)
+                    RandomPattern();
             }
             else
             {
@@ -114,7 +118,7 @@ public class Boss_3 : BaseController
                 {
                     isPattern = true;
                     pattern_B = true;
-                    pattern_B_Cooltime = 40;
+                    pattern_B_Cooltime = 20;
                     patternCycleSec = 0;
                 }
                 break;
@@ -169,7 +173,7 @@ public class Boss_3 : BaseController
     {
         if (pattern_A)
         {
-            movementDirection = Vector2.zero;
+            Move_NotNearPlayer();
             if (patternTime == 0)
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
             if (patternTime > patternCycleSec && patternTime < 6.1f)
@@ -202,7 +206,7 @@ public class Boss_3 : BaseController
     {
         if (pattern_B)
         {
-            movementDirection = Vector2.zero;
+            Move_NotNearPlayer();
             if (patternTime == 0)
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
             if (patternTime > patternCycleSec && patternTime < 3.1f)
@@ -237,7 +241,7 @@ public class Boss_3 : BaseController
     {
         if (pattern_C)
         {
-            movementDirection = Vector2.zero;
+            Move_NotNearPlayer();
             if (patternTime == 0)
             {
                 _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
@@ -270,7 +274,7 @@ public class Boss_3 : BaseController
     {
         if (pattern_D)
         {
-            movementDirection = Vector2.zero;
+            Move_NotNearPlayer();
             if (patternTime == 0)
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
             if (patternTime > patternCycleSec && patternTime < 7.1f)
@@ -311,9 +315,11 @@ public class Boss_3 : BaseController
             _statHandler.TakeDamage(_playerController.GetPower());
             Destroy(collision.gameObject);
             // 죽음 처리
-            if (_statHandler.CurrentHP <= 0)
+            if (_statHandler.CurrentHP <= 0 && !isDead)
             {
                 _diceExplosion.ExecuteDeathSequence();
+                isDead = true;
+                movementDirection = Vector2.zero;
             }
         }
     }
