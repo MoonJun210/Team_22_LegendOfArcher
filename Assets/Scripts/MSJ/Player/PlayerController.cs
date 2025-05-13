@@ -180,13 +180,19 @@ public class PlayerController : BaseController
             color.a = 0.3f;
             renderer.color = color;
         }
+        playerUI.OnDeath();
 
         foreach (Behaviour component in transform.GetComponentsInChildren<Behaviour>())
         {
+            // 이 컴포넌트가 Canvas 자신이거나, Canvas의 자식인지 검사
+            if (component.GetComponentInParent<Canvas>() != null)
+                continue;
+
             component.enabled = false;
         }
 
-        Destroy(gameObject, 2f);
+
+        //Destroy(gameObject, 2f);
     }
 
     public void TakeDamaged()
