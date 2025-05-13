@@ -4,6 +4,7 @@ public class Boss_1 : BaseController
 {
     [SerializeField] private GameObject _player;
     [SerializeField] private BossTriggerColider triggerColider;
+    [SerializeField] private GameObject flashPtc;
     private PlayerController _playerController;
 
     [SerializeField] private GameObject warningSign_Circle;
@@ -168,6 +169,7 @@ public class Boss_1 : BaseController
             if (patternTime == 0)
             {
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 for (int i = 0; i < 5; i++)
                 {
                     Vector2 playerNearVec = new Vector2(_player.transform.position.x + Random.Range(-2f, 3f), _player.transform.position.y + Random.Range(-2f, 3f));
@@ -201,7 +203,9 @@ public class Boss_1 : BaseController
             if (patternTime > 1 && patternTime < 2)
             {
                 patternTime = 2;
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _rigidbody.MovePosition(_player.transform.position);
+
                 GameObject warning = Instantiate(warningSign_Circle, _player.transform.position, transform.rotation);
                 Vector2 sizevec = new Vector2(8, 8);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
@@ -225,6 +229,10 @@ public class Boss_1 : BaseController
         if (pattern_C)
         {
             movementDirection = Vector2.zero;
+            if (patternTime == 0)
+            {
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             _rigidbody.MovePosition(new Vector2(0, 11)); // 맵 중앙 이동
             patternTime += Time.deltaTime;
             if (patternTime > 0.5 && patternTime < 1)
@@ -263,6 +271,10 @@ public class Boss_1 : BaseController
         if (pattern_D)
         {
             movementDirection = Vector2.zero;
+            if (patternTime == 0)
+            {
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             _rigidbody.MovePosition(new Vector2(0, 11)); // 맵 중앙 이동
             patternTime += Time.deltaTime;
             if (patternTime > 0.5 && patternTime < 1)

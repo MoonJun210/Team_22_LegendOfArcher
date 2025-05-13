@@ -4,6 +4,7 @@ public class Boss_2 : BaseController
 {
     [SerializeField] private GameObject _player;
     [SerializeField] private BossTriggerColider triggerColider;
+    [SerializeField] private GameObject flashPtc;
     private PlayerController _playerController;
 
     [SerializeField] private float moveSpeed;
@@ -173,6 +174,10 @@ public class Boss_2 : BaseController
         if (pattern_A)
         {
             movementDirection = Vector2.zero;
+            if (patternTime == 0)
+            {
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
             if (patternTime > patternCycleSec && patternTime < 9.1f)
             {
@@ -206,6 +211,10 @@ public class Boss_2 : BaseController
         if (pattern_B)
         {
             movementDirection = Vector2.zero;
+            if (patternTime == 0)
+            {
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
             if (patternTime > patternCycleSec && patternTime < 9.1f)
             {
@@ -236,9 +245,12 @@ public class Boss_2 : BaseController
     {
         if (pattern_C)
         {
-            movementDirection = Vector2.zero;
+            Move_NotNearPlayer();
             if (patternTime == 0)
+            {
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             if (patternTime > patternCycleSec && patternTime < 3.5f)
             {
                 Vector2 sizevec = new Vector2(2f, 11);
@@ -268,10 +280,11 @@ public class Boss_2 : BaseController
     {
         if (pattern_D)
         {
-            movementDirection = Vector2.zero;
+            Move_NotNearPlayer();
             patternTime += Time.deltaTime;
             if (patternTime < 1)
             {
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
                 patternTime = 1;
                 Vector2 CenterVec = new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f)); // 생존 구역 맵 어딘가로 순간이동

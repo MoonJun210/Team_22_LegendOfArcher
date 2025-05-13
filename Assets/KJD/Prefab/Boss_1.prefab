@@ -461,7 +461,8 @@ MonoBehaviour:
   characterRenderer: {fileID: 1058214611164834462}
   _player: {fileID: 0}
   triggerColider: {fileID: 0}
-  moveSpeed: 2
+  flashPtc: {fileID: 8771972552311404799, guid: bbf9e36a48d6c5648a13889afab076fd,
+    type: 3}
   warningSign_Circle: {fileID: 4846183655958276654, guid: cce3cc23b91abd846b369e804f88f201,
     type: 3}
   warningSign_Square: {fileID: 3528510344563083850, guid: e95100734910c094088c22745bc4f6d7,
@@ -492,8 +493,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 458adcb69ede26b4aa26e0d1cda1b46e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MaxHP>k__BackingField: 3
-  <MoveSpeed>k__BackingField: 3
+  <MaxHP>k__BackingField: 30
+  <MoveSpeed>k__BackingField: 1
   healthSlider: {fileID: 5944525238631931427}
 --- !u!114 &6976235221154852744
 MonoBehaviour:

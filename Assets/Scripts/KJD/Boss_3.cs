@@ -4,8 +4,9 @@ public class Boss_3 : BaseController
 {
     [SerializeField] private GameObject _player;
     [SerializeField] private BossTriggerColider triggerColider;
+    [SerializeField] private GameObject flashPtc;
     private PlayerController _playerController;
-    
+
     [SerializeField] private float moveSpeed;
 
     [SerializeField] private GameObject warningSign_Circle;
@@ -175,7 +176,10 @@ public class Boss_3 : BaseController
         {
             Move_NotNearPlayer();
             if (patternTime == 0)
+            {
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             if (patternTime > patternCycleSec && patternTime < 6.1f)
             {
                 Vector3 atkVec = new Vector2(_player.transform.position.x + Random.Range(-1.0f, 1.0f), _player.transform.position.y + Random.Range(-1.0f, 1.0f));
@@ -208,7 +212,10 @@ public class Boss_3 : BaseController
         {
             Move_NotNearPlayer();
             if (patternTime == 0)
+            {
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             if (patternTime > patternCycleSec && patternTime < 3.1f)
             {
                 float fireX = _player.transform.position.x - transform.position.x + Random.Range(-2f, 2f);
@@ -244,6 +251,7 @@ public class Boss_3 : BaseController
             Move_NotNearPlayer();
             if (patternTime == 0)
             {
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
                 float fireX = Random.Range(-0.5f, 0.5f);
                 float fireY = Random.Range(-1.5f, 1.5f);
@@ -276,7 +284,10 @@ public class Boss_3 : BaseController
         {
             Move_NotNearPlayer();
             if (patternTime == 0)
+            {
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             if (patternTime > patternCycleSec && patternTime < 7.1f)
             {
                 Vector3 rotateVec = new Vector3(0, 0, Random.Range(0, 360));
