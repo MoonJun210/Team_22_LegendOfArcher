@@ -4,6 +4,7 @@ public class Boss_1 : BaseController
 {
     [SerializeField] private GameObject _player;
     [SerializeField] private BossTriggerColider triggerColider;
+    [SerializeField] private GameObject flashPtc;
     private PlayerController _playerController;
 
     [SerializeField] private GameObject warningSign_Circle;
@@ -32,6 +33,7 @@ public class Boss_1 : BaseController
 
     StatHandler _statHandler;
     DieExplosion _diceExplosion;
+    Animator _animator;
     private bool isDead;
     protected override void Awake()
     {
@@ -41,6 +43,7 @@ public class Boss_1 : BaseController
         triggerColider = GetComponentInChildren<BossTriggerColider>();
         _statHandler = GetComponent<StatHandler>();
         _diceExplosion = GetComponent<DieExplosion>();
+        _animator = GetComponent<Animator>();
     }
     protected override void Update()
     {
@@ -78,6 +81,23 @@ public class Boss_1 : BaseController
 
         lookDirection = movementDirection;
         base.Update();
+    }
+    private void LateUpdate()
+    {
+        if (!isDead)
+        {
+            _animator.SetBool("isDead", false);
+            if (_rigidbody.velocity.magnitude != 0)
+                _animator.SetBool("isMove", true);
+            else
+                _animator.SetBool("isMove", false);
+            if (isPattern)
+                _animator.SetBool("isPattern", true);
+            else
+                _animator.SetBool("isPattern", false);
+        }
+        else
+            _animator.SetBool("isDead", true);
     }
     protected override void Movment(Vector2 direction)
     {
@@ -167,7 +187,9 @@ public class Boss_1 : BaseController
             Move_NotNearPlayer();
             if (patternTime == 0)
             {
+                _animator.SetFloat("patternFrame", 0);
                 _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 for (int i = 0; i < 5; i++)
                 {
                     Vector2 playerNearVec = new Vector2(_player.transform.position.x + Random.Range(-2f, 3f), _player.transform.position.y + Random.Range(-2f, 3f));
@@ -178,12 +200,17 @@ public class Boss_1 : BaseController
                     warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
                 }
             }
+            if (patternTime > 1.5)
+            {
+                _animator.SetFloat("patternFrame", 1);
+            }
             patternTime += Time.deltaTime;
             if (patternTime > 3)
             {
                 pattern_A = false;
                 isPattern = false;
                 patternTime = 0;
+                _animator.SetFloat("patternFrame", 0);
             }
 
         }
@@ -201,18 +228,23 @@ public class Boss_1 : BaseController
             if (patternTime > 1 && patternTime < 2)
             {
                 patternTime = 2;
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _rigidbody.MovePosition(_player.transform.position);
+                _animator.SetFloat("patternFrame", 0);
                 GameObject warning = Instantiate(warningSign_Circle, _player.transform.position, transform.rotation);
                 Vector2 sizevec = new Vector2(8, 8);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
                 warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(2f, 0.2f);
                 warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
             }
+            if (patternTime > 4)
+                _animator.SetFloat("patternFrame", 1);
             if (patternTime > 5)
             {
                 pattern_B = false;
                 isPattern = false;
                 patternTime = 0;
+                _animator.SetFloat("patternFrame", 0);
             }
         }
         if (pattern_B_Cooltime > 0)
@@ -225,11 +257,16 @@ public class Boss_1 : BaseController
         if (pattern_C)
         {
             movementDirection = Vector2.zero;
+            if (patternTime == 0)
+            {
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             _rigidbody.MovePosition(new Vector2(0, 11)); // 맵 중앙 이동
             patternTime += Time.deltaTime;
             if (patternTime > 0.5 && patternTime < 1)
             {
                 patternTime = 1;
+                _animator.SetFloat("patternFrame", 0);
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 wsVec = Vector2.zero;
@@ -246,11 +283,14 @@ public class Boss_1 : BaseController
                     warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
                 }
             }
+            if (patternTime > 3)
+                _animator.SetFloat("patternFrame", 1);
             if (patternTime > 3.5)
             {
                 pattern_C = false;
                 isPattern = false;
                 patternTime = 0;
+                _animator.SetFloat("patternFrame", 0);
             }
         }
         if (pattern_C_Cooltime > 0)
@@ -263,11 +303,16 @@ public class Boss_1 : BaseController
         if (pattern_D)
         {
             movementDirection = Vector2.zero;
+            if (patternTime == 0)
+            {
+                GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
+            }
             _rigidbody.MovePosition(new Vector2(0, 11)); // 맵 중앙 이동
             patternTime += Time.deltaTime;
             if (patternTime > 0.5 && patternTime < 1)
             {
                 patternTime = 1;
+                _animator.SetFloat("patternFrame", 0);
                 for (int i = 0; i < 2; i++)
                 {
                     Vector2 wsVec = Vector2.zero;
@@ -284,11 +329,14 @@ public class Boss_1 : BaseController
                     warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
                 }
             }
+            if (patternTime > 3)
+                _animator.SetFloat("patternFrame", 1);
             if (patternTime > 3.5)
             {
                 pattern_D = false;
                 isPattern = false;
                 patternTime = 0;
+                _animator.SetFloat("patternFrame", 0);
             }
         }
         if (pattern_D_Cooltime > 0)
@@ -305,12 +353,12 @@ public class Boss_1 : BaseController
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == 15)
+        if (collision.gameObject.layer == 15)
         {
             _statHandler.TakeDamage(_playerController.GetPower());
             Destroy(collision.gameObject);
             // 죽음 처리
-            if(_statHandler.CurrentHP <= 0 && !isDead)
+            if (_statHandler.CurrentHP <= 0 && !isDead)
             {
                 _diceExplosion.ExecuteDeathSequence();
                 isDead = true;
