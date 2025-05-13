@@ -14,6 +14,7 @@ public class StartTrigger : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
+            MapManager.MapInstance.ChagneMapCondition(1);
             EventManager.Instance.TriggerEvent("GetPlayerPosition", _player);
             EventManager.Instance.TriggerEvent("InitPlayerSpawned", _player);
             
@@ -22,6 +23,7 @@ public class StartTrigger : MonoBehaviour
 
     void OnPlayerSpawned(GameObject player)
     {
-        _player = player;   
+        _player = player;
+        Debug.Log("플레이어 등록");
     }
 }

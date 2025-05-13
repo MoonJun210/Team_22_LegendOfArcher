@@ -25,6 +25,7 @@ public class DieExplosion : MonoBehaviour
     private void ReturnToPlayerAndCleanUp()
     {
         GameManager.instance.CameraTargetToPlayer();
+        MapManager.MapInstance.ChagneMapCondition(2);
         Destroy(gameObject);
     }
 }

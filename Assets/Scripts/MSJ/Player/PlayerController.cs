@@ -344,4 +344,21 @@ public class PlayerController : BaseController
     {
         return weaponHandler.Power;
     }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("EndPoint"))
+        {
+            Debug.Log("닿음");
+            if(Input.GetKeyDown(KeyCode.F))
+            {
+                // 이동 로직
+                Debug.Log("누름");
+                
+                MapManager.MapInstance.TeleportNextPoint(this.gameObject);
+
+                Destroy(collision.gameObject);
+            }
+        }
+    }
 }

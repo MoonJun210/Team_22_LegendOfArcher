@@ -118,6 +118,7 @@ GameObject:
   - component: {fileID: 2812794804065730356}
   - component: {fileID: 1890657236507398846}
   - component: {fileID: 2378516650343855105}
+  - component: {fileID: -105072127666191469}
   m_Layer: 6
   m_Name: BasicPlayer
   m_TagString: Player
@@ -229,6 +230,7 @@ MonoBehaviour:
   ghostPrefab: {fileID: 4441393827967412363, guid: 4ddd55df54a20854495fe854f0157fa0,
     type: 3}
   ghostSpawnInterval: 0.05
+  invincibleDuration: 1
 --- !u!114 &8474557512685782080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +302,20 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &-105072127666191469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234684496014392771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148e82c7452e64445bc45ffdf4f81c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveObjDistance: 1
+  moveObjSpeed: 3
 --- !u!1 &3412847394201185060
 GameObject:
   m_ObjectHideFlags: 0
