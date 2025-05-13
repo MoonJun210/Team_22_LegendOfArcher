@@ -19,7 +19,7 @@ public class TitleButtonManager : MonoBehaviour
 
     public void StartButton()
     {
-        SceneManager.LoadScene("TestCombine");
+        SceneManager.LoadScene("TestCombine_2");
     }
 
     public void ExitButton()
