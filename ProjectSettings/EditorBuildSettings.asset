@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/MSJ_TitleScene.unity
     guid: 5f8cf224c5e5dc94ab2bc69d680dd5da
   - enabled: 1
-    path: Assets/Scenes/TestCombine.unity
-    guid: 55c8131ffd99f5148aa57ccf001a618b
+    path: Assets/Scenes/TestCombine_2.unity
+    guid: a313db3dcc07b834ea0192d7b9968adf
   m_configObjects: {}

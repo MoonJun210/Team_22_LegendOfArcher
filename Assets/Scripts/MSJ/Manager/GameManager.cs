@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
-    GameObject _player;
+    public int playerNum;
+    public GameObject _player;
 
     private void Awake()
     {
@@ -30,7 +31,6 @@ public class GameManager : MonoBehaviour
         _player = player;
         
         EventManager.Instance.TriggerEvent("SearchTarget", _player);
-        EventManager.Instance.TriggerEvent("OnPlayerSpawned", _player);
     }
 
     public void CameraTargetToPlayer()

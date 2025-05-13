@@ -15,6 +15,7 @@ public class TempTriggerZone : MonoBehaviour
         {
             Debug.Log("Player entered boss trigger zone!");
             UpgradeMenu.Instance.OnBossDefeated();
+            this.gameObject.SetActive(false);
         }
     }
 }

@@ -13,14 +13,9 @@ public class FadeController : MonoBehaviour
         EventManager.Instance.RegisterEvent<float>("FadeOut", FadeOut);
 
         sr = GetComponent<Image>();
-
-
     }
 
-    private void Start()
-    {
-        EventManager.Instance.TriggerEvent("FadeOut", 1f);
-    }
+
 
     private void OnDestroy()
     {

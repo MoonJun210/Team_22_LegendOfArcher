@@ -329,4 +329,10 @@ public class Boss_2 : BaseController
             }
         }
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.UnregisterEvent<GameObject>("InitPlayerSpawned", InitPlayerSpawned);
+
+    }
 }

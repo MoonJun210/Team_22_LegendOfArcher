@@ -8,6 +8,13 @@ public class DieExplosion : MonoBehaviour
     [SerializeField] private float returnDelay = 1f;
     [SerializeField] private Vector3 particleOffset = new Vector3(0, 0, -2);
 
+    private GameObject upgradeZone;
+
+    private void Start()
+    {
+        upgradeZone = InactiveObjectFinder.FindInactiveObjectWithName("UpgradeZone");
+    }
+
     public void ExecuteDeathSequence()
     {
         // 플레이어 타겟 재설정
@@ -26,6 +33,8 @@ public class DieExplosion : MonoBehaviour
     {
         GameManager.instance.CameraTargetToPlayer();
         MapManager.MapInstance.ChagneMapCondition(2);
+        upgradeZone.transform.position = this.gameObject.transform.position;
+        upgradeZone.SetActive(true);
         Destroy(gameObject);
     }
 }
