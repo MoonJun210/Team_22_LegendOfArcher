@@ -9,6 +9,7 @@ public class BossController : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;            // 투사체 프리팹
     [SerializeField] private ProjectileWarningShooter shooter;       // 경고선 및 발사 처리 클래스
     [SerializeField] private GameObject directionLinePrefab;         // 경고선 시각화용 프리팹
+    [SerializeField] private GameObject explosionEffectPrefab;       // 폭파 에셋
 
     private StatHandler statHandler; // 체력 관리용 핸들러
     private int phase = 1;           // 현재 페이즈 (1~4)
@@ -102,6 +103,8 @@ public class BossController : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         Destroy(zone);
+
+        Instantiate(explosionEffectPrefab, targetPos, Quaternion.identity);
 
         // 지점 폭파 데미지
         Collider2D[] hits = Physics2D.OverlapCircleAll(targetPos, 1.5f);

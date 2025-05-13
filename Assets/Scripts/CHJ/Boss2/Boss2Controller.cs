@@ -5,37 +5,38 @@ using UnityEngine.Tilemaps;
 
 public class Boss2Controller : MonoBehaviour
 {
-    [SerializeField] private GameObject warningZonePrefab;
+    //외부 연결 프리팹 및 설정값
+    [SerializeField] private GameObject warningZonePrefab;  // 지점 경고 프리팹
+    [SerializeField] private GameObject bugPrefab;          // 벌레 소환용 프리팹
+    [SerializeField] private int maxBugCount = 8;           // 동시 존재할 수 있는 벌레 최대 수
+    [SerializeField] private float summonInterval = 4f;     // 벌레 소환 주기
+    [SerializeField] private Tilemap groundTilemap;         // 벌레가 소환될 수 있는 타일맵
 
-    [SerializeField] private GameObject bugPrefab; // 벌레 프리팹
-    [SerializeField] private int maxBugCount = 8;   // 최대 동시 존재 수
-    [SerializeField] private float summonInterval = 4f;
-    [SerializeField] private Tilemap groundTilemap;
+    public static int Phase { get; private set; }           // 외부 접근용 페이즈 정보
 
-    public static int Phase { get; private set; }
+    //내부 상태 및 컴포넌트
+    private StatHandler statHandler;                        // 체력 등 스탯 관리용
+    private int phase = 1;                                  // 현재 페이즈
 
+    GameObject _player;                                     // 플레이어 오브젝트
+    PlayerController _playerController;                     // 플레이어 컨트롤러 참조
+    DieExplosion _die;                                      // 사망 연출 처리용
 
-    private StatHandler statHandler;
-    private int phase = 1;
-
-    GameObject _player;
-    PlayerController _playerController;
-    DieExplosion _die;
-
-    DetectPlayer _detectPlayer;
+    DetectPlayer _detectPlayer;                             // 플레이어 감지 컴포넌트
 
     private void Awake()
     {
         statHandler = GetComponent<StatHandler>();
         _die = GetComponent<DieExplosion>();
         _detectPlayer = GetComponentInChildren<DetectPlayer>();
+
+
         EventManager.Instance.RegisterEvent<GameObject>("GetPlayerPosition", GetPlayerPosition);
     }
 
     private void Start()
     {
-        //statHandler.CurrentHP = statHandler.MaxHP * 0.1f;
-        //_player = GameObject.FindGameObjectWithTag("Player");
+
         if (_player != null)
         {
             _playerController = _player.GetComponent<PlayerController>();
@@ -51,6 +52,7 @@ public class Boss2Controller : MonoBehaviour
         }
     }
 
+    // 페이즈 전환
     private void CheckPhase()
     {
         float hpRatio = statHandler.CurrentHP / statHandler.MaxHP;
@@ -75,6 +77,7 @@ public class Boss2Controller : MonoBehaviour
         }
     }
 
+
     private IEnumerator BossRoutine()
     {
         while (statHandler.CurrentHP > 0)
@@ -85,32 +88,35 @@ public class Boss2Controller : MonoBehaviour
         OnDeath();
     }
 
+
     private IEnumerator DoPattern()
     {
         PerformRandomAttack();
         yield return new WaitForSeconds(2.5f);
     }
 
+
     private void PerformRandomAttack()
     {
         int pattern = Random.Range(0, 6);
-
         Debug.Log("보스2 통상 패턴 실행: " + pattern);
 
         switch (pattern)
         {
-            case 0: StartCoroutine(MeleeApproachAttack()); break;
+            case 0: StartCoroutine(MeleeApproachAttack()); break; // 근접 공격
             case 1:
             case 2:
             case 3:
             case 4:
-            case 5: StartCoroutine(RunAway()); break;
+            case 5: StartCoroutine(RunAway()); break; // 도망 (조건부 반격)
         }
     }
 
+    // 근접 추적 후 공격 (플레이어 감지되었을 때만)
     private IEnumerator MeleeApproachAttack()
     {
         if (!_detectPlayer.detect) yield break;
+
         Vector3 targetPos = _player.transform.position;
         float speed = statHandler.MoveSpeed;
         float duration = 1.0f;
@@ -123,6 +129,7 @@ public class Boss2Controller : MonoBehaviour
             yield return null;
         }
 
+        // 범위 내 플레이어 데미지
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, 1.2f);
         foreach (var hit in hits)
         {
@@ -135,6 +142,7 @@ public class Boss2Controller : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
     }
 
+    // 플레이어로부터 도망가는 행동, 실패 시 반격
     private IEnumerator RunAway()
     {
         Debug.Log("보스 도망 시작");
@@ -154,6 +162,7 @@ public class Boss2Controller : MonoBehaviour
             yield return null;
         }
 
+        // 이동 거리 짧거나 벽에 막히면 근접 반격
         float movedDist = Vector3.Distance(transform.position, lastPos);
         RaycastHit2D hit = Physics2D.Raycast(transform.position, awayDirection, 0.5f, LayerMask.GetMask("Ground"));
 
@@ -165,9 +174,10 @@ public class Boss2Controller : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
     }
+
     private IEnumerator RepeatBugSummon()
     {
-        while (phase >= 2) // 페이즈 2~3까지만 소환 유지
+        while (phase >= 2)
         {
             GameObject[] bugs = GameObject.FindGameObjectsWithTag("Bug");
 
@@ -211,6 +221,8 @@ public class Boss2Controller : MonoBehaviour
 
         yield return null;
     }
+
+    // 페이즈별 패턴 활성화
     private void ActivatePhase2Patterns()
     {
         Debug.Log("Phase 2: 벌레 소환 루프 시작");
@@ -225,10 +237,13 @@ public class Boss2Controller : MonoBehaviour
     private void ActivatePhase4Patterns()
     {
         Debug.Log("Phase 4: 소환 강화 시작");
-        summonInterval = 0.5f;         // 기존보다 빠르게
-        maxBugCount = 10;              // 최대치도 증가
+        summonInterval = 0.5f;   // 소환 간격 짧게
+        maxBugCount = 10;        // 최대 소환 수 증가
     }
 
+    // 유틸리티
+
+    // 이벤트 통해 플레이어 정보 수신
     private void GetPlayerPosition(GameObject player)
     {
         _player = player;
@@ -236,22 +251,20 @@ public class Boss2Controller : MonoBehaviour
         StartCoroutine(BossRoutine());
     }
 
+    // 보스 사망 처리
     private void OnDeath()
     {
         Debug.Log("보스2 사망 처리");
         _die.ExecuteDeathSequence();
     }
 
-
+    // 투사체 충돌 처리
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        if(collision.gameObject.layer == 15)
+        if (collision.gameObject.layer == 15)
         {
             statHandler.TakeDamage(_playerController.GetPower());
             Destroy(collision.gameObject);
         }
     }
-
-
 }

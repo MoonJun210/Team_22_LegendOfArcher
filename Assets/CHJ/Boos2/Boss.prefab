@@ -240,6 +240,8 @@ MonoBehaviour:
     type: 3}
   shooter: {fileID: 1415410868903630136}
   directionLinePrefab: {fileID: 3209263052792688852}
+  explosionEffectPrefab: {fileID: 725748389856807714, guid: 4bda94453d2ca7444a0fff05b2d425f5,
+    type: 3}
 --- !u!114 &2188360302486221638
 MonoBehaviour:
   m_ObjectHideFlags: 0
