@@ -8,7 +8,7 @@ public class MapTrigger : MonoBehaviour
     [SerializeField] Collider2D[] MapTigger;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (MapTigger[0] == collision)
+        if (this.tag == "floor1")
         {
             if (collision.CompareTag("Player"))
             {
@@ -16,7 +16,7 @@ public class MapTrigger : MonoBehaviour
                 floorCollision[1].SetActive(false);
             }
         }
-        else if (MapTigger[1] == collision)
+        else if (this.tag == "floor2")
         {
             if (collision.CompareTag("Player"))
             {
