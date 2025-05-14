@@ -11,7 +11,10 @@ public class MineFollowBoss : MonoBehaviour
 
     private void Awake()
     {
-        target = BossSpawner.Instance.curBoss.transform;
+        if (BossSpawner.Instance != null && BossSpawner.Instance.curBoss != null)
+        {
+            target = BossSpawner.Instance.curBoss.transform;
+        }
     }
 
     private void Update()

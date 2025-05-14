@@ -10,7 +10,7 @@ public class BossSpawner : MonoBehaviour
     public GameObject[] spawnPos;
     public int bossNum = 0;
 
-    public GameObject curBoss;
+    public GameObject curBoss = null;
 
     private void Awake()
     {
