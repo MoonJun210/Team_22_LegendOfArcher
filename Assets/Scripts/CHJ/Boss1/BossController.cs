@@ -268,12 +268,16 @@ public class BossController : MonoBehaviour
         _die.ExecuteDeathSequence();
     }
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 15)
+        if (collision.gameObject.layer == 15 || collision.gameObject.layer == 16)
         {
-            statHandler.TakeDamage(_playerController.GetPower());
-            Destroy(collision.gameObject);
+            statHandler.TakeDamage(collision.gameObject.layer == 15 ? _playerController.GetPower() : _playerController.GetPower() * 3);
+            if (!_playerController.IsSniper() || collision.gameObject.layer == 16)
+            {
+                Destroy(collision.gameObject);
+            }
         }
     }
 
