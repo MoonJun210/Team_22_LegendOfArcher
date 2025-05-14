@@ -53,6 +53,8 @@ public class PlayerController : BaseController
 
     private bool isInEndPoint = false;
 
+
+    public AudioClip shootSound;
     protected override void Awake()
     {
         base.Awake();
@@ -173,16 +175,25 @@ public class PlayerController : BaseController
     protected void Attack()
     {
         if (lookDirection != Vector2.zero)
+        {
             weaponHandler?.Attack();
+            SoundManager.PlayClip(shootSound.name);
+        }
     }
     protected void SpecialAttack()
     {
         if (lookDirection != Vector2.zero)
+        {
             weaponHandler?.SpecialAttack();
+        }
+
     }
 
     public void Death()
     {
+
+        SoundManager.PlayClip("GameOverSound");
+
         _rigidbody.velocity = Vector3.zero;
 
         foreach (SpriteRenderer renderer in transform.GetComponentsInChildren<SpriteRenderer>())
@@ -214,8 +225,10 @@ public class PlayerController : BaseController
             return;
         }
 
+        SoundManager.PlayClip("PlayerOnDamageSound");
         if (statHandler.Health > 0)
         {
+
             statHandler.TakeDamage();
             playerUI.UpdateHealthImg();
             animationHandler.Damage();

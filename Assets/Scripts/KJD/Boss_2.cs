@@ -366,6 +366,8 @@ public class Boss_2 : BaseController
         if (collision.gameObject.layer == 15 || collision.gameObject.layer == 16)
         {
             _statHandler.TakeDamage(collision.gameObject.layer == 15 ? _playerController.GetPower() : _playerController.GetPower() * 3);
+            SoundManager.PlayClip("BossDamageSound");
+
             if (!_playerController.IsSniper() || collision.gameObject.layer == 16)
             {
                 Destroy(collision.gameObject);

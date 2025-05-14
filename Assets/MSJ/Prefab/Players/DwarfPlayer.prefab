@@ -279,6 +279,7 @@ MonoBehaviour:
     type: 3}
   ghostSpawnInterval: 0.05
   invincibleDuration: 1
+  shootSound: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
 --- !u!114 &8474557512685782080
 MonoBehaviour:
   m_ObjectHideFlags: 0

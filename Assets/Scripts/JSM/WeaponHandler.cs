@@ -83,12 +83,17 @@ public class WeaponHandler : MonoBehaviour
         {
             case 1://5초간 무기 발사 2배 쿨타임 15초
                 StartCoroutine(TemporaryExtraWeapon(doubleDuration));
+                SoundManager.PlayClip("SpecialBasicSound");
                 break;
             case 2://평타의 3배데미지 지뢰 설치 쿨타임 20초
                 PlaceMine();
+                SoundManager.PlayClip("SpecialElfSound");
+
                 break;
             case 3://5초 무적 쿨타임 30초
                 StartCoroutine(TemporaryInvincibility(invincibleDuration));
+                SoundManager.PlayClip("SpecialDwarfSound");
+
                 break;
         }
     }

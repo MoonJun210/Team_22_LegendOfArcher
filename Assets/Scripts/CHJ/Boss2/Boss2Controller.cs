@@ -335,7 +335,9 @@ public class Boss2Controller : MonoBehaviour
         if (collision.gameObject.layer == 15 || collision.gameObject.layer == 16)
         {
             statHandler.TakeDamage(collision.gameObject.layer == 15 ? _playerController.GetPower() : _playerController.GetPower() * 3);
-            if(statHandler.CurrentHP <= 0)
+            SoundManager.PlayClip("BossDamageSound");
+
+            if (statHandler.CurrentHP <= 0)
             {
                 StopAllCoroutines();
                 OnDeath();

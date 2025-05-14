@@ -1,4 +1,3 @@
-using UnityEditor.ShortcutManagement;
 using UnityEngine;
 using UnityEngine.Experimental.Playables;
 
@@ -65,6 +64,7 @@ public class WarningSign : MonoBehaviour
                 Vector2 ptcVec = new Vector3(transform.position.x, transform.position.y, transform.position.z - 2);
                 GameObject ptc = Instantiate(_particles[ptcIndex], ptcVec, transform.rotation);
                 ptc.transform.localScale = transform.localScale / 6;
+                SoundManager.PlayClip("ExploseSound");
             }
         }
         else

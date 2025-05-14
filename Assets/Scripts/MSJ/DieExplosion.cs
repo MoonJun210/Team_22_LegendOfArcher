@@ -25,6 +25,7 @@ public class DieExplosion : MonoBehaviour
     private void HandleExplosion()
     {
         Instantiate(dieParticle, transform.position + particleOffset, Quaternion.identity);
+        SoundManager.PlayClip("ExploseSound");
         gameObject.SetActive(false);
         Invoke(nameof(ReturnToPlayerAndCleanUp), returnDelay);
     }
@@ -35,6 +36,7 @@ public class DieExplosion : MonoBehaviour
         MapManager.MapInstance.ChagneMapCondition(2);
         upgradeZone.transform.position = this.gameObject.transform.position;
         upgradeZone.SetActive(true);
+        SoundManager.PlayClip("WinSound");
         Destroy(gameObject);
     }
 }

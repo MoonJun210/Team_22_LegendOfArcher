@@ -8,7 +8,9 @@ public class BossSpawner : MonoBehaviour
 
     public GameObject[] bosses;
     public GameObject[] spawnPos;
-    int bossNum = 0;
+    public int bossNum = 0;
+
+    public GameObject curBoss;
 
     private void Awake()
     {
@@ -17,7 +19,7 @@ public class BossSpawner : MonoBehaviour
 
     public void SpawnBoss()
     {
-        Instantiate(bosses[bossNum], spawnPos[bossNum].transform.position, Quaternion.identity);
+        curBoss = Instantiate(bosses[bossNum], spawnPos[bossNum].transform.position, Quaternion.identity);
         bossNum++;
     }
 }

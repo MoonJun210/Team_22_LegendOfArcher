@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TestCombine_3.unity
     guid: 88fa2ddc321f711419e70ce961919653
+  - enabled: 1
+    path: Assets/Scenes/EndingScene.unity
+    guid: d2463547a22c41e43870c602e3cb91a7
   m_configObjects: {}

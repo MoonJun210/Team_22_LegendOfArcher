@@ -180,8 +180,8 @@ public class BugAI : MonoBehaviour
             chargeDirection,
             delay: 1f,
             lineLength: 20f,
-            startWidth: 0.5f,
-            endWidth: 0.5f,
+            startWidth: 1f,
+            endWidth: 1f,
             fireProjectile: false
         ));
 
@@ -212,6 +212,7 @@ public class BugAI : MonoBehaviour
             Vector3 fxPos = transform.position;
             fxPos.z = -2f;
             GameObject effect = Instantiate(explosionEffectPrefab, fxPos, Quaternion.identity);
+            SoundManager.PlayClip("BugExploseSound");
             Destroy(effect, 2f);
         }
 

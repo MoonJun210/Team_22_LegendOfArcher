@@ -129,6 +129,7 @@ public class BossController : MonoBehaviour
 
         Vector3 spawnPos = new Vector3(targetPos.x, targetPos.y, -2f);
         Instantiate(explosionEffectPrefab, spawnPos, Quaternion.identity);
+        SoundManager.PlayClip("Boss4ExploseSound");
     }
 
     // 조준 투사체 발사
@@ -205,6 +206,7 @@ public class BossController : MonoBehaviour
         growDuration: 0.07f
         ));
 
+        SoundManager.PlayClip("LaserSound");
         // 3. 데미지 판정 - 0.5초 동안 반복해서 레이캐스트
         float damageDuration = 0.5f;
         float elapsed = 0f;
@@ -286,15 +288,17 @@ public class BossController : MonoBehaviour
         if (collision.gameObject.layer == 15 || collision.gameObject.layer == 16)
         {
             statHandler.TakeDamage(collision.gameObject.layer == 15 ? _playerController.GetPower() : _playerController.GetPower() * 3);
+            SoundManager.PlayClip("BossDamageSound");
+            if (!_playerController.IsSniper() || collision.gameObject.layer == 16)
+            {
+                Destroy(collision.gameObject);
+            }
             if (statHandler.CurrentHP <= 0)
             {
                 StopAllCoroutines();
                 OnDeath();
             }
-            if (!_playerController.IsSniper() || collision.gameObject.layer == 16)
-            {
-                Destroy(collision.gameObject);
-            }
+           
         }
     }
 
