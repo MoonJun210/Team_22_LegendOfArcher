@@ -163,9 +163,9 @@ public class Boss2Controller : MonoBehaviour
         Vector3 targetPos = transform.position + (Vector3)awayDirection * 5f;
         Vector3 lastPos = transform.position;
 
-        float duration = 1f;
+        float duration = 2f;
         float time = 0f;
-        float moveSpeed = statHandler.MoveSpeed;
+        float moveSpeed = statHandler.MoveSpeed * 2;
 
         while (time < duration)
         {

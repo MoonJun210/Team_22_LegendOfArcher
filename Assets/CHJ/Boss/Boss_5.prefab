@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 3887956744826044986}
   - component: {fileID: 4954798521060124818}
   m_Layer: 0
-  m_Name: Boss_2
+  m_Name: Boss_5
   m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -320,7 +320,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 0}
   m_FillRect: {fileID: 1679971556811176272}
   m_HandleRect: {fileID: 0}
