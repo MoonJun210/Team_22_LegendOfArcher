@@ -198,12 +198,12 @@ public class Boss_2 : BaseController
                 GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _animator.SetFloat("patternFrame", 0);
             }
-            _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
+            _rigidbody.MovePosition(new Vector2(42.5f, -30.0f)); // 맵 중앙 이동
             if (patternTime > patternCycleSec && patternTime < 9.1f)
             {
                 Vector3 rotateVec = new Vector3(0, 0, patternTime * 60);
-                Vector2 sizevec = new Vector2(1.5f, 16);
-                GameObject warning = Instantiate(warningSign_Square, new Vector2(0, 11.5f), transform.rotation);
+                Vector2 sizevec = new Vector2(1.5f, 30);
+                GameObject warning = Instantiate(warningSign_Square, new Vector2(42.5f, -30.0f), transform.rotation);
                 warning.transform.eulerAngles = rotateVec;
                 _animator.SetFloat("patternFrame", 1);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
@@ -239,12 +239,12 @@ public class Boss_2 : BaseController
                 GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _animator.SetFloat("patternFrame", 0);
             }
-            _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
+            _rigidbody.MovePosition(new Vector2(42.5f, -30.0f)); // 맵 중앙 이동
             if (patternTime > patternCycleSec && patternTime < 9.1f)
             {
                 Vector3 rotateVec = new Vector3(0, 0, -patternTime * 60);
-                Vector2 sizevec = new Vector2(1.5f, 16);
-                GameObject warning = Instantiate(warningSign_Square, new Vector2(0, 11.5f), transform.rotation);
+                Vector2 sizevec = new Vector2(1.5f, 30);
+                GameObject warning = Instantiate(warningSign_Square, new Vector2(42.5f, -30.0f), transform.rotation);
                 warning.transform.eulerAngles = rotateVec;
                 _animator.SetFloat("patternFrame", 1);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
@@ -274,14 +274,13 @@ public class Boss_2 : BaseController
             Move_NotNearPlayer();
             if (patternTime == 0)
             {
-                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
                 GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _animator.SetFloat("patternFrame", 0);
             }
             if (patternTime > patternCycleSec && patternTime < 3.5f)
             {
-                Vector2 sizevec = new Vector2(2f, 11);
-                Vector2 posVec = new Vector2(-6 + patternCycleSec * 4, 11.5f);
+                Vector2 sizevec = new Vector2(3f, 16f);
+                Vector2 posVec = new Vector2(33.5f + patternCycleSec * 6, -30f);
                 _animator.SetFloat("patternFrame", 1);
                 GameObject warning = Instantiate(warningSign_Square, posVec, transform.rotation);
                 warning.GetComponent<WarningSign>().SetSquare_Vertical();
@@ -317,9 +316,8 @@ public class Boss_2 : BaseController
             {
                 _animator.SetFloat("patternFrame", 1);
                 GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
-                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
                 patternTime = 1;
-                Vector2 CenterVec = new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f)); // 생존 구역 맵 어딘가로 순간이동
+                Vector2 CenterVec = new Vector2(Random.Range(35, 50), -30); // 생존 구역 맵 어딘가로 순간이동
                 for (int i = 0; i < 4; i++)
                 {
                     Vector2 sizevec = new Vector2(15f, 15f);
