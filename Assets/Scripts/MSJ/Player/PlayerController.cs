@@ -51,6 +51,8 @@ public class PlayerController : BaseController
 
     private MaterialPropertyBlock propBlock;
 
+    private bool isInEndPoint = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -81,6 +83,13 @@ public class PlayerController : BaseController
         }
         HandleAttackDelay();
         HandleSpecialAttackDelay();
+
+        if (isInEndPoint && Input.GetKeyDown(KeyCode.F))
+        {
+            Debug.Log("F 키 눌림");
+            MapManager.MapInstance.TeleportNextPoint(this.gameObject);
+            isInEndPoint = false;
+        }
     }
 
     protected override void FixedUpdate()
@@ -367,6 +376,23 @@ public class PlayerController : BaseController
 
                 Destroy(collision.gameObject);
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("EndPoint"))
+        {
+            Debug.Log("EndPoint 닿음");
+            isInEndPoint = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("EndPoint"))
+        {
+            isInEndPoint = false;
         }
     }
     public bool IsSniper()

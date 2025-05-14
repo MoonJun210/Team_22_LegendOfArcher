@@ -43,6 +43,7 @@ public class MapManager : MonoBehaviour
 
             case 1:
                 mapController.BattleStart();
+
                 mapAnimation.TurnOnMap(1, false);
                 mapAnimation.TurnOffMap(3);
                 break;
@@ -68,7 +69,6 @@ public class MapManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         stageLevel++;
         StageChange();
-        BossSpawner.Instance.SpawnBoss();
         ChagneMapCondition(0);
         player.transform.position = spawnPoints[stageLevel - 1].transform.position + (Vector3.up * 1.2f);
         yield return new WaitForSeconds(0.6f);
