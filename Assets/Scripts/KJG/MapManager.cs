@@ -44,7 +44,7 @@ public class MapManager : MonoBehaviour
             case 1:
                 mapController.BattleStart();
 
-                mapAnimation.TurnOnMap(1, false);
+                mapAnimation.TurnOnMap(1, true);
                 mapAnimation.TurnOffMap(3);
                 break;
 
@@ -53,7 +53,7 @@ public class MapManager : MonoBehaviour
                 mapAnimation.TurnOnMap(2, true);
                 mapAnimation.TurnOffMap(1);
                 mapAnimation.TurnOffMap(0);
-                mapAnimation.TurnOnMap(3, false);
+                mapAnimation.TurnOnMap(3, true);
                 break;
         }
     }
