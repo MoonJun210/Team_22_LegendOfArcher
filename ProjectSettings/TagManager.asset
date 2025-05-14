@@ -12,6 +12,8 @@ TagManager:
   - Bug
   - Key
   - PushObject
+  - floor1
+  - floor2
   layers:
   - Default
   - TransparentFX
