@@ -136,9 +136,9 @@ MonoBehaviour:
   _player: {fileID: 0}
   _playerController: {fileID: 0}
   _particles:
-  - {fileID: 725748389856807714, guid: 3c21b274e98eb00499de3606db34d911, type: 3}
-  - {fileID: 4593184484909914552, guid: 5b1e5cff5aa461f4b9b0a7db3dc43bde, type: 3}
-  - {fileID: 8194992990867289339, guid: 1c33b3ce6f11b8641a1a8884f30ac69b, type: 3}
+  - {fileID: 8771972552311404799, guid: d7999af07b212d24fbee4d43fbf57f00, type: 3}
+  - {fileID: 7226888052703040409, guid: 8c1fb9cda9d0c8c4cad73e18ce570cad, type: 3}
+  - {fileID: 4593184484909914552, guid: 16649dc274cdea642aa676ad7fd8a355, type: 3}
   ptcIndex: 0
   maxSize: {fileID: 6217987411960464136}
   maxSizeSprite: {fileID: 2690306976497233169}

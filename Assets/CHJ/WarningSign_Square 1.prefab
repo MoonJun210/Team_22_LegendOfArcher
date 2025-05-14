@@ -135,10 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
   _playerController: {fileID: 0}
-  _particles:
-  - {fileID: 725748389856807714, guid: 3c21b274e98eb00499de3606db34d911, type: 3}
-  - {fileID: 4593184484909914552, guid: 5b1e5cff5aa461f4b9b0a7db3dc43bde, type: 3}
-  - {fileID: 8194992990867289339, guid: 1c33b3ce6f11b8641a1a8884f30ac69b, type: 3}
+  _particles: []
   ptcIndex: 0
   maxSize: {fileID: 5504030691190102501}
   maxSizeSprite: {fileID: 9135346867434442591}
