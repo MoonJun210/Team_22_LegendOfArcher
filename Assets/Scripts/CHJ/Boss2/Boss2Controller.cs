@@ -11,7 +11,6 @@ public class Boss2Controller : MonoBehaviour
     [SerializeField] private GameObject spawnEffectPrefab;  // 벌레 소환 이팩트
     [SerializeField] private int maxBugCount = 4;           // 동시 존재할 수 있는 벌레 최대 수
     [SerializeField] private float summonInterval = 2f;     // 벌레 소환 주기
-    [SerializeField] private Tilemap groundTilemap;         // 벌레가 소환될 수 있는 타일맵
 
     public static int Phase { get; private set; }           // 외부 접근용 페이즈 정보
 
