@@ -202,7 +202,7 @@ MonoBehaviour:
   bosses:
   - {fileID: 5960452725164374989, guid: 011c9d93554dbbb4cb61db861fc097e4, type: 3}
   - {fileID: 5163037255837480860, guid: ef8f26a13674b48369e1f5cc2b9b859b, type: 3}
-  - {fileID: 5749258170908174590, guid: bbc3238925544f841adba99eae71d7d7, type: 3}
+  - {fileID: 5749258170908174590, guid: 8e01d1071a52d9f4da8213595def48c1, type: 3}
   - {fileID: 3209263052792688852, guid: 2f08b947f9bbb5743952eacee3478aee, type: 3}
   - {fileID: 665209570894696272, guid: 02842d001c869bd45b3c8a0c9f6395d7, type: 3}
   spawnPos:

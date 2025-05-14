@@ -67,21 +67,21 @@ public class Boss2Controller : MonoBehaviour
     {
         float hpRatio = statHandler.CurrentHP / statHandler.MaxHP;
 
-        if (hpRatio <= 0.75f && phase < 2)
+        if (hpRatio <= 0.8f && phase < 2)
         {
             phase = 2;
             Phase = 2;
             bossRenderer.color = phase2Color;
             ActivatePhase2Patterns();
         }
-        if (hpRatio <= 0.5f && phase < 3)
+        if (hpRatio <= 0.65f && phase < 3)
         {
             phase = 3;
             Phase = 3;
             bossRenderer.color = phase3Color;
             ActivatePhase3Patterns();
         }
-        if (hpRatio <= 0.25f && phase < 4)
+        if (hpRatio <= 0.5f && phase < 4)
         {
             phase = 4;
             Phase = 4;
@@ -298,7 +298,7 @@ public class Boss2Controller : MonoBehaviour
     private void ActivatePhase4Patterns()
     {
         Debug.Log("Phase 4: 소환 강화 시작");
-        summonInterval = 0.5f;   // 소환 간격 짧게
+        summonInterval = 0.1f;   // 소환 간격 짧게
         maxBugCount = 16;        // 최대 소환 수 증가
     }
 
