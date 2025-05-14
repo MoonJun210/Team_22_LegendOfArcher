@@ -1219,7 +1219,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1227,6 +1227,69 @@ TextureImporter:
       bones: []
       spriteID: f2cadeb0b035e4219acccdc63814eb9f
       internalID: 1094573550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Shadow_full
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 190
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2b332ee609f5749769c8c96783bdc3be
+      internalID: -1629227956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Shadow_0
+      rect:
+        serializedVersion: 2
+        x: 482
+        y: 128
+        width: 16
+        height: 32
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 068ac46b50ad34d3d99a9fffa01f1c85
+      internalID: 2042292870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TX Shadow_1
+      rect:
+        serializedVersion: 2
+        x: 402
+        y: 363
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9da2ea2d35ed84dd185a7a8d4615110b
+      internalID: -2132042697
       vertices: []
       indices: 
       edges: []
@@ -1285,7 +1348,10 @@ TextureImporter:
       TX Shadow Well: 21300102
       TX Shadow Wooden Door: 21300098
       TX Shadow Wooden Door Opened: 21300100
+      TX Shadow_0: 2042292870
+      TX Shadow_1: -2132042697
       TX Shadow_Half: 1094573550
+      TX Shadow_full: -1629227956
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
