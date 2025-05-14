@@ -43,7 +43,6 @@ public class MapManager : MonoBehaviour
 
             case 1:
                 mapController.BattleStart();
-
                 mapAnimation.TurnOnMap(1, true);
                 mapAnimation.TurnOffMap(3);
                 break;
