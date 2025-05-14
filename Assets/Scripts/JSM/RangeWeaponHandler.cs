@@ -32,6 +32,8 @@ public class RangeWeaponHandler : WeaponHandler
     public bool TripleShotEnabled = false;   // 3점사 모드
     private float burstInterval = 0.1f;
 
+    public AudioClip shootSound;
+
     private ProjectileManager projectileManager;
     protected override void Start()
     {
@@ -69,6 +71,7 @@ public class RangeWeaponHandler : WeaponHandler
                         + Random.Range(-Spread, Spread);
             CreateProjectile(Controller.LookDirection, angle);
         }
+        SoundManager.PlayClip(shootSound.name);
     }
 
     private void CreateProjectile(Vector2 _lookDirection, float angle)

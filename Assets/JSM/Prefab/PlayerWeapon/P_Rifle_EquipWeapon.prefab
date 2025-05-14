@@ -317,6 +317,7 @@ MonoBehaviour:
   multipleProjectilesAngel: 1
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
   TripleShotEnabled: 0
+  shootSound: {fileID: 8300000, guid: 3061c7b9b32d894478e4126ccce25ca3, type: 3}
 --- !u!114 &7605278242477802006
 MonoBehaviour:
   m_ObjectHideFlags: 0
