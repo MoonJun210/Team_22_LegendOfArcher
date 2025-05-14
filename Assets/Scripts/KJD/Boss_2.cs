@@ -318,6 +318,8 @@ public class Boss_2 : BaseController
                 GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 patternTime = 1;
                 Vector2 CenterVec = new Vector2(Random.Range(35, 50), -30); // 생존 구역 맵 어딘가로 순간이동
+                if (CenterVec.x >= 40 && CenterVec.x <= 45)
+                    CenterVec = new Vector2(42.5f, Random.Range(-24, -36));  // 십자 형태로만 생존 구역 생성
                 for (int i = 0; i < 4; i++)
                 {
                     Vector2 sizevec = new Vector2(15f, 15f);
