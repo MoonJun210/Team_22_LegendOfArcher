@@ -188,7 +188,7 @@ MonoBehaviour:
   delay: 1
   specialDelay: 30
   weaponSize: 1
-  power: 1
+  power: 0.7
   speed: 10
   attackRange: 0
   target:
@@ -210,6 +210,7 @@ MonoBehaviour:
   multipleProjectilesAngel: 3
   projectileColor: {r: 1, g: 1, b: 1, a: 1}
   TripleShotEnabled: 0
+  shootSound: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
 --- !u!114 &5596095861916290494
 MonoBehaviour:
   m_ObjectHideFlags: 0
