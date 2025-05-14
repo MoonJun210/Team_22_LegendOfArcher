@@ -242,6 +242,8 @@ MonoBehaviour:
     type: 3}
   explosionEffectPrefab: {fileID: 4593184484909914552, guid: 16649dc274cdea642aa676ad7fd8a355,
     type: 3}
+  dieParticle: {fileID: 8194992990867289339, guid: 99bc28c0d45f51c4fbac01080b73edc7,
+    type: 3}
 --- !u!114 &3010740047732730003
 MonoBehaviour:
   m_ObjectHideFlags: 0

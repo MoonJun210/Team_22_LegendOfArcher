@@ -33,7 +33,7 @@ RectTransform:
   m_Father: {fileID: 7537614093727684699}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -242,6 +242,11 @@ MonoBehaviour:
   directionLinePrefab: {fileID: 3209263052792688852}
   explosionEffectPrefab: {fileID: 8771972552311404799, guid: e6cefc1c598473a478aaea451d04b63e,
     type: 3}
+  bossRenderer: {fileID: 9076175691304551368}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  phase2Color: {r: 1, g: 0.7, b: 0.7, a: 1}
+  phase3Color: {r: 1, g: 0.4, b: 0.4, a: 1}
+  rageColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2188360302486221638
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -35,6 +35,8 @@ public class BugAI : MonoBehaviour
     DetectPlayer _detectPlayer;                                   // 플레이어 감지
     private PlayerController _playerController;
 
+    public GameObject dieParticle;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -59,6 +61,7 @@ public class BugAI : MonoBehaviour
 
     private void Update()
     {
+
         if (currentState == State.Wander)
         {
             directionTimer -= Time.deltaTime;
@@ -213,5 +216,10 @@ public class BugAI : MonoBehaviour
         }
 
         Destroy(gameObject); // 자폭 후 제거
+    }
+
+    private void OnDisable()
+    {
+        Instantiate(dieParticle, transform.position, Quaternion.identity);
     }
 }

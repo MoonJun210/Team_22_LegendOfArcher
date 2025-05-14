@@ -161,6 +161,11 @@ MonoBehaviour:
   maxBugCount: 8
   summonInterval: 4
   groundTilemap: {fileID: 0}
+  bossRenderer: {fileID: 5082756264665045351}
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  phase2Color: {r: 1, g: 0.7, b: 0.7, a: 1}
+  phase3Color: {r: 1, g: 0.4, b: 0.4, a: 1}
+  rageColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &7756016777641699033
 MonoBehaviour:
   m_ObjectHideFlags: 0

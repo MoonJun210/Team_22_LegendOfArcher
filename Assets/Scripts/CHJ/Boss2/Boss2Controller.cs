@@ -25,6 +25,15 @@ public class Boss2Controller : MonoBehaviour
 
     DetectPlayer _detectPlayer;                             // 플레이어 감지 컴포넌트
 
+    [Header("Boss Phase Color")]
+    [SerializeField] private SpriteRenderer bossRenderer;
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color phase2Color = new Color(1f, 0.7f, 0.7f);  // 연한 붉은색
+    [SerializeField] private Color phase3Color = new Color(1f, 0.4f, 0.4f);  // 더 진한 붉은색
+    [SerializeField] private Color rageColor = Color.red;                   // 분노 상태
+
+    private List<GameObject> summonedBugs = new List<GameObject>(); // 소환한 버그들 리스트
+
     private void Awake()
     {
         statHandler = GetComponent<StatHandler>();
@@ -62,18 +71,21 @@ public class Boss2Controller : MonoBehaviour
         {
             phase = 2;
             Phase = 2;
+            bossRenderer.color = phase2Color;
             ActivatePhase2Patterns();
         }
         if (hpRatio <= 0.5f && phase < 3)
         {
             phase = 3;
             Phase = 3;
+            bossRenderer.color = phase3Color;
             ActivatePhase3Patterns();
         }
         if (hpRatio <= 0.25f && phase < 4)
         {
             phase = 4;
             Phase = 4;
+            bossRenderer.color = rageColor;
             ActivatePhase4Patterns();
         }
     }
@@ -86,7 +98,6 @@ public class Boss2Controller : MonoBehaviour
             yield return StartCoroutine(DoPattern());
         }
 
-        OnDeath();
     }
 
 
@@ -264,7 +275,8 @@ public class Boss2Controller : MonoBehaviour
             Destroy(effect, 1.5f); // 일정 시간 후 삭제
         }
 
-        Instantiate(bugPrefab, spawnPos, Quaternion.identity);
+        GameObject bug = Instantiate(bugPrefab, spawnPos, Quaternion.identity);
+        summonedBugs.Add(bug); // 소환된 벌레 리스트에 추가
 
         Debug.Log($"벌레 소환 위치: {spawnPos}");
 
@@ -304,7 +316,17 @@ public class Boss2Controller : MonoBehaviour
     private void OnDeath()
     {
         Debug.Log("보스2 사망 처리");
+        foreach (GameObject bug in summonedBugs)
+        {
+            if (bug != null)
+                Destroy(bug);
+        }
+        summonedBugs.Clear();
+
         _die.ExecuteDeathSequence();
+        // 소환된 벌레 전부 제거
+       
+
     }
 
     // 투사체 충돌 처리
@@ -313,6 +335,11 @@ public class Boss2Controller : MonoBehaviour
         if (collision.gameObject.layer == 15 || collision.gameObject.layer == 16)
         {
             statHandler.TakeDamage(collision.gameObject.layer == 15 ? _playerController.GetPower() : _playerController.GetPower() * 3);
+            if(statHandler.CurrentHP <= 0)
+            {
+                StopAllCoroutines();
+                OnDeath();
+            }
             if (!_playerController.IsSniper() || collision.gameObject.layer == 16)
             {
                 Destroy(collision.gameObject);

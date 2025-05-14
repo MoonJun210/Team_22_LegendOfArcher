@@ -18,6 +18,14 @@ public class BossController : MonoBehaviour
     PlayerController _playerController;
     DieExplosion _die;
 
+    [Header("Boss Phase Color")]
+    [SerializeField] private SpriteRenderer bossRenderer;
+    [SerializeField] private Color normalColor = Color.white;
+    [SerializeField] private Color phase2Color = new Color(1f, 0.7f, 0.7f);  // 연한 붉은색
+    [SerializeField] private Color phase3Color = new Color(1f, 0.4f, 0.4f);  // 더 진한 붉은색
+    [SerializeField] private Color rageColor = Color.red;                   // 분노 상태
+
+
     private void Awake()
     {
         statHandler = GetComponent<StatHandler>();
@@ -54,16 +62,21 @@ public class BossController : MonoBehaviour
         {
             phase = 2;
             ActivatePhase2Patterns();
+            bossRenderer.color = phase2Color;
         }
+
         if (hpRatio <= 0.5f && phase < 3)
         {
             phase = 3;
             ActivatePhase3Patterns();
+            bossRenderer.color = phase3Color;
         }
+
         if (hpRatio <= 0.25f && phase < 4)
         {
             phase = 4;
             ActivatePhase4Patterns();
+            bossRenderer.color = rageColor;
         }
     }
     // 통상 패턴 루프
@@ -74,7 +87,6 @@ public class BossController : MonoBehaviour
             yield return StartCoroutine(DoPattern());
         }
 
-        OnDeath();
     }
     // 한 번의 통상 패턴 실행
     private IEnumerator DoPattern()
@@ -274,6 +286,11 @@ public class BossController : MonoBehaviour
         if (collision.gameObject.layer == 15 || collision.gameObject.layer == 16)
         {
             statHandler.TakeDamage(collision.gameObject.layer == 15 ? _playerController.GetPower() : _playerController.GetPower() * 3);
+            if (statHandler.CurrentHP <= 0)
+            {
+                StopAllCoroutines();
+                OnDeath();
+            }
             if (!_playerController.IsSniper() || collision.gameObject.layer == 16)
             {
                 Destroy(collision.gameObject);
