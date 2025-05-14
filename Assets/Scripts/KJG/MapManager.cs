@@ -70,7 +70,7 @@ public class MapManager : MonoBehaviour
         StageChange();
         BossSpawner.Instance.SpawnBoss();
         ChagneMapCondition(0);
-        player.transform.position = spawnPoints[stageLevel - 1].transform.position + Vector3.up;
+        player.transform.position = spawnPoints[stageLevel - 1].transform.position + (Vector3.up * 1.2f);
         yield return new WaitForSeconds(0.6f);
 
         EventManager.Instance.TriggerEvent("FadeOut", 0.5f);
@@ -79,39 +79,14 @@ public class MapManager : MonoBehaviour
 
     private void StageChange()
     {
-        switch (stageLevel)
+        for (int i = 0; i < maps.Length; i++)
         {
-            case 1:
-                for (int i = 0; i < maps.Length; i++)
-                {
-                    maps[i].SetActive(false);
-                }
-                maps[0].SetActive(true);
-
-                mapController = maps[0].GetComponentInChildren<MapController>();
-                mapAnimation = maps[0].GetComponentInChildren<MapAnimation>();
-                break;
-            case 2:
-                for (int i = 0; i < maps.Length; i++)
-                {
-                    maps[i].SetActive(false);
-                }
-                maps[1].SetActive(true);
-
-                mapController = maps[1].GetComponentInChildren<MapController>();
-                mapAnimation = maps[1].GetComponentInChildren<MapAnimation>();
-                break;
-            case 3:
-                for (int i = 0; i < maps.Length; i++)
-                {
-                    maps[i].SetActive(false);
-                }
-                maps[2].SetActive(true);
-
-                mapController = maps[2].GetComponentInChildren<MapController>();
-                mapAnimation = maps[2].GetComponentInChildren<MapAnimation>();
-                break;
+            maps[i].SetActive(false);
         }
+        maps[stageLevel - 1].SetActive(true);
+
+        mapController = maps[stageLevel - 1].GetComponentInChildren<MapController>();
+        mapAnimation = maps[stageLevel - 1].GetComponentInChildren<MapAnimation>();
     }
 }
 
