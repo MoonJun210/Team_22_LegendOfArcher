@@ -33,6 +33,7 @@ public class BugAI : MonoBehaviour
     private bool isCharging = false;                              // 돌진 중 여부
 
     DetectPlayer _detectPlayer;                                   // 플레이어 감지
+    private PlayerController _playerController;
 
     private void Awake()
     {
@@ -45,6 +46,7 @@ public class BugAI : MonoBehaviour
         // 보스 및 플레이어 참조 찾기
         GameObject boss = GameObject.FindWithTag("Boss");
         player = GameObject.FindGameObjectWithTag("Player");
+        _playerController = player.GetComponent<PlayerController>();
 
         if (boss != null)
             bossTransform = boss.transform;
@@ -157,10 +159,13 @@ public class BugAI : MonoBehaviour
     // 플레이어 공격에 맞으면 파괴
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 15)
+        if (collision.gameObject.layer == 15 || collision.gameObject.layer == 16)
         {
-            Destroy(collision.gameObject);
             Destroy(this.gameObject);
+            if (!_playerController.IsSniper() || collision.gameObject.layer == 16)
+            {
+                Destroy(collision.gameObject);
+            }
         }
     }
 
