@@ -196,7 +196,7 @@ public class Boss_3 : BaseController
             Move_NotNearPlayer();
             if (patternTime == 0)
             {
-                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+                _rigidbody.MovePosition(new Vector2(Random.Range(-43.5f, -39.5f), Random.Range(-7.5f, -21.5f))); // 맵 어딘가로 랜덤 이동
                 GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _animator.SetFloat("patternFrame", 0);
             }
@@ -237,7 +237,7 @@ public class Boss_3 : BaseController
             Move_NotNearPlayer();
             if (patternTime == 0)
             {
-                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+                _rigidbody.MovePosition(new Vector2(Random.Range(-43.5f, -39.5f), Random.Range(-7.5f, -21.5f))); // 맵 어딘가로 랜덤 이동
                 GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _animator.SetFloat("patternFrame", 1);
             }
@@ -279,13 +279,13 @@ public class Boss_3 : BaseController
             {
                 _animator.SetFloat("patternFrame", 0);
                 GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
-                _rigidbody.MovePosition(new Vector2(0, 11.5f)); // 맵 중앙 이동
+                _rigidbody.MovePosition(new Vector2(-41.5f, -14.5f)); // 맵 중앙 이동
                 float fireX = Random.Range(-0.5f, 0.5f);
                 float fireY = Random.Range(-1.5f, 1.5f);
                 float firePower = 1.2f;
                 Vector2 fireVec = new Vector2(fireX, fireY).normalized;
                 Vector2 sizevec = new Vector2(20f, 20f);
-                GameObject warning = Instantiate(warningSign_Circle, new Vector2(0, 11.5f), transform.rotation);
+                GameObject warning = Instantiate(warningSign_Circle, new Vector2(-41.5f, -14.5f), transform.rotation);
                 warning.GetComponent<WarningSign>().SetSizeVec(sizevec);
                 warning.GetComponent<WarningSign>().SetWarning_Destroy_Time(4f, 0.2f);
                 warning.GetComponent<WarningSign>().SetPlayer(_player, _playerController);
@@ -315,14 +315,14 @@ public class Boss_3 : BaseController
             Move_NotNearPlayer();
             if (patternTime == 0)
             {
-                _rigidbody.MovePosition(new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f))); // 맵 어딘가로 랜덤 이동
+                _rigidbody.MovePosition(new Vector2(Random.Range(-43.5f, -39.5f), Random.Range(-7.5f, -21.5f))); // 맵 어딘가로 랜덤 이동
                 GameObject ptc = Instantiate(flashPtc, transform.position, transform.rotation);
                 _animator.SetFloat("patternFrame", 0);
             }
             if (patternTime > patternCycleSec && patternTime < 7.1f)
             {
                 Vector3 rotateVec = new Vector3(0, 0, Random.Range(0, 360));
-                Vector3 atkVec = new Vector2(Random.Range(-5, 6), Random.Range(7.5f, 15f));
+                Vector3 atkVec = new Vector2(Random.Range(-43.5f, -39.5f), Random.Range(-7.5f, -21.5f));
                 Vector2 sizevec = new Vector2(30f, 0.5f);
                 GameObject warning = Instantiate(warningSign_Circle, atkVec, transform.rotation);
                 warning.transform.eulerAngles = rotateVec;
@@ -357,8 +357,8 @@ public class Boss_3 : BaseController
     {
         if (collision.gameObject.layer == 15 || collision.gameObject.layer == 16)
         {
-            _statHandler.TakeDamage(collision.gameObject.layer == 15? _playerController.GetPower() : _playerController.GetPower()*3);
-            if(!_playerController.IsSniper() || collision.gameObject.layer == 16)
+            _statHandler.TakeDamage(collision.gameObject.layer == 15 ? _playerController.GetPower() : _playerController.GetPower() * 3);
+            if (!_playerController.IsSniper() || collision.gameObject.layer == 16)
             {
                 Destroy(collision.gameObject);
             }
