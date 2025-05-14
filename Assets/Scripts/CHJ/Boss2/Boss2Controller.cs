@@ -32,7 +32,7 @@ public class Boss2Controller : MonoBehaviour
         _detectPlayer = GetComponentInChildren<DetectPlayer>();
 
 
-        EventManager.Instance.RegisterEvent<GameObject>("GetPlayerPosition", GetPlayerPosition);
+        EventManager.Instance.RegisterEvent<GameObject>("InitPlayerSpawned", GetPlayerPosition);
     }
 
     private void Start()
@@ -312,8 +312,14 @@ public class Boss2Controller : MonoBehaviour
     {
         if (collision.gameObject.layer == 15)
         {
+           
             statHandler.TakeDamage(_playerController.GetPower());
             Destroy(collision.gameObject);
         }
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.UnregisterEvent<GameObject>("InitPlayerSpawned", GetPlayerPosition);
     }
 }

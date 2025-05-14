@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public int playerNum;
     public GameObject _player;
+    public PlayerController _playerController;
 
     private void Awake()
     {
@@ -29,7 +30,8 @@ public class GameManager : MonoBehaviour
     public void OnPlayerSpawned(GameObject player)
     {
         _player = player;
-        
+        _playerController = _player.GetComponent<PlayerController>();
+
         EventManager.Instance.TriggerEvent("SearchTarget", _player);
     }
 

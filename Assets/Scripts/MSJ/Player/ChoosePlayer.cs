@@ -25,6 +25,6 @@ public class ChoosePlayer : MonoBehaviour
         EventManager.Instance.TriggerEvent("FadeIn", 0.7f);
         yield return new WaitForSeconds(1f);
 
-        SceneManager.LoadScene("TestCombine_2");
+        SceneManager.LoadScene("TestCombine_3");
     }
 }
