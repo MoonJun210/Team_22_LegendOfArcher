@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 2812794804065730356}
   - component: {fileID: 1890657236507398846}
   - component: {fileID: 2378516650343855105}
+  - component: {fileID: 8741976310848695042}
   m_Layer: 6
   m_Name: ElfPlayer
   m_TagString: Player
@@ -374,6 +375,20 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8741976310848695042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2234684496014392771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148e82c7452e64445bc45ffdf4f81c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveObjDistance: 1
+  moveObjSpeed: 3
 --- !u!1 &2315802006926175518
 GameObject:
   m_ObjectHideFlags: 0
